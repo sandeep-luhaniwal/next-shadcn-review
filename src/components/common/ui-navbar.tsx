@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import Icons from './Icons'
+import Icons from './ui-icons'
 
 // 1. Type the component as a React Functional Component
 const NavBar: React.FC = () => {

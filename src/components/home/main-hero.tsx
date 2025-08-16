@@ -1,5 +1,7 @@
-import Image from 'next/image'
-import React from 'react'
+import React from 'react';
+
+import Image from 'next/image';
+
 const Hero: React.FC = () => {
     return (
         <div className='bg-[url("/images/webp/hero-bg.webp")] bg-cover object-cover pb-1 relative overflow-clip'>

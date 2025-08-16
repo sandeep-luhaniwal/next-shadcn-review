@@ -1,6 +1,8 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
+
+import Image from 'next/image'
+
+import Link from 'next/link'
 
 // 1. Define an interface for a single navigation link
 interface FooterLink {

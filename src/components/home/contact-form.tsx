@@ -1,5 +1,5 @@
 import React from 'react'
-import Icons from '../common/Icons'
+import Icons from '../common/ui-icons'
 import Link from 'next/link'
 
 // 1. Type the component as a React Functional Component (React.FC)

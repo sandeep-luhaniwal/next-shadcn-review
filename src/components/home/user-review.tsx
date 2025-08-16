@@ -1,5 +1,6 @@
-import React from 'react'
-import Icons from '../common/Icons'
+import React from 'react';
+
+import Icons from '../common/ui-icons';
 
 // 1. Define an interface for the structure of a single review card.
 interface ReviewCard {
@@ -43,7 +44,7 @@ const REVIEWS_CARDS_LIST: ReviewCard[] = [
 ]
 
 // 3. Type the component as a React Functional Component.
-const Reviews: React.FC = () => {
+const UserReview: React.FC = () => {
     return (
         <div className='bg-[#FFF7F8]'>
             <div className="max-w-[1240px] mx-auto px-4 xl:px-0 py-14 md:py-16 lg:py-20">
@@ -81,4 +82,4 @@ const Reviews: React.FC = () => {
     )
 }
 
-export default Reviews
+export default UserReview

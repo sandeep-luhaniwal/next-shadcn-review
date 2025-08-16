@@ -1,5 +1,5 @@
 import React from "react";
-import Icons from "../common/Icons";
+import Icons from "../common/ui-icons";
 
 // 1. Define an interface for the structure of a single job post object.
 interface JobPostItem {

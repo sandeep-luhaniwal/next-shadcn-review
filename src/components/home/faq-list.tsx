@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Icons from "../common/Icons";
+import Icons from "../common/ui-icons";
 
 interface FaqItem {
     question: string;
@@ -127,9 +127,8 @@ const Faq: React.FC = () => {
                                 setOpenTab("buyers");
                                 setOpenIndex(null); // Reset open index when switching tabs
                             }}
-                            className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${
-                                openTab === "buyers" ? "bg-orange text-white" : "bg-white text-black"
-                            }`}
+                            className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${openTab === "buyers" ? "bg-orange text-white" : "bg-white text-black"
+                                }`}
                         >
                             For Buyers
                         </button>
@@ -138,9 +137,8 @@ const Faq: React.FC = () => {
                                 setOpenTab("reviewers");
                                 setOpenIndex(null); // Reset open index when switching tabs
                             }}
-                            className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${
-                                openTab === "reviewers" ? "bg-orange text-white" : "bg-white text-black"
-                            }`}
+                            className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${openTab === "reviewers" ? "bg-orange text-white" : "bg-white text-black"
+                                }`}
                         >
                             For Reviewers
                         </button>

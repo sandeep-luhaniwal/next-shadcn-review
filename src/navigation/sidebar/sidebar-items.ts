@@ -1,21 +1,13 @@
 import {
-  ShoppingBag,
-  Forklift,
-  Mail,
-  MessageSquare,
-  Calendar,
-  Kanban,
-  ReceiptText,
-  Users,
-  Lock,
-  Fingerprint,
-  SquareArrowUpRight,
+  Briefcase,
+  Crown,
   LayoutDashboard,
-  ChartBar,
-  Banknote,
-  Gauge,
-  GraduationCap,
-  type LucideIcon,
+  LucideIcon,
+  MessageSquare,
+  PlusSquare,
+  ShieldAlert,
+  User,
+  Wallet
 } from "lucide-react";
 
 export interface NavSubItem {
@@ -51,119 +43,90 @@ export const sidebarItems: NavGroup[] = [
       {
         title: "Default",
         url: "/dashboard/default",
-        icon: LayoutDashboard,
+        icon: LayoutDashboard, // Dashboard ke liye bilkul sahi hai
       },
       {
         title: "Post a Job",
         url: "/dashboard/post-a-job",
-        icon: ChartBar,
+        icon: PlusSquare, // Naya job post karne ke liye
       },
       {
         title: "Jobs",
-        url: "/dashboard/finance",
-        icon: Banknote,
+        url: "/dashboard/finance", // URL aap baad me badal sakte hain
+        icon: Briefcase, // Job listings ke liye
       },
       {
         title: "Wallet",
-        url: "/dashboard/analytics",
-        icon: Gauge,
-        // comingSoon: true,
+        url: "/dashboard/analytics", // URL aap baad me badal sakte hain
+        icon: Wallet, // Wallet ke liye seedha icon
       },
       {
         title: "Subscription",
-        url: "/dashboard/e-commerce",
-        icon: ShoppingBag,
-        comingSoon: true,
+        url: "/dashboard/e-commerce", // URL aap baad me badal sakte hain
+        icon: Crown, // Subscription ya premium feature ke liye
       },
       {
         title: "Disputes",
-        url: "/dashboard/academy",
-        icon: GraduationCap,
-        comingSoon: true,
+        url: "/dashboard/academy", // URL aap baad me badal sakte hain
+        icon: ShieldAlert, // Dispute ya problem ke liye
       },
       {
         title: "Messages",
-        url: "/dashboard/logistics",
-        icon: Forklift,
-        comingSoon: true,
+        url: "/dashboard/logistics", // URL aap baad me badal sakte hain
+        icon: MessageSquare, // Messages ke liye
       },
       {
         title: "Profile",
-        url: "/dashboard/logistics",
-        icon: Forklift,
-        comingSoon: true,
+        url: "/dashboard/profile", // Maine URL aasan kar diya
+        icon: User, // User profile ke liye
       },
     ],
   },
   {
     id: 2,
-    label: "Pages",
+    label: "Dashboards",
     items: [
       {
-        title: "Email",
-        url: "/mail",
-        icon: Mail,
-        comingSoon: true,
+        title: "Default",
+        url: "/dashboard/default",
+        icon: LayoutDashboard, // Dashboard ke liye bilkul sahi hai
       },
       {
-        title: "Chat",
-        url: "/chat",
-        icon: MessageSquare,
-        comingSoon: true,
+        title: "what a name",
+        url: "/dashboard/post-a-job",
+        icon: PlusSquare, // Naya job post karne ke liye
       },
       {
-        title: "Calendar",
-        url: "/calendar",
-        icon: Calendar,
-        comingSoon: true,
+        title: "Jobs",
+        url: "/dashboard/finance", // URL aap baad me badal sakte hain
+        icon: Briefcase, // Job listings ke liye
       },
       {
-        title: "Kanban",
-        url: "/kanban",
-        icon: Kanban,
-        comingSoon: true,
+        title: "Wallet",
+        url: "/dashboard/analytics", // URL aap baad me badal sakte hain
+        icon: Wallet, // Wallet ke liye seedha icon
       },
       {
-        title: "Invoice",
-        url: "/invoice",
-        icon: ReceiptText,
-        comingSoon: true,
+        title: "Subscription",
+        url: "/dashboard/e-commerce", // URL aap baad me badal sakte hain
+        icon: Crown, // Subscription ya premium feature ke liye
       },
       {
-        title: "Users",
-        url: "/users",
-        icon: Users,
-        comingSoon: true,
+        title: "Disputes",
+        url: "/dashboard/academy", // URL aap baad me badal sakte hain
+        icon: ShieldAlert, // Dispute ya problem ke liye
       },
       {
-        title: "Roles",
-        url: "/roles",
-        icon: Lock,
-        comingSoon: true,
+        title: "Messages",
+        url: "/dashboard/logistics", // URL aap baad me badal sakte hain
+        icon: MessageSquare, // Messages ke liye
       },
       {
-        title: "Authentication",
-        url: "/auth",
-        icon: Fingerprint,
-        subItems: [
-          { title: "Login v1", url: "/auth/v1/login", newTab: true },
-          { title: "Login v2", url: "/auth/v2/login", newTab: true },
-          { title: "Register v1", url: "/auth/v1/register", newTab: true },
-          { title: "Register v2", url: "/auth/v2/register", newTab: true },
-        ],
+        title: "Profile",
+        url: "/dashboard/profile", // Maine URL aasan kar diya
+        icon: User, // User profile ke liye
       },
     ],
   },
-  {
-    id: 3,
-    label: "Misc",
-    items: [
-      {
-        title: "Others",
-        url: "/others",
-        icon: SquareArrowUpRight,
-        comingSoon: true,
-      },
-    ],
-  },
+  // Baki ka code yahan...
 ];
