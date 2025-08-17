@@ -1,12 +1,10 @@
-import React from 'react'
-import Icons from '../common/ui-icons'
-import Link from 'next/link'
+import React from 'react';
 
-// 1. Type the component as a React Functional Component (React.FC)
+import Link from 'next/link';
+
+import Icons from './ui-icons';
+
 const ContactForm: React.FC = () => {
-    // Note: Since this form does not yet have state (useState) or event handlers (like onChange or onSubmit),
-    // no further TypeScript types are needed for the form inputs.
-    // If you were to add state management, you would type the state and the event handlers.
     return (
         <div id='contact' className='bg-white'>
             <div className="max-w-[1240px] mx-auto px-4 xl:px-0 py-14 md:py-16 lg:py-20">
@@ -24,7 +22,6 @@ const ContactForm: React.FC = () => {
                         </div>
                     </div>
                     <form className="p-5 flex flex-col gap-4 lg:gap-5">
-                        {/* Full Name */}
                         <div className="flex flex-col gap-1 lg:gap-1.5">
                             <label htmlFor="fullname" className='text-gray text-sm md:text-base font-normal'>Full Name</label>
                             <input
@@ -34,10 +31,7 @@ const ContactForm: React.FC = () => {
                                 className='border-[0.5px] hover:border-orange duration-300 border-black/30 bg-black/5 lg:p-[13px] cursor-pointer text-black/65 rounded-lg outline-none p-2 text-sm md:text-base'
                             />
                         </div>
-
-                        {/* Email & Subject */}
                         <div className="grid lg:grid-cols-2 gap-4 lg:gap-5">
-                            {/* Email */}
                             <div className="flex flex-col gap-1 lg:gap-1.5">
                                 <label htmlFor="email" className='text-gray text-sm md:text-base font-normal'>Email</label>
                                 <input
@@ -47,8 +41,6 @@ const ContactForm: React.FC = () => {
                                     className='border-[0.5px] hover:border-orange duration-300 border-black/30 bg-black/5 lg:p-[13px] cursor-pointer text-black/65 rounded-lg outline-none p-2 text-sm md:text-base'
                                 />
                             </div>
-
-                            {/* Subject */}
                             <div className="flex flex-col gap-1 lg:gap-1.5">
                                 <label htmlFor="subject" className='text-gray text-sm md:text-base font-normal'>Subject</label>
                                 <select
@@ -61,8 +53,6 @@ const ContactForm: React.FC = () => {
                                 </select>
                             </div>
                         </div>
-
-                        {/* Message */}
                         <div className="flex flex-col gap-1 lg:gap-1.5">
                             <label htmlFor="message" className='text-gray text-sm md:text-base font-normal'>Message</label>
                             <textarea
@@ -73,7 +63,6 @@ const ContactForm: React.FC = () => {
                         </div>
                         <button className='border border-orange bg-orange text-white rounded-lg py-2.5 md:py-3 px-6 md:px-7 lg:px-8 max-w-max cursor-pointer hover:bg-white hover:text-orange duration-300'>Send Message</button>
                     </form>
-
                 </div>
             </div>
         </div>

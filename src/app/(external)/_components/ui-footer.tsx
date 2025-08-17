@@ -3,19 +3,16 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// 1. Define an interface for a single navigation link
 interface FooterLink {
     name: string;
     url: string;
-}
+};
 
-// 2. Define an interface for a section of links
 interface FooterSection {
     title: string;
     links: FooterLink[]; // This is an array of the FooterLink type
-}
+};
 
-// 3. Apply the type to your data array
 const footerLinks: FooterSection[] = [
     {
         title: 'Quick Links',
@@ -45,7 +42,6 @@ const footerLinks: FooterSection[] = [
     },
 ]
 
-// 4. Type the component as a React Functional Component (React.FC)
 const UiFooter: React.FC = () => {
     return (
         <div className='bg-black'>
@@ -57,7 +53,6 @@ const UiFooter: React.FC = () => {
                             The most secure way to buy and sell reviews, with transparency and trust.
                         </p>
                     </div>
-
                     <div className="grid grid-cols-2 md:flex justify-between md:max-w-max pt-8 md:pt-0 gap-8 lg:gap-[100px] w-full xl:gap-[180px]">
                         {footerLinks.map((section, i) => (
                             <div key={i} className='max-w-max justify-between'>

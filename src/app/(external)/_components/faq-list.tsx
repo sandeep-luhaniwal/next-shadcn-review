@@ -1,17 +1,18 @@
 "use client";
 import React, { useState } from "react";
-import Icons from "../common/ui-icons";
+
+import Icons from "./ui-icons";
 
 interface FaqItem {
     question: string;
     answer: string;
-}
+};
+
 const Faq: React.FC = () => {
 
     const [openIndex, setOpenIndex] = useState<number | null>(0);
     const [openTab, setOpenTab] = useState<"buyers" | "reviewers">("buyers");
 
-    // 4. Apply the FaqItem type to your data arrays
     const buyersFaqs: FaqItem[] = [
         {
             question: "How does escrow protect me?",
@@ -98,12 +99,10 @@ const Faq: React.FC = () => {
         },
     ];
 
-    // 5. Type the function's parameter
     const toggleFaq = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
-    // TypeScript infers the types for these variables correctly from the typed arrays above
     const currentFaqs = openTab === "buyers" ? buyersFaqs : reviewersFaqs;
     const leftColumn = currentFaqs.filter((_, i) => i % 2 === 0);
     const rightColumn = currentFaqs.filter((_, i) => i % 2 !== 0);
@@ -119,13 +118,12 @@ const Faq: React.FC = () => {
                         Answers about escrow, payments, privacy, and process for buyers and reviewers
                     </p>
                 </div>
-
                 <div className="flex justify-center py-6 lg:py-7">
                     <div className="bg-white p-2.5 flex gap-5 max-w-max rounded-[10px] shadow-[0_4px_9px_0_rgba(0,0,0,0.05)]">
                         <button
                             onClick={() => {
                                 setOpenTab("buyers");
-                                setOpenIndex(null); // Reset open index when switching tabs
+                                setOpenIndex(null);
                             }}
                             className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${openTab === "buyers" ? "bg-orange text-white" : "bg-white text-black"
                                 }`}
@@ -135,7 +133,7 @@ const Faq: React.FC = () => {
                         <button
                             onClick={() => {
                                 setOpenTab("reviewers");
-                                setOpenIndex(null); // Reset open index when switching tabs
+                                setOpenIndex(null);
                             }}
                             className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${openTab === "reviewers" ? "bg-orange text-white" : "bg-white text-black"
                                 }`}
@@ -144,7 +142,6 @@ const Faq: React.FC = () => {
                         </button>
                     </div>
                 </div>
-
                 <div className="md:p-10 lg:p-12 xl:p-[50px]">
                     <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 xl:gap-x-[30px]">
                         <div className="flex flex-col gap-4 lg:gap-5 flex-1">
@@ -173,7 +170,6 @@ const Faq: React.FC = () => {
                                 );
                             })}
                         </div>
-
                         <div className="flex flex-col gap-4 lg:gap-5 flex-1">
                             {rightColumn.map((faq, idx) => {
                                 const actualIndex = idx * 2 + 1;

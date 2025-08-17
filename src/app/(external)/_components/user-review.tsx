@@ -1,15 +1,13 @@
 import React from 'react';
 
-import Icons from '../common/ui-icons';
+import Icons from './ui-icons';
 
-// 1. Define an interface for the structure of a single review card.
 interface ReviewCard {
     icons: string; // Assuming 'icons' is a string identifier for your Icons component
     title: string;
     description: string;
-}
+};
 
-// 2. Apply the interface to the data array.
 const REVIEWS_CARDS_LIST: ReviewCard[] = [
     {
         icons: "lock",
@@ -43,7 +41,6 @@ const REVIEWS_CARDS_LIST: ReviewCard[] = [
     },
 ]
 
-// 3. Type the component as a React Functional Component.
 const UserReview: React.FC = () => {
     return (
         <div className='bg-[#FFF7F8]'>
@@ -62,7 +59,6 @@ const UserReview: React.FC = () => {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 xl:gap-[30px] pt-5 md:pt-6 lg:pt-7">
-                    {/* TypeScript infers 'obj' is of type ReviewCard from the typed array */}
                     {REVIEWS_CARDS_LIST.map((obj, i) => {
                         return (
                             <div key={i} className="bg-white rounded-[10px] flex p-4 lg:p-5 gap-3 lg:gap-4">

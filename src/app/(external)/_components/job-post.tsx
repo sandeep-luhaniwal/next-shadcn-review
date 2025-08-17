@@ -1,7 +1,7 @@
 import React from "react";
-import Icons from "../common/ui-icons";
 
-// 1. Define an interface for the structure of a single job post object.
+import Icons from "./ui-icons";
+
 interface JobPostItem {
     type: "Hourly" | "Fixed"; // Use a union type for specific string values
     urgent: boolean;
@@ -13,11 +13,9 @@ interface JobPostItem {
     total: string;
     rate: string;
     rateLabel: string;
-}
+};
 
-// 2. Type the component as a React Functional Component.
 const JobPost: React.FC = () => {
-    // 3. Apply the interface to the data array, ensuring every object matches the defined structure.
     const jobPosts: JobPostItem[] = [
         {
             type: "Hourly",
@@ -63,7 +61,6 @@ const JobPost: React.FC = () => {
     return (
         <div className="bg-white">
             <div className="max-w-[1240px] mx-auto px-4 xl:px-0 py-14 md:py-16 lg:py-20">
-                {/* Header */}
                 <div className="grid md:grid-cols-[60%_37%] justify-between lg:grid-cols-2 gap-6 md:gap-5 lg:gap-7 items-center pb-5 md:pb-6 lg:pb-0">
                     <div>
                         <h2 className="font-medium !font-inter xl:pr-20 leading-110 py-3 lg:py-4 text-black text-3xl md:text-4xl lg:text-5xl">
@@ -73,7 +70,6 @@ const JobPost: React.FC = () => {
                             Explore the latest review opportunities posted by verified buyers.
                         </p>
                     </div>
-
                     <div className="flex md:justify-end gap-4 lg:gap-5">
                         <button className="flex items-center gap-2 lg:gap-2.5 px-3 md:px-4 py-2.5 border border-black/15 text-black/65 rounded-[10px]">
                             <Icons icon={"type"} /> All Types
@@ -83,10 +79,7 @@ const JobPost: React.FC = () => {
                         </button>
                     </div>
                 </div>
-
-                {/* Cards Grid */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-                    {/* TypeScript automatically infers that 'job' is of type JobPostItem here */}
                     {jobPosts.map((job, idx) => (
                         <div
                             key={idx}
@@ -102,17 +95,14 @@ const JobPost: React.FC = () => {
                                     </span>
                                 )}
                             </div>
-
                             <h3 className="text-base md:text-lg font-medium text-black !font-inter">{job.title}</h3>
                             <p className="text-xs text-black/65 pt-2 lg:pt-2.5">{job.description}</p>
-
                             <div className="grid grid-cols-2 max-w-[300px] justify-between gap-4 lg:gap-5 py-4 lg:py-5">
                                 <p className="flex items-center gap-2.5 text-sm text-black !font-inter"><Icons icon={"slots"} />{" "} {job.slots}</p>
                                 <p className="flex items-center gap-2.5 text-sm text-black !font-inter"><Icons icon={"star"} />{" "} {job.trust}</p>
                                 <p className="flex items-center gap-2.5 text-sm text-black !font-inter"><Icons icon={"date"} />{" "} {job.date}</p>
                                 <p className="flex items-center gap-2.5 text-sm text-black !font-inter"><Icons icon={"dollar"} />{" "} {job.total}</p>
                             </div>
-
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-col gap-1">
                                     <p className="text-orange font-semibold text-base md:text-lg lg:text-xl leading-110">{job.rate}</p>

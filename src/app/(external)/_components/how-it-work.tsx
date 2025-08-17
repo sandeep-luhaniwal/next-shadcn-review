@@ -1,5 +1,6 @@
-import React from 'react'
-import Icons from '../common/ui-icons'
+import React from 'react';
+
+import Icons from './ui-icons';
 
 const HowItWork: React.FC = () => {
     return (
