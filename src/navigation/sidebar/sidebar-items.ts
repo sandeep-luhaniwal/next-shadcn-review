@@ -119,7 +119,7 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "Messages",
-        url: "/dashboard/logistics", // URL aap baad me badal sakte hain
+        url: "/dashboard/buyer-chat", // URL aap baad me badal sakte hain
         icon: MessageSquare, // Messages ke liye
       },
       {
