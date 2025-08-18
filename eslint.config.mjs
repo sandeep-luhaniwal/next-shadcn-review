@@ -15,21 +15,32 @@ const compat = new FlatCompat({
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  // Base configuration
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
-  { ignores: [".github/", ".husky/", "node_modules/", ".next/", "src/components/ui", "*.config.ts", "*.mjs"] },
   {
-    languageOptions: {
-      globals: globals.browser,
-      parser: "@typescript-eslint/parser",
-      parserOptions: {
-        project: "./tsconfig.json",
-      },
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
+    ignores: [
+      ".github/",
+      ".husky/",
+      "node_modules/",
+      ".next/",
+      "src/components/ui",
+      "*.config.ts",
+      "*.mjs",
+      "dist/",
+    ],
+  },
+  
+  // Eslint recommended rules
+  pluginJs.configs.recommended,
+
+  // TypeScript configurations
+  ...tseslint.configs.recommended,
+  
+  // Next.js configurations
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Plugin setups
+  {
     plugins: {
       import: pluginImport,
       security: securityPlugin,
@@ -38,12 +49,25 @@ export default [
       react: pluginReact,
       sonarjs: sonarjs,
     },
+    settings: {
+      react: {
+        version: "detect",
+      },
+      "import/resolver": {
+        typescript: {
+          project: "./tsconfig.json",
+        },
+      },
+    },
   },
-  pluginJs.configs.recommended,
+  
+  // React recommended rules
   pluginReact.configs.flat.recommended,
+  
+  // Security recommended rules
   securityPlugin.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Custom rules
   {
     rules: {
       // Prettier integration rules
@@ -62,6 +86,9 @@ export default [
       "spaced-comment": ["error", "always", { exceptions: ["-", "+"] }],
       "key-spacing": ["error", { beforeColon: false, afterColon: true }],
       "no-useless-rename": "error",
+      "no-duplicate-imports": ["error", { includeExports: true }],
+      "no-trailing-spaces": "error",
+      "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
 
       // Import/Export Rules
       "import/no-mutable-exports": "error",
@@ -90,18 +117,10 @@ export default [
         },
       ],
       "import/newline-after-import": "error",
-      "import/no-unresolved": [
-        "error",
-        {
-          caseSensitive: true,
-        },
-      ],
-      "no-duplicate-imports": ["error", { includeExports: true }],
+      "import/no-unresolved": "off", // Turned off to avoid conflicts with Next.js/Webpack
       "import/no-cycle": ["error", { maxDepth: 2 }],
 
       // Whitespace and Punctuation (Style Rules)
-      "no-trailing-spaces": "error",
-      "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
       "space-before-function-paren": [
         "error",
         {
@@ -131,10 +150,8 @@ export default [
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": ["warn"],
 
-      // React unnecessary import rules
+      // React rules
       "react/jsx-no-useless-fragment": ["warn", { allowExpressions: true }],
-
-      // React JSX Pascal Case Rule
       "react/jsx-pascal-case": [
         "error",
         {
@@ -142,17 +159,11 @@ export default [
           ignore: [],
         },
       ],
-
-      // React: Prevent nesting component definitions inside another component
       "react/no-unstable-nested-components": ["error", { allowAsProps: true }],
-
-      // React: Prevent re-renders by ensuring context values are memoized
       "react/jsx-no-constructed-context-values": "error",
-
-      // React: Disallow array index as key in JSX
       "react/no-array-index-key": "warn",
 
-      // SonarJS: Detect commented-out code
+      // SonarJS rules
       "sonarjs/no-commented-code": "warn",
     },
   },

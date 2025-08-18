@@ -1,6 +1,14 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useMemo } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useMemo,
+  useEffect,
+} from "react";
+import { useRouter } from "next/navigation";
 
 export type UserType = "buyer" | "reviewer";
 
@@ -15,6 +23,15 @@ const UserTypeContext = createContext<UserTypeContextProps | undefined>(
 
 export function UserTypeProvider({ children }: { children: ReactNode }) {
   const [userType, setUserType] = useState<UserType>("buyer");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userType === "reviewer") {
+      router.push("/dashboard/default");
+    } else {
+      router.push("/dashboard/default");
+    }
+  }, [userType, router]);
 
   const value = useMemo(() => ({ userType, setUserType }), [userType]);
 

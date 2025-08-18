@@ -5,6 +5,7 @@ import {
   LucideIcon,
   MessageSquare,
   PlusSquare,
+  Search,
   ShieldAlert,
   User,
   Wallet
@@ -72,7 +73,7 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "Messages",
-        url: "/dashboard/logistics", // URL aap baad me badal sakte hain
+        url: "/dashboard/buyer-chat", // URL aap baad me badal sakte hain
         icon: MessageSquare, // Messages ke liye
       },
       {
@@ -92,9 +93,9 @@ export const sidebarItems: NavGroup[] = [
         icon: LayoutDashboard, // Dashboard ke liye bilkul sahi hai
       },
       {
-        title: "what a name",
-        url: "/dashboard/post-a-job",
-        icon: PlusSquare, // Naya job post karne ke liye
+        title: "Find Jobs",
+        url: "/dashboard/find-jobs",
+        icon: Search, // Naya job post karne ke liye
       },
       {
         title: "Jobs",
