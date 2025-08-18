@@ -38,22 +38,22 @@ export interface NavGroup {
 export const sidebarItems: NavGroup[] = [
   {
     id: 1,
-    label: "Dashboards",
+    label: "Buyer Dashboard",
     items: [
       {
         title: "Default",
         url: "/dashboard/default",
-        icon: LayoutDashboard, // Dashboard ke liye bilkul sahi hai
+        icon: LayoutDashboard,
       },
       {
         title: "Post a Job",
         url: "/dashboard/post-a-job",
-        icon: PlusSquare, // Naya job post karne ke liye
+        icon: PlusSquare,
       },
       {
         title: "Jobs",
-        url: "/dashboard/finance", // URL aap baad me badal sakte hain
-        icon: Briefcase, // Job listings ke liye
+        url: "/dashboard/jobs",
+        icon: Briefcase,
       },
       {
         title: "Wallet",
@@ -84,7 +84,7 @@ export const sidebarItems: NavGroup[] = [
   },
   {
     id: 2,
-    label: "Dashboards",
+    label: "Reviewer Dashboard",
     items: [
       {
         title: "Default",
@@ -128,5 +128,4 @@ export const sidebarItems: NavGroup[] = [
       },
     ],
   },
-  // Baki ka code yahan...
 ];

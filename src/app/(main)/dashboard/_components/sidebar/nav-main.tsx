@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { PlusCircleIcon, MailIcon, ChevronRight } from "lucide-react";
+import { ChevronRight, MailIcon, PlusCircleIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -22,19 +22,14 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  useSidebar,
+  SidebarMenuSubItem
 } from "@/components/ui/sidebar";
-import { type NavGroup, type NavMainItem } from "@/navigation/sidebar/sidebar-items";
+import { sidebarItems, type NavGroup, type NavMainItem } from "@/navigation/sidebar/sidebar-items";
+import { useUser } from "../user-type-context";
 
 interface NavMainProps {
   readonly items: readonly NavGroup[];
 }
-
-const useUser = () => {
-  const userType: 'buyer' | 'reviewer' = 'buyer'; // 'buyer' ya 'reviewer' set karke test karein
-  return { userType };
-};
 
 const IsComingSoon = () => (
   <span className="ml-auto rounded-md bg-gray-200 px-2 py-1 text-xs dark:text-gray-800">Soon</span>
@@ -226,10 +221,15 @@ const NavItemCollapsed = ({
 //     </>
 //   );
 // }
+
 export function NavMain({ items }: NavMainProps) {
   const path = usePathname();
-  const { state, isMobile } = useSidebar();
   const { userType } = useUser();
+
+  // Filter items based on userType
+  const filteredItems = sidebarItems.filter((group) =>
+    userType === "buyer" ? group.id === 1 : group.id === 2
+  );
 
   const isItemActive = (url: string, subItems?: NavMainItem["subItems"]) => {
     if (subItems?.length) {
@@ -238,38 +238,24 @@ export function NavMain({ items }: NavMainProps) {
     return path === url;
   };
 
-  const isSubmenuOpen = (subItems?: NavMainItem["subItems"]) => {
-    return subItems?.some((sub) => path.startsWith(sub.url)) ?? false;
-  };
-
-  const filteredItems = items.filter((group) => {
-    if (userType === 'buyer') {
-      return group.id === 1;
-    }
-    if (userType === 'reviewer') {
-      return group.id === 2;
-    }
-    return false;
-  });
+  const isSubmenuOpen = (subItems?: NavMainItem["subItems"]) =>
+    subItems?.some((sub) => path.startsWith(sub.url)) ?? false;
 
   return (
     <>
+      {/* Quick Actions */}
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
           <SidebarMenu>
             <SidebarMenuItem className="flex items-center gap-2">
               <SidebarMenuButton
                 tooltip="Quick Create"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 min-w-8 duration-200 ease-linear"
               >
                 <PlusCircleIcon />
                 <span>Quick Create</span>
               </SidebarMenuButton>
-              <Button
-                size="icon"
-                className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
-                variant="outline"
-              >
+              <Button size="icon" className="h-9 w-9 shrink-0" variant="outline">
                 <MailIcon />
                 <span className="sr-only">Inbox</span>
               </Button>
@@ -282,32 +268,20 @@ export function NavMain({ items }: NavMainProps) {
           {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
-              {group.items.map((item) => {
-                if (state === "collapsed" && !isMobile) {
-                  if (!item.subItems) {
-                    return (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton
-                          asChild
-                          aria-disabled={item.comingSoon}
-                          tooltip={item.title}
-                          isActive={isItemActive(item.url)}
-                        >
-                          <Link href={item.url} target={item.newTab ? "_blank" : undefined}>
-                            {item.icon && <item.icon />}
-                            <span>{item.title}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  }
-                  return <NavItemCollapsed key={item.title} item={item} isActive={isItemActive} />;
-                }
-                // Expanded view ka logic
-                return (
-                  <NavItemExpanded key={item.title} item={item} isActive={isItemActive} isSubmenuOpen={isSubmenuOpen} />
-                );
-              })}
+              {group.items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    isActive={isItemActive(item.url)}
+                  >
+                    <Link href={item.url}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

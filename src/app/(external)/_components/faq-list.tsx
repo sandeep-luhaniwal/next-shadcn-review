@@ -1,15 +1,15 @@
 "use client";
-import React, { useState } from "react";
+
+import { useState } from "react";
 
 import Icons from "./ui-icons";
 
 interface FaqItem {
     question: string;
     answer: string;
-};
+}
 
 const Faq: React.FC = () => {
-
     const [openIndex, setOpenIndex] = useState<number | null>(0);
     const [openTab, setOpenTab] = useState<"buyers" | "reviewers">("buyers");
 
@@ -115,7 +115,8 @@ const Faq: React.FC = () => {
                         Frequently Asked Questions
                     </h2>
                     <p className="text-center text-black/65 text-sm md:text-base font-normal">
-                        Answers about escrow, payments, privacy, and process for buyers and reviewers
+                        Answers about escrow, payments, privacy, and process for
+                        buyers and reviewers
                     </p>
                 </div>
                 <div className="flex justify-center py-6 lg:py-7">
@@ -125,7 +126,9 @@ const Faq: React.FC = () => {
                                 setOpenTab("buyers");
                                 setOpenIndex(null);
                             }}
-                            className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${openTab === "buyers" ? "bg-orange text-white" : "bg-white text-black"
+                            className={`px-4 md:px-5 py-2.5 cursor-pointer rounded-[10px] font-medium transition-colors duration-300 ${openTab === "buyers"
+                                ? "bg-orange text-white"
+                                : "bg-white text-black"
                                 }`}
                         >
                             For Buyers
@@ -135,7 +138,9 @@ const Faq: React.FC = () => {
                                 setOpenTab("reviewers");
                                 setOpenIndex(null);
                             }}
-                            className={`px-4 md:px-5 py-2.5 rounded-[10px] font-medium ${openTab === "reviewers" ? "bg-orange text-white" : "bg-white text-black"
+                            className={`px-4 md:px-5 py-2.5 cursor-pointer rounded-[10px] font-medium transition-colors duration-300 ${openTab === "reviewers"
+                                ? "bg-orange text-white"
+                                : "bg-white text-black"
                                 }`}
                         >
                             For Reviewers
@@ -147,6 +152,7 @@ const Faq: React.FC = () => {
                         <div className="flex flex-col gap-4 lg:gap-5 flex-1">
                             {leftColumn.map((faq, idx) => {
                                 const actualIndex = idx * 2;
+                                const isOpen = openIndex === actualIndex;
                                 return (
                                     <div
                                         key={actualIndex}
@@ -156,16 +162,28 @@ const Faq: React.FC = () => {
                                             className="cursor-pointer flex gap-5 w-full text-base md:text-lg font-medium !font-inter focus:outline-none"
                                             onClick={() => toggleFaq(actualIndex)}
                                         >
-                                            <span className="text-xl">
-                                                {openIndex === actualIndex ? <Icons icon={"negative"} /> : <Icons icon={"plus"} />}
+                                            <span
+                                                className={`text-xl duration-300 h-8 ${isOpen ? "rotate-360" : ""
+                                                    }`}
+                                            >
+                                                {isOpen ? (
+                                                    <Icons icon={"negative"} />
+                                                ) : (
+                                                    <Icons icon={"plus"} />
+                                                )}
                                             </span>
-                                            <span className="text-left">{faq.question}</span>
+                                            <span className="text-left">
+                                                {faq.question}
+                                            </span>
                                         </button>
-                                        {openIndex === actualIndex && (
+                                        <div
+                                            className={`overflow-hidden transition-all duration-500 ${isOpen ? "max-h-[200px]" : "max-h-0"
+                                                }`}
+                                        >
                                             <div className="ps-11 pt-2.5 text-black/65 text-sm lg:text-base">
                                                 {faq.answer}
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -173,6 +191,7 @@ const Faq: React.FC = () => {
                         <div className="flex flex-col gap-4 lg:gap-5 flex-1">
                             {rightColumn.map((faq, idx) => {
                                 const actualIndex = idx * 2 + 1;
+                                const isOpen = openIndex === actualIndex;
                                 return (
                                     <div
                                         key={actualIndex}
@@ -180,18 +199,32 @@ const Faq: React.FC = () => {
                                     >
                                         <button
                                             className="cursor-pointer w-full flex gap-5 text-base md:text-lg font-medium !font-inter focus:outline-none"
-                                            onClick={() => toggleFaq(actualIndex)}
+                                            onClick={() =>
+                                                toggleFaq(actualIndex)
+                                            }
                                         >
-                                            <span className="text-xl">
-                                                {openIndex === actualIndex ? <Icons icon={"negative"} /> : <Icons icon={"plus"} />}
+                                            <span
+                                                className={`text-xl duration-300 h-8 ${isOpen ? "-rotate-360" : ""
+                                                    }`}
+                                            >
+                                                {isOpen ? (
+                                                    <Icons icon={"negative"} />
+                                                ) : (
+                                                    <Icons icon={"plus"} />
+                                                )}
                                             </span>
-                                            <span className="text-left">{faq.question}</span>
+                                            <span className="text-left">
+                                                {faq.question}
+                                            </span>
                                         </button>
-                                        {openIndex === actualIndex && (
+                                        <div
+                                            className={`overflow-hidden transition-all duration-500 ${isOpen ? "max-h-[200px]" : "max-h-0"
+                                                }`}
+                                        >
                                             <div className="ps-11 pt-2.5 text-black/65 text-sm lg:text-base">
                                                 {faq.answer}
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
                                 );
                             })}
