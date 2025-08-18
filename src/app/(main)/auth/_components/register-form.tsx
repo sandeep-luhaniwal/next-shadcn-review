@@ -88,7 +88,7 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button style={{ backgroundColor: "#FF6A1D", color: "white" }} className="w-full" type="submit">
+        <Button style={{ backgroundColor: "#FF6A1D", color: "white" }} className="w-full cursor-pointer" type="submit">
           Register
         </Button>
       </form>

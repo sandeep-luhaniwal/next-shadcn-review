@@ -19,7 +19,7 @@ export default function RegisterV1() {
           </div>
           <div className="space-y-4">
             <RegisterForm />
-            <GoogleButton className="w-full" variant="outline" />
+            <GoogleButton className="w-full cursor-pointer" variant="outline" />
             <p className="text-muted-foreground text-center text-xs">
               Already have an account?{" "}
               <Link href="login" className="text-primary">

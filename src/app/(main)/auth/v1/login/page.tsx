@@ -32,7 +32,7 @@ export default function LoginV1() {
           </div>
           <div className="space-y-4">
             <LoginForm />
-            <GoogleButton className="w-full" variant="outline" />
+            <GoogleButton className="w-full cursor-pointer" variant="outline" />
             <p className="text-muted-foreground text-center text-xs">
               Don&apos;t have an account?{" "}
               <Link href="register" className="text-primary">
