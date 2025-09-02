@@ -48,7 +48,7 @@ export function LayoutControls(props: LayoutControlsProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="size-8 md:size-9" size="icon">
+        <Button className="size-8 md:size-9 bg-button-orange cursor-pointer duration-300 transition-all" size="icon">
           <Settings />
         </Button>
       </PopoverTrigger>

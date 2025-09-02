@@ -24,6 +24,9 @@ import { ThemeSwitcher } from "./_components/sidebar/theme-switcher";
 import { SwitchTypeUser } from "./_components/sidebar/switch-type-user";
 
 import { UserTypeProvider } from "./_components/user-type-context";
+import { Bell } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
   const cookieStore = await cookies();
@@ -49,19 +52,25 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
           data-content-layout={contentLayout}
           className={cn(
             "data-[content-layout=centered]:!mx-auto data-[content-layout=centered]:max-w-screen-2xl",
-            // Adds right margin for inset sidebar in centered layout up to 113rem.
-            // On wider screens with collapsed sidebar, removes margin and sets margin auto for alignment.
+            "[background-image:var(--layout-gradient)] overflow-clip",
             "max-[113rem]:peer-data-[variant=inset]:!mr-2 min-[101rem]:peer-data-[variant=inset]:peer-data-[state=collapsed]:!mr-auto",
           )}
         >
-          <header className="flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <header className="flex pt-3 bg-layout-white pb-2.5 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex w-full items-center justify-between px-4 lg:px-6">
               <div className="flex items-center gap-1 lg:gap-2">
-                <SidebarTrigger className="-ml-1" />
+                <SidebarTrigger className="-ml-1 cursor-pointer" />
                 <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
-                <SearchDialog />
+                <div className="hidden md:flex">
+                  <SearchDialog />
+                </div>
               </div>
               <div className="flex items-center gap-2">
+                <div className="relative">
+                  <Bell className="h-4 w-4 cursor-pointer" />
+                  <Badge className="rounded-full absolute cursor-pointer -top-1.5 -end-0.5 p-0 h-3 w-3 text-[8px]" variant="destructive">1</Badge>
+                </div>
+                <Card className="p-2 text-xs font-medium rounded-[8px] xl:me-6 xl:ms-2">$120.50</Card>
                 <SwitchTypeUser />
                 <LayoutControls {...layoutPreferences} />
                 <ThemeSwitcher />

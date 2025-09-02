@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ChevronRight, MailIcon, PlusCircleIcon } from "lucide-react";
+import { Bell, ChevronDown, ChevronRight, MailIcon, PlusCircleIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/sidebar";
 import { sidebarItems, type NavGroup, type NavMainItem } from "@/navigation/sidebar/sidebar-items";
 import { useUser } from "../user-type-context";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface NavMainProps {
   readonly items: readonly NavGroup[];
@@ -141,9 +143,125 @@ const NavItemCollapsed = ({
   );
 };
 
+export function NavMain({ items }: NavMainProps) {
+  const path = usePathname();
+  const { userType } = useUser();
+
+  const filteredItems = sidebarItems.filter((group) =>
+    userType === "buyer" ? group.id === 1 : group.id === 2
+  );
+
+  const isItemActive = (url: string, subItems?: { url: string }[]) => {
+    if (subItems?.length) {
+      return subItems.some((sub) => path.startsWith(sub.url));
+    }
+    return path === url;
+  };
+
+  return (
+    <>
+      {filteredItems.map((group) => (
+        <SidebarGroup key={group.id}>
+          {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
+          <SidebarGroupContent className="flex flex-col gap-2">
+            <SidebarMenu>
+              {group.items.map((item) =>
+                item.subItems ? (
+                  <Collapsible key={item.title} defaultOpen={false}>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton
+                        className="cursor-pointer"
+                        tooltip={item.title}
+                        isActive={isItemActive(item.url, item.subItems)}
+                      >
+                        {item.icon && (
+                          <item.icon
+                            className={cn(
+                              "h-4 w-4",
+                              isItemActive(item.url, item.subItems)
+                                ? "stroke-orange"
+                                : "stroke-current"
+                            )}
+                          />
+                        )}
+                        <span className="text-nowrap">{item.title}</span>
+                        <ChevronDown className="ml-auto h-4 w-4" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent
+                      className=" mt-1 overflow-hidden transition-all duration-300 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
+                    >
+                      <SidebarMenu>
+                        {item.subItems.map((sub) => (
+                          <SidebarMenuItem key={sub.title}>
+                            <SidebarMenuButton asChild isActive={path === sub.url}>
+                              <Link href={sub.url} className="flex items-center gap-2">
+                                {sub.icon && (
+                                  <sub.icon
+                                    className={cn(
+                                      "h-4 w-4",
+                                      path === sub.url ? "stroke-orange" : "stroke-current"
+                                    )}
+                                  />
+                                )}
+                                <span>{sub.title}</span>
+                              </Link>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        ))}
+                      </SidebarMenu>
+                    </CollapsibleContent>
+
+                  </Collapsible>
+                ) : (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={item.title}
+                      isActive={isItemActive(item.url)}
+                    >
+                      <Link href={item.url} className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                          {item.icon ? (
+                            item.title === "Notification" ? (
+                              <Bell
+                                className={cn(
+                                  "h-4 w-4",
+                                  isItemActive(item.url) ? "stroke-orange" : "stroke-current"
+                                )}
+                              />
+                            ) : (
+                              <item.icon
+                                className={cn(
+                                  "h-4 w-4",
+                                  isItemActive(item.url) ? "stroke-orange" : "stroke-current"
+                                )}
+                              />
+                            )
+                          ) : null}
+                          <span className="text-nowrap">{item.title}</span>
+                        </div>
+                        {item.badge && <Badge className="rounded-full" variant="destructive">{item.badge}</Badge>}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      ))}
+    </>
+  );
+}
 // export function NavMain({ items }: NavMainProps) {
 //   const path = usePathname();
-//   const { state, isMobile } = useSidebar();
+//   const { userType } = useUser();
+
+//   // Filter items based on userType
+//   const filteredItems = sidebarItems.filter((group) =>
+//     userType === "buyer" ? group.id === 1 : group.id === 2
+//   );
 
 //   const isItemActive = (url: string, subItems?: NavMainItem["subItems"]) => {
 //     if (subItems?.length) {
@@ -152,68 +270,30 @@ const NavItemCollapsed = ({
 //     return path === url;
 //   };
 
-//   const isSubmenuOpen = (subItems?: NavMainItem["subItems"]) => {
-//     return subItems?.some((sub) => path.startsWith(sub.url)) ?? false;
-//   };
+//   const isSubmenuOpen = (subItems?: NavMainItem["subItems"]) =>
+//     subItems?.some((sub) => path.startsWith(sub.url)) ?? false;
 
 //   return (
 //     <>
-//       <SidebarGroup>
-//         <SidebarGroupContent className="flex flex-col gap-2">
-//           <SidebarMenu>
-//             <SidebarMenuItem className="flex items-center gap-2">
-//               <SidebarMenuButton
-//                 tooltip="Quick Create"
-//                 className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-//               >
-//                 <PlusCircleIcon />
-//                 <span>Quick Create</span>
-//               </SidebarMenuButton>
-//               <Button
-//                 size="icon"
-//                 className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
-//                 variant="outline"
-//               >
-//                 <MailIcon />
-//                 <span className="sr-only">Inbox</span>
-//               </Button>
-//             </SidebarMenuItem>
-//           </SidebarMenu>
-//         </SidebarGroupContent>
-//       </SidebarGroup>
-//       {items.map((group) => (
+//       {filteredItems.map((group) => (
 //         <SidebarGroup key={group.id}>
 //           {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
 //           <SidebarGroupContent className="flex flex-col gap-2">
 //             <SidebarMenu>
-//               {group.items.map((item) => {
-//                 if (state === "collapsed" && !isMobile) {
-//                   // If no subItems, just render the button as a link
-//                   if (!item.subItems) {
-//                     return (
-//                       <SidebarMenuItem key={item.title}>
-//                         <SidebarMenuButton
-//                           asChild
-//                           aria-disabled={item.comingSoon}
-//                           tooltip={item.title}
-//                           isActive={isItemActive(item.url)}
-//                         >
-//                           <Link href={item.url} target={item.newTab ? "_blank" : undefined}>
-//                             {item.icon && <item.icon />}
-//                             <span>{item.title}</span>
-//                           </Link>
-//                         </SidebarMenuButton>
-//                       </SidebarMenuItem>
-//                     );
-//                   }
-//                   // Otherwise, render the dropdown as before
-//                   return <NavItemCollapsed key={item.title} item={item} isActive={isItemActive} />;
-//                 }
-//                 // Expanded view
-//                 return (
-//                   <NavItemExpanded key={item.title} item={item} isActive={isItemActive} isSubmenuOpen={isSubmenuOpen} />
-//                 );
-//               })}
+//               {group.items.map((item) => (
+//                 <SidebarMenuItem key={item.title}>
+//                   <SidebarMenuButton
+//                     asChild
+//                     tooltip={item.title}
+//                     isActive={isItemActive(item.url)}
+//                   >
+//                     <Link href={item.url}>
+//                       {item.icon && <item.icon />}
+//                       <span>{item.title}</span>
+//                     </Link>
+//                   </SidebarMenuButton>
+//                 </SidebarMenuItem>
+//               ))}
 //             </SidebarMenu>
 //           </SidebarGroupContent>
 //         </SidebarGroup>
@@ -221,71 +301,3 @@ const NavItemCollapsed = ({
 //     </>
 //   );
 // }
-
-export function NavMain({ items }: NavMainProps) {
-  const path = usePathname();
-  const { userType } = useUser();
-
-  // Filter items based on userType
-  const filteredItems = sidebarItems.filter((group) =>
-    userType === "buyer" ? group.id === 1 : group.id === 2
-  );
-
-  const isItemActive = (url: string, subItems?: NavMainItem["subItems"]) => {
-    if (subItems?.length) {
-      return subItems.some((sub) => path.startsWith(sub.url));
-    }
-    return path === url;
-  };
-
-  const isSubmenuOpen = (subItems?: NavMainItem["subItems"]) =>
-    subItems?.some((sub) => path.startsWith(sub.url)) ?? false;
-
-  return (
-    <>
-      {/* Quick Actions */}
-      <SidebarGroup>
-        <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarMenu>
-            <SidebarMenuItem className="flex items-center gap-2">
-              <SidebarMenuButton
-                tooltip="Quick Create"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 min-w-8 duration-200 ease-linear"
-              >
-                <PlusCircleIcon />
-                <span>Quick Create</span>
-              </SidebarMenuButton>
-              <Button size="icon" className="h-9 w-9 shrink-0" variant="outline">
-                <MailIcon />
-                <span className="sr-only">Inbox</span>
-              </Button>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      {filteredItems.map((group) => (
-        <SidebarGroup key={group.id}>
-          {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
-          <SidebarGroupContent className="flex flex-col gap-2">
-            <SidebarMenu>
-              {group.items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    tooltip={item.title}
-                    isActive={isItemActive(item.url)}
-                  >
-                    <Link href={item.url}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      ))}
-    </>
-  );
-}

@@ -50,16 +50,29 @@
 
 
 
+  --color-dark-black: var(--dark-black);
+  --color-button-orange: var(--button-orange);
   --color-orange: #FF6A1D;
   --color-gray: #000F02;
+  --color-main-bg: ;
   --font-inter: "Inter", sans-serif;
   --font-outfit: "Outfit", sans-serif;
   --text-4xl: 32px;
   --text-5xl: 36px;
-
-
   --leading-110: 110%;
   --leading-160: 160%;
+  --color-layout-gradient: var(--layout-gradient);
+  --color-layout-white: var(--layout-white);
+  --color-card-orange: var(--card-orange);
+  --color-orange-button: var(--orange-button);
+}
+
+.bg_orange_gradient {
+  background: linear-gradient(to bottom, #FF6A1D, #FF3B1D);
+}
+
+.bg_main_hero {
+  background: linear-gradient(to right, #F8FBFF, #F9F4FD, #FEF4F6);
 }
 
 /* Default theme styles (used when no data-theme-preset is set or when 'default' is selected).
@@ -67,15 +80,15 @@ These serve as the fallback; there is no separate default.css file. */
 :root {
   --radius: 0.625rem;
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: #0A0A0A;
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: #0A0A0A;
   --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: #FAFAFA;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted: #F5F5F5;
+  --muted-foreground: #737373;
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -88,19 +101,26 @@ These serve as the fallback; there is no separate default.css file. */
   --chart-4: oklch(0.6830 0 0);
   --chart-5: oklch(0.7921 0 0);
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-foreground: #0A0A0A;
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent: rgba(255, 106, 29, 0.1);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: #0A0A0A;
+  --button-orange: #FF6A1D;
+  --layout-gradient: linear-gradient(to bottom, #F8FBFF, #F9F4FD, #FEF4F6);
+
+  --dark-black: #0A0A0A;
+  --layout-white: #ffffff;
+  --card-orange: #FFF7F3;
+  --orange-button: #ff6a1d;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #0A0A0A;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -131,6 +151,12 @@ These serve as the fallback; there is no separate default.css file. */
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --button-orange: oklch(0.922 0 0);
+  --dark-black: #fafafa;
+  --layout-gradient: linear-gradient(to bottom, #0A0A0A, #0A0A0A, #0A0A0A);
+  --layout-white: oklch(0.269 0 0);
+  --card-orange: oklch(0.269 0 0);
+  --orange-button: #000;
 }
 
 @layer utilities {

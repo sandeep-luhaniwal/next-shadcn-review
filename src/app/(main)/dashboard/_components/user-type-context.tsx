@@ -29,7 +29,7 @@ export function UserTypeProvider({ children }: { children: ReactNode }) {
     if (userType === "reviewer") {
       router.push("/dashboard/default");
     } else {
-      router.push("/dashboard/default");
+      router.push("/dashboard/buyer");
     }
   }, [userType, router]);
 

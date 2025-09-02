@@ -1,12 +1,15 @@
 import {
   Briefcase,
   Crown,
+  Download,
   LayoutDashboard,
   LucideIcon,
   MessageSquare,
   PlusSquare,
+  Receipt,
   Search,
   ShieldAlert,
+  Upload,
   User,
   Wallet
 } from "lucide-react";
@@ -28,6 +31,7 @@ export interface NavMainItem {
   comingSoon?: boolean;
   newTab?: boolean;
   isNew?: boolean;
+  badge?: number
 }
 
 export interface NavGroup {
@@ -42,8 +46,8 @@ export const sidebarItems: NavGroup[] = [
     label: "Buyer Dashboard",
     items: [
       {
-        title: "Default",
-        url: "/dashboard/default",
+        title: "Home",
+        url: "/dashboard/buyer",
         icon: LayoutDashboard,
       },
       {
@@ -52,34 +56,42 @@ export const sidebarItems: NavGroup[] = [
         icon: PlusSquare,
       },
       {
-        title: "Jobs",
+        title: "Manage Jobs",
         url: "/dashboard/jobs",
         icon: Briefcase,
       },
       {
         title: "Wallet",
-        url: "/dashboard/analytics", // URL aap baad me badal sakte hain
-        icon: Wallet, // Wallet ke liye seedha icon
-      },
-      {
-        title: "Subscription",
-        url: "/dashboard/e-commerce", // URL aap baad me badal sakte hain
-        icon: Crown, // Subscription ya premium feature ke liye
+        url: "/dashboard/wallet",
+        icon: Wallet,
+        subItems: [
+          {
+            title: "Transactions",
+            url: "/dashboard/wallet/transactions",
+            icon: Receipt,
+          },
+          {
+            title: "Deposit",
+            url: "/dashboard/wallet/deposit",
+            icon: Download,
+          },
+          {
+            title: "Withdraw",
+            url: "/dashboard/wallet/withdraw",
+            icon: Upload,
+          },
+        ],
       },
       {
         title: "Disputes",
-        url: "/dashboard/academy", // URL aap baad me badal sakte hain
-        icon: ShieldAlert, // Dispute ya problem ke liye
+        url: "/dashboard/academy",
+        icon: ShieldAlert,
       },
       {
-        title: "Messages",
-        url: "/dashboard/buyer-chat", // URL aap baad me badal sakte hain
-        icon: MessageSquare, // Messages ke liye
-      },
-      {
-        title: "Profile",
-        url: "/dashboard/profile", // Maine URL aasan kar diya
-        icon: User, // User profile ke liye
+        title: "Notification",
+        url: "/dashboard/buyer-chat",
+        icon: MessageSquare,
+        badge: 5,
       },
     ],
   },
@@ -88,44 +100,57 @@ export const sidebarItems: NavGroup[] = [
     label: "Reviewer Dashboard",
     items: [
       {
-        title: "Default",
+        title: "Home",
         url: "/dashboard/default",
-        icon: LayoutDashboard, // Dashboard ke liye bilkul sahi hai
+        icon: LayoutDashboard,
       },
       {
         title: "Find Jobs",
         url: "/dashboard/find-jobs",
-        icon: Search, // Naya job post karne ke liye
+        icon: Search,
       },
       {
-        title: "Jobs",
-        url: "/dashboard/finance", // URL aap baad me badal sakte hain
-        icon: Briefcase, // Job listings ke liye
+        title: "My Jobs",
+        url: "/dashboard/finance",
+        icon: Briefcase,
       },
       {
         title: "Wallet",
-        url: "/dashboard/analytics", // URL aap baad me badal sakte hain
-        icon: Wallet, // Wallet ke liye seedha icon
-      },
-      {
-        title: "Subscription",
-        url: "/dashboard/e-commerce", // URL aap baad me badal sakte hain
-        icon: Crown, // Subscription ya premium feature ke liye
+        url: "/dashboard/wallet",
+        icon: Wallet,
+        subItems: [
+          {
+            title: "Transactions",
+            url: "/dashboard/wallet/transactions",
+            icon: Receipt,
+          },
+          {
+            title: "Deposit",
+            url: "/dashboard/wallet/deposit",
+            icon: Download,
+          },
+          {
+            title: "Withdraw",
+            url: "/dashboard/wallet/withdraw",
+            icon: Upload,
+          },
+        ],
       },
       {
         title: "Disputes",
-        url: "/dashboard/academy", // URL aap baad me badal sakte hain
-        icon: ShieldAlert, // Dispute ya problem ke liye
-      },
-      {
-        title: "Messages",
-        url: "/dashboard/buyer-chat", // URL aap baad me badal sakte hain
-        icon: MessageSquare, // Messages ke liye
+        url: "/dashboard/academy",
+        icon: ShieldAlert,
       },
       {
         title: "Profile",
-        url: "/dashboard/profile", // Maine URL aasan kar diya
-        icon: User, // User profile ke liye
+        url: "/dashboard/profile",
+        icon: User,
+      },
+      {
+        title: "Notification",
+        url: "/dashboard/buyer-chat",
+        icon: MessageSquare,
+        badge: 5,
       },
     ],
   },

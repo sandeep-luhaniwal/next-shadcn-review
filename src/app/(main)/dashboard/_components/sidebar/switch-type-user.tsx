@@ -34,7 +34,7 @@ export function SwitchTypeUser() {
 
     return (
         <div className="flex items-center gap-2">
-            <p className="hidden lg:flex text-sm md:text-base text-black/65">Mode:</p>
+            <p className="hidden lg:flex text-sm md:text-base text-foreground/50">Mode:</p>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -59,7 +59,6 @@ export function SwitchTypeUser() {
                             <DropdownMenuItem
                                 key={role.key}
                                 className="cursor-pointer flex items-center justify-between"
-                                // onClick में ग्लोबल स्टेट को अपडेट करें
                                 onClick={() => setUserType(role.key)}
                             >
                                 <div
