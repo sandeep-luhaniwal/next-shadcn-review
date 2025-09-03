@@ -57,6 +57,8 @@
   --color-main-bg: ;
   --font-inter: "Inter", sans-serif;
   --font-outfit: "Outfit", sans-serif;
+  --font-segoeui: 'segoeui';
+  --color-gray-white-off: var(--gray-white-off);
   --text-4xl: 32px;
   --text-5xl: 36px;
   --leading-110: 110%;
@@ -64,7 +66,9 @@
   --color-layout-gradient: var(--layout-gradient);
   --color-layout-white: var(--layout-white);
   --color-card-orange: var(--card-orange);
+  --color-blue: var(--blue);
   --color-orange-button: var(--orange-button);
+  --color-off-gray: var(--off-gray);
 }
 
 .bg_orange_gradient {
@@ -85,7 +89,7 @@ These serve as the fallback; there is no separate default.css file. */
   --popover-foreground: #0A0A0A;
   --primary: oklch(0.205 0 0);
   --primary-foreground: #FAFAFA;
-  --secondary: oklch(0.97 0 0);
+  --secondary: #ECECF0;
   --secondary-foreground: oklch(0.205 0 0);
   --muted: #F5F5F5;
   --muted-foreground: #737373;
@@ -112,11 +116,13 @@ These serve as the fallback; there is no separate default.css file. */
   --foreground: #0A0A0A;
   --button-orange: #FF6A1D;
   --layout-gradient: linear-gradient(to bottom, #F8FBFF, #F9F4FD, #FEF4F6);
-
+  --gray-white-off: #F3F3F5;
   --dark-black: #0A0A0A;
   --layout-white: #ffffff;
   --card-orange: #FFF7F3;
   --orange-button: #ff6a1d;
+  --blue: #7C3AED;
+  --off-gray: #4A5565;
 }
 
 .dark {
@@ -157,6 +163,9 @@ These serve as the fallback; there is no separate default.css file. */
   --layout-white: oklch(0.269 0 0);
   --card-orange: oklch(0.269 0 0);
   --orange-button: #000;
+  --gray-white-off: oklch(1 0 0 / 10%);
+  --blue: oklch(0.922 0 0);
+  --off-gray: #e6e8ec;
 }
 
 @layer utilities {
@@ -205,4 +214,9 @@ These serve as the fallback; there is no separate default.css file. */
 
 .disable-transitions * {
   transition: none !important;
+}
+
+@font-face {
+  font-family: "segoeui";
+  src: url('../../public/fonts/segoe/segoeuithis.ttf');
 }

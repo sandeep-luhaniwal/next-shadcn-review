@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export type UserType = "buyer" | "reviewer";
 
@@ -22,16 +22,40 @@ const UserTypeContext = createContext<UserTypeContextProps | undefined>(
 );
 
 export function UserTypeProvider({ children }: { children: ReactNode }) {
-  const [userType, setUserType] = useState<UserType>("buyer");
+  const [userType, setUserTypeState] = useState<UserType>("buyer");
   const router = useRouter();
+  const pathname = usePathname();
 
+  // Custom setter → localStorage + state
+  const setUserType = (type: UserType) => {
+    setUserTypeState(type);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userType", type);
+    }
+  };
+
+  // Restore state from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedType = localStorage.getItem("userType") as UserType | null;
+      if (storedType) {
+        setUserTypeState(storedType);
+      }
+    }
+  }, []);
+
+  // Redirect only if on base route
   useEffect(() => {
     if (userType === "reviewer") {
-      router.push("/dashboard/default");
-    } else {
-      router.push("/dashboard/buyer");
+      if (pathname === "/" || pathname.startsWith("/dashboard/buyer")) {
+        router.push("/dashboard/default");
+      }
+    } else if (userType === "buyer") {
+      if (pathname === "/" || pathname === "/dashboard") {
+        router.push("/dashboard/buyer");
+      }
     }
-  }, [userType, router]);
+  }, [userType, pathname, router]);
 
   const value = useMemo(() => ({ userType, setUserType }), [userType]);
 
