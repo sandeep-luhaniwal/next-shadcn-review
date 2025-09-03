@@ -65,26 +65,23 @@ export const sidebarItems: NavGroup[] = [
         url: "/dashboard/wallet",
         icon: Wallet,
         subItems: [
+
+          {
+            title: "Overview",
+            url: "/dashboard/buyer-wallet",
+            icon: Download,
+          },
           {
             title: "Billing",
             url: "/dashboard/billing",
             icon: Receipt,
           },
-          {
-            title: "Deposit",
-            url: "/dashboard/wallet/deposit",
-            icon: Download,
-          },
-          {
-            title: "Withdraw",
-            url: "/dashboard/wallet/withdraw",
-            icon: Upload,
-          },
+
         ],
       },
       {
         title: "Disputes",
-        url: "/dashboard/academy",
+        url: "/dashboard/buyer-disputes",
         icon: ShieldAlert,
       },
       {
