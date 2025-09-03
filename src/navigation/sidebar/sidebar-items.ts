@@ -57,7 +57,7 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "Manage Jobs",
-        url: "/dashboard/jobs",
+        url: "/dashboard/manage-a-job",
         icon: Briefcase,
       },
       {
@@ -66,8 +66,8 @@ export const sidebarItems: NavGroup[] = [
         icon: Wallet,
         subItems: [
           {
-            title: "Transactions",
-            url: "/dashboard/wallet/transactions",
+            title: "Billing",
+            url: "/dashboard/billing",
             icon: Receipt,
           },
           {
@@ -89,7 +89,7 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "Notification",
-        url: "/dashboard/buyer-chat",
+        url: "/dashboard/buyer-notification",
         icon: MessageSquare,
         badge: 5,
       },

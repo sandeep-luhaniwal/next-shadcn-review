@@ -69,6 +69,7 @@
   --color-blue: var(--blue);
   --color-orange-button: var(--orange-button);
   --color-off-gray: var(--off-gray);
+  --color-icons-plan: var(--icons-plan);
 }
 
 .bg_orange_gradient {
@@ -123,6 +124,7 @@ These serve as the fallback; there is no separate default.css file. */
   --orange-button: #ff6a1d;
   --blue: #7C3AED;
   --off-gray: #4A5565;
+  --icons-plan: #09090B;
 }
 
 .dark {
@@ -166,6 +168,7 @@ These serve as the fallback; there is no separate default.css file. */
   --gray-white-off: oklch(1 0 0 / 10%);
   --blue: oklch(0.922 0 0);
   --off-gray: #e6e8ec;
+  --icons-plan: #ffffff;
 }
 
 @layer utilities {

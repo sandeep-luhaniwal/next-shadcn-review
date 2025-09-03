@@ -12,7 +12,7 @@ const JobPreview: React.FC = () => {
                         <Info className="h-4 w-4" />
                         Job Preview
                     </CardTitle>
-                    <CardContent className="space-y-4 px-0">
+                    <CardContent className="space-y-4 !px-0">
                         <div className='flex flex-col gap-0.5'>
                             <span className='text-off-gray text-xs'>Budget per Review</span>
                             <p className='text-base font-semibold'>$5</p>
@@ -35,7 +35,7 @@ const JobPreview: React.FC = () => {
                         </div>
 
                     </CardContent>
-                    <CardFooter className="border-t !pt-4 block px-0">
+                    <CardFooter className="border-t !pt-4 block !px-0">
                         <span className='text-off-gray text-xs'>Total Cost</span>
                         <p className="text-orange text-lg font-bold">$55.00</p>
                     </CardFooter>
@@ -47,7 +47,7 @@ const JobPreview: React.FC = () => {
                         <Icons icon='greentick' />
                         Tips for Success
                     </CardTitle>
-                    <CardContent className="space-y-2 px-0">
+                    <CardContent className="space-y-2 !px-0">
                         <div className='flex gap-2.5'>
                             <div className='pt-1.5'>
                                 <Icons icon='greendot' />
