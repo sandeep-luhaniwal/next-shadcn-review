@@ -43,7 +43,7 @@ export function LoginForm() {
     toast("You submitted the following values", {
     });
 
-    router.push("/dashboard/default");
+    router.push("/dashboard/buyer");
   };
 
   return (

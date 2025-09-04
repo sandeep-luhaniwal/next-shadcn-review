@@ -2,8 +2,14 @@
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
     Table,
     TableBody,
@@ -15,7 +21,7 @@ import {
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreVertical } from "lucide-react"
 import { useMemo, useState } from "react"
 import Icons from "./ui-icons"
-import { DisputeBuyerDetailsDialog } from "./dispute-details-dialog"
+import { DisputeDetailsDialog } from "./dispute-details-dialog-reviewer"
 
 const generateDisputes = () => {
     const specificData = [
@@ -49,12 +55,11 @@ const generateDisputes = () => {
 
 const disputesData = generateDisputes();
 
-export default function DisputesBuyerTable() {
+export default function DisputesReviewerTable() {
     const [filter, setFilter] = useState<"All" | "Pending" | "Resolved">("All");
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
-
     const [selectedDispute, setSelectedDispute] = useState<any | null>(null)
     const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -62,6 +67,7 @@ export default function DisputesBuyerTable() {
         setSelectedDispute(dispute)
         setDialogOpen(true)
     }
+
     const { pendingCount, resolvedCount } = useMemo(() => {
         return disputesData.reduce(
             (counts, dispute) => {
@@ -93,7 +99,7 @@ export default function DisputesBuyerTable() {
         }
     };
 
-    const handleSelectAll = (checked: boolean | 'indeterminate') => {
+    const handleSelectAll = (checked: boolean | "indeterminate") => {
         if (checked === true) {
             const allRowIndexes = paginatedData.map((_, index) => index);
             setSelectedRows(allRowIndexes);
@@ -129,7 +135,7 @@ export default function DisputesBuyerTable() {
                         className={filter === "Pending" ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer" : "cursor-pointer rounded-md"}
                         onClick={() => { setFilter("Pending"); setCurrentPage(1); setSelectedRows([]); }}
                     >
-                        Pending ({pendingCount})
+                        Under Review ({pendingCount})
                     </Button>
                     <Button
                         variant={filter === "Resolved" ? "default" : "ghost"}
@@ -150,10 +156,10 @@ export default function DisputesBuyerTable() {
                                     onCheckedChange={handleSelectAll}
                                 />
                             </TableHead>
-                            <TableHead className="font-medium text-sm">Raised On</TableHead>
+                            <TableHead className="font-medium text-sm">Date</TableHead>
+                            <TableHead className="font-medium text-sm">Buyer Name</TableHead>
                             <TableHead className="font-medium text-sm">Job Title</TableHead>
-                            <TableHead className="font-medium text-sm">Reviews Name</TableHead>
-                            <TableHead className="font-medium text-sm">Status</TableHead>
+                            <TableHead className="font-medium text-sm">Result</TableHead>
                             <TableHead className="font-medium text-sm">Actions</TableHead>
                             <TableHead className="w-12"></TableHead>
                         </TableRow>
@@ -168,45 +174,26 @@ export default function DisputesBuyerTable() {
                                     />
                                 </TableCell>
                                 <TableCell className="font-medium text-sm">{item.date}</TableCell>
+                                <TableCell className="font-medium text-sm">{item.reviewer}</TableCell>
                                 <TableCell className="font-medium text-muted-foreground text-xs">
                                     <span className="border py-[3px] px-2 rounded-[8px]">
                                         {item.job}
                                     </span>
                                 </TableCell>
-                                <TableCell className="font-medium text-sm">{item.reviewer}</TableCell>
                                 <TableCell className="font-medium text-muted-foreground text-xs">
-                                    <Select defaultValue={item.status}>
-                                        <SelectTrigger className="border rounded-lg gap-0.5 cursor-pointer !h-6 !p-1 focus:ring-0">
-                                            <SelectValue placeholder="Select status" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem className="cursor-pointer" value="Pending">
-                                                <span className="flex items-center gap-2">
-                                                    <span className="text-yellow-500">
-                                                        <Icons icon="pending" />
-                                                    </span> Pending
-                                                </span>
-                                            </SelectItem>
-                                            <SelectItem className="cursor-pointer" value="Resolved">
-                                                <span className="flex items-center gap-2">
-                                                    <span className="text-green-500">
-                                                        <Icons icon="resolved" />
-                                                    </span> Resolved
-                                                </span>
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <span className="border py-[3px] px-2 rounded-[8px] flex items-center gap-0.5 max-w-max">
+                                        <Icons icon={item.status === "Pending" ? "pending" : "resolved"} />
+                                        {item.status}
+                                    </span>
                                 </TableCell>
                                 <TableCell className="font-medium text-sm">
-                                    <TableCell className="font-medium text-sm p-0">
-                                        <Button
-                                            size="sm"
-                                            className="bg-orange cursor-pointer hover:bg-orange-600 text-white rounded-md"
-                                            onClick={() => handleViewDetail(item)}
-                                        >
-                                            View Detail
-                                        </Button>
-                                    </TableCell>
+                                    <Button
+                                        size="sm"
+                                        className="bg-orange cursor-pointer hover:bg-orange-600 text-white rounded-md"
+                                        onClick={() => handleViewDetail(item)}
+                                    >
+                                        View Detail
+                                    </Button>
                                 </TableCell>
                                 <TableCell>
                                     <DropdownMenu>
@@ -229,7 +216,7 @@ export default function DisputesBuyerTable() {
                         ))}
                     </TableBody>
                 </Table>
-                <DisputeBuyerDetailsDialog
+                <DisputeDetailsDialog
                     open={dialogOpen}
                     onClose={() => setDialogOpen(false)}
                     dispute={selectedDispute}
@@ -240,23 +227,19 @@ export default function DisputesBuyerTable() {
                 <div className="flex flex-col md:flex-row items-center gap-4">
                     <div className="flex items-center gap-2">
                         <span>Rows per page</span>
-                        <Select
-                            value={String(rowsPerPage)}
-                            onValueChange={(val) => {
-                                setRowsPerPage(Number(val));
+                        <select
+                            className="border rounded-md px-2 py-1 text-sm cursor-pointer"
+                            value={rowsPerPage}
+                            onChange={(e) => {
+                                setRowsPerPage(Number(e.target.value));
                                 setCurrentPage(1);
                                 setSelectedRows([]);
                             }}
                         >
-                            <SelectTrigger className="w-[75px] cursor-pointer">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem className="cursor-pointer" value="10">10</SelectItem>
-                                <SelectItem className="cursor-pointer" value="20">20</SelectItem>
-                                <SelectItem className="cursor-pointer" value="50">50</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
                     </div>
                     <span>Page {currentPage} of {totalPages}</span>
                     <div className="flex items-center gap-1">

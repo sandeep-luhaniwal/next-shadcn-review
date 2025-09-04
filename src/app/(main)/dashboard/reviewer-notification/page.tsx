@@ -26,7 +26,7 @@ const NOTIFICATION_LIST = [
     { title: "Job", date: "3 days ago", heading: "Delivery submitted for Job #JOB-333." },
 ];
 
-export default function BuyerNotification() {
+export default function ReviewerNotification() {
     const [rowsPerPage, setRowsPerPage] = useState(4);
     const [currentPage, setCurrentPage] = useState(1);
 

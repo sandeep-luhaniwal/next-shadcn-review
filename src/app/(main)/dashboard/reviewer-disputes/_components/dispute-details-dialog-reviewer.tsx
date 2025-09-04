@@ -20,7 +20,7 @@ export interface Dispute {
   issue?: string
 }
 
-export function DisputeBuyerDetailsDialog({
+export function DisputeDetailsDialog({
   open,
   onClose,
   dispute,

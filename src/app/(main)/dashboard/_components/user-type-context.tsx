@@ -23,8 +23,29 @@ const UserTypeContext = createContext<UserTypeContextProps | undefined>(
 
 export function UserTypeProvider({ children }: { children: ReactNode }) {
   const [userType, setUserTypeState] = useState<UserType>("buyer");
+  const [hydrated, setHydrated] = useState(false); // 👈 hydration check
   const router = useRouter();
   const pathname = usePathname();
+
+  // Buyer routes
+  const buyerRoutes = [
+    "/dashboard/buyer",
+    "/dashboard/post-a-job",
+    "/dashboard/manage-a-job",
+    "/dashboard/buyer-wallet",
+    "/dashboard/billing",
+    "/dashboard/buyer-disputes",
+    "/dashboard/buyer-notification",
+  ];
+
+  // Reviewer routes
+  const reviewerRoutes = [
+    "/dashboard/reviewer",
+    "/dashboard/find-jobs",
+    "/dashboard/reviewer-disputes",
+    "/dashboard/reivewer-wallet",
+    "/dashboard/reivewer-billing",
+  ];
 
   // Custom setter → localStorage + state
   const setUserType = (type: UserType) => {
@@ -41,21 +62,31 @@ export function UserTypeProvider({ children }: { children: ReactNode }) {
       if (storedType) {
         setUserTypeState(storedType);
       }
+      setHydrated(true); // 👈 now ready
     }
   }, []);
 
-  // Redirect only if on base route
+  // Handle redirect after hydration
   useEffect(() => {
+    if (!hydrated || !pathname) return; // 👈 run only after hydration
+
     if (userType === "reviewer") {
-      if (pathname === "/" || pathname.startsWith("/dashboard/buyer")) {
-        router.push("/dashboard/default");
+      // agar buyer routes ya base "/" me ho tabhi redirect
+      if (pathname === "/" || buyerRoutes.includes(pathname)) {
+        router.replace("/dashboard/reviewer");
       }
+      // ✅ agar reviewer ke routes me ho to rehne do
     } else if (userType === "buyer") {
-      if (pathname === "/" || pathname === "/dashboard") {
-        router.push("/dashboard/buyer");
+      if (
+        pathname === "/" ||
+        pathname === "/dashboard" ||
+        reviewerRoutes.includes(pathname)
+      ) {
+        router.replace("/dashboard/buyer");
       }
+      // ✅ agar buyer ke routes me ho to rehne do
     }
-  }, [userType, pathname, router]);
+  }, [userType, pathname, router, hydrated]);
 
   const value = useMemo(() => ({ userType, setUserType }), [userType]);
 

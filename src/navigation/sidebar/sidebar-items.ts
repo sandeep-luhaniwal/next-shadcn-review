@@ -98,7 +98,7 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "Home",
-        url: "/dashboard/default",
+        url: "/dashboard/reviewer",
         icon: LayoutDashboard,
       },
       {
@@ -117,35 +117,25 @@ export const sidebarItems: NavGroup[] = [
         icon: Wallet,
         subItems: [
           {
-            title: "Transactions",
-            url: "/dashboard/wallet/transactions",
-            icon: Receipt,
-          },
-          {
-            title: "Deposit",
-            url: "/dashboard/wallet/deposit",
+            title: "Overview",
+            url: "/dashboard/buyer-wallet",
             icon: Download,
           },
           {
-            title: "Withdraw",
-            url: "/dashboard/wallet/withdraw",
-            icon: Upload,
+            title: "Billing",
+            url: "/dashboard/reviewer-billing",
+            icon: Receipt,
           },
         ],
       },
       {
         title: "Disputes",
-        url: "/dashboard/academy",
+        url: "/dashboard/reviewer-disputes",
         icon: ShieldAlert,
       },
       {
-        title: "Profile",
-        url: "/dashboard/profile",
-        icon: User,
-      },
-      {
         title: "Notification",
-        url: "/dashboard/buyer-chat",
+        url: "/dashboard/reviewer-notification",
         icon: MessageSquare,
         badge: 5,
       },
