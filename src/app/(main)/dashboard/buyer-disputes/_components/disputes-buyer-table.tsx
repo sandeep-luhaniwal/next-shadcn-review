@@ -217,7 +217,7 @@ export default function DisputesBuyerTable() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-between p-4 text-sm text-muted-foreground border-t">
+            <div className="flex flex-col md:flex-row items-center justify-between p-4 pb-0 text-sm text-muted-foreground border-t">
                 <span>{selectedRows.length} of {totalItems} row(s) selected.</span>
                 <div className="flex flex-col md:flex-row items-center gap-4">
                     <div className="flex items-center gap-2">
