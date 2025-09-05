@@ -172,7 +172,7 @@ const Faq: React.FC = () => {
                                                     <Icons icon={"plus"} />
                                                 )}
                                             </span>
-                                            <span className="text-left">
+                                            <span className="text-left text-black">
                                                 {faq.question}
                                             </span>
                                         </button>
@@ -213,7 +213,7 @@ const Faq: React.FC = () => {
                                                     <Icons icon={"plus"} />
                                                 )}
                                             </span>
-                                            <span className="text-left">
+                                            <span className="text-left text-black">
                                                 {faq.question}
                                             </span>
                                         </button>

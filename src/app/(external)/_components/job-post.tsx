@@ -86,7 +86,7 @@ const JobPost: React.FC = () => {
                             className="border border-black/30 rounded-[10px] p-4 lg:p-5 shadow-[0_4px_9px_0_rgba(0,0,0,0.05)]"
                         >
                             <div className="flex gap-4 lg:gap-5 mb-4 lg:mb-5">
-                                <span className="px-2 py-1 border !font-inter border-black/15 text-sm rounded-[5px]">
+                                <span className="px-2 py-1 border !font-inter text-black border-black/15 text-sm rounded-[5px]">
                                     {job.type}
                                 </span>
                                 {job.urgent && (

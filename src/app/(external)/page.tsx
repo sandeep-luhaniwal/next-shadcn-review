@@ -1,6 +1,7 @@
 import ContactForm from "./_components/contact-form";
 import Faq from "./_components/faq-list";
 import HowItWork from "./_components/how-it-work";
+import JobPost from "./_components/job-post";
 import Hero from "./_components/main-hero";
 import UiFooter from "./_components/ui-footer";
 import NavBar from "./_components/ui-navbar";
@@ -12,8 +13,9 @@ export default function Home() {
     <Hero />
     <HowItWork />
     <UserReview />
+    <JobPost />
     <Faq />
     <ContactForm />
     <UiFooter />
-  </>;
+  </>
 }
