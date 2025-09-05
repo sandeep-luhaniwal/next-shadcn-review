@@ -1,9 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { Slider as SliderPrimitive } from "radix-ui"
-
+import * as SliderPrimitive from "@radix-ui/react-slider" // ✅ correct Radix import
 import { cn } from "@/lib/utils"
+
+interface SliderProps extends React.ComponentProps<typeof SliderPrimitive.Root> {
+  ornagecolorline?: boolean
+}
 
 function Slider({
   className,
@@ -13,7 +16,7 @@ function Slider({
   max = 100,
   ornagecolorline,
   ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+}: SliderProps) {
   const _values = React.useMemo(
     () =>
       Array.isArray(value)
@@ -46,7 +49,7 @@ function Slider({
         <SliderPrimitive.Range
           data-slot="slider-range"
           className={cn(
-            `${ornagecolorline ? "bg-orange-blue" : "bg-blue"} absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full`
+            `${ornagecolorline ? "bg-orange-500" : "bg-blue-500"} absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full`
           )}
         />
       </SliderPrimitive.Track>
@@ -54,7 +57,9 @@ function Slider({
         <SliderPrimitive.Thumb
           data-slot="slider-thumb"
           key={index}
-          className={`${ornagecolorline ? "border-orange-blue" : "border-blue"} cursor-pointer bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50`}
+          className={cn(
+            `${ornagecolorline ? "border-orange-500" : "border-blue-500"} cursor-pointer bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50`
+          )}
         />
       ))}
     </SliderPrimitive.Root>

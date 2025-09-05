@@ -1,0 +1,168 @@
+"use client"
+
+import { useState } from "react"
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { X } from "lucide-react"
+import Image from "next/image"
+
+type Job = {
+    id: number
+    title: string
+    price: number
+    deadline: number
+    slots: number
+}
+
+interface ApplyJobProps {
+    open: boolean
+    onClose: () => void
+    job: Job | null
+    selectedFiles: File[]
+    onFileChange: (files: File[]) => void
+}
+
+const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
+    open,
+    onClose,
+    job,
+    selectedFiles,
+    onFileChange,
+}) => {
+    const [coverMessage, setCoverMessage] = useState("")
+    const [previewImage, setPreviewImage] = useState<string | null>(null) // full image preview
+
+    if (!job) return null
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files).filter((file) =>
+                ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(file.type)
+            )
+            const updatedFiles = [...selectedFiles, ...files].slice(0, 8)
+            onFileChange(updatedFiles)
+        }
+    }
+
+    const handleRemoveImage = (index: number) => {
+        const updatedFiles = selectedFiles.filter((_, i) => i !== index)
+        onFileChange(updatedFiles)
+    }
+
+    return (
+        <>
+            <Dialog open={open} onOpenChange={onClose}>
+                <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="font-semibold text-base text-left">
+                            Raise a Dispute
+                        </DialogTitle>
+                    </DialogHeader>
+
+                    {/* Textarea */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-semibold">Dispute Description</label>
+                        <Textarea
+                            className="mt-1 !text-xs resize-none h-[88px] overscroll-auto font-normal"
+                            value={coverMessage}
+                            placeholder="Explain full issue in detail"
+                            onChange={(e) => setCoverMessage(e.target.value)}
+                            rows={5}
+                        />
+                    </div>
+
+                    {/* File Upload + Preview */}
+                    <div className="space-y-2">
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            className="hidden"
+                            id={`fileInput-${job.id}`}
+                            onChange={handleFileChange}
+                        />
+                        {/* Preview Selected Images */}
+                        {selectedFiles.length > 0 && (
+                            <div className="grid grid-cols-4 gap-2 mt-2">
+                                {selectedFiles.map((file, index) => {
+                                    const imageUrl = URL.createObjectURL(file)
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="relative border rounded p-1 flex justify-center items-center group"
+                                        >
+                                            {/* Remove Button */}
+                                            <button
+                                                onClick={() => handleRemoveImage(index)}
+                                                className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                                            >
+                                                <X size={14} />
+                                            </button>
+
+                                            {/* Click to open full preview */}
+                                            <img
+                                                src={imageUrl}
+                                                alt={`preview-${index}`}
+                                                className="w-full h-20 object-cover rounded cursor-pointer"
+                                                onClick={() => setPreviewImage(imageUrl)}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        )}
+                    </div>
+
+                    <DialogFooter>
+                        <div className="gap-2 flex justify-between w-full">
+                            <div className="flex items-center gap-3">
+                                <Button
+                                    variant="outline"
+                                    className="cursor-pointer bg-button-orange/10"
+                                    onClick={() =>
+                                        document.getElementById(`fileInput-${job.id}`)?.click()
+                                    }
+                                >
+                                    Attach File
+                                </Button>
+                                <span className="text-sm text-muted-foreground font-normal">
+                                    *Screenshots, invoices, proofs
+                                </span>
+                            </div>
+                            <Button className="bg-button-orange flex gap-2 items-center cursor-pointer">
+                                Submit Dispute
+                            </Button>
+                        </div>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
+                <DialogContent className="sm:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
+                    <DialogHeader>
+                        <DialogTitle className="!text-left"></DialogTitle>
+                    </DialogHeader>
+                    {previewImage && (
+                        <Image
+                            width={500}
+                            height={500}
+                            src={previewImage}
+                            alt="full-preview"
+                            className=""
+                        />
+                    )}
+                </DialogContent>
+            </Dialog>
+
+        </>
+    )
+}
+
+export default MyJobDisputeRaise

@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -10,9 +9,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Minus, Plus, ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight, Badge } from "lucide-react"
-import ApplyJob from "./apply-job"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { useMemo, useState } from "react"
 import Icons from "../../buyer-disputes/_components/ui-icons"
+import MyJobDisputeRaise from "./my-job-dispute-raise"
 
 const jobs = [
     {
@@ -59,6 +59,13 @@ interface MyJobDetailsProps {
     currentPage: number
     setCurrentPage: (page: number) => void
 }
+type Job = {
+    id: number
+    title: string
+    price: number
+    deadline: number
+    slots: number
+}
 
 const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, setCurrentPage }) => {
     // ✅ Slot count state per job
@@ -69,7 +76,16 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
     const [selectedJob, setSelectedJob] = useState<any>(null)
     const [openDialog, setOpenDialog] = useState(false)
 
-    const handleApplyJob = (job: any) => {
+    const [filesByJob, setFilesByJob] = useState<{ [key: number]: File[] }>({})
+
+
+    // file change handler per job
+    const handleFileChange = (jobId: number, files: File[]) => {
+        setFilesByJob((prev) => ({ ...prev, [jobId]: files }))
+    }
+
+
+    const handleApplyJob = (job: Job) => {
         setSelectedJob(job)
         setOpenDialog(true)
     }
@@ -112,7 +128,7 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
             <div className="space-y-6">
                 {currentJobs.map((job) => (
                     <Card key={job.id} className="shadow-sm gap-0">
-                        <CardHeader>
+                        <CardHeader className="gap-0">
                             <CardTitle className="flex flex-col xl:flex-row xl:justify-between gap-2 xl:items-center">
                                 <span className="text-sm order-2 xl:order-1 font-semibold">{job.title}</span>
                                 <div className="flex justify-between gap-2 order-1 xl:order-2 xl:justify-end">
@@ -166,7 +182,15 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
                 ))}
             </div>
 
-            <ApplyJob open={openDialog} onClose={() => setOpenDialog(false)} job={selectedJob} />
+            <MyJobDisputeRaise
+                open={openDialog}
+                onClose={() => setOpenDialog(false)}
+                job={selectedJob}
+                selectedFiles={selectedJob ? filesByJob[selectedJob.id] || [] : []}
+                onFileChange={(files) =>
+                    selectedJob && handleFileChange(selectedJob.id, files)
+                }
+            />
 
             {/* Pagination */}
             {filteredJobs.length > rowsPerPage && (
