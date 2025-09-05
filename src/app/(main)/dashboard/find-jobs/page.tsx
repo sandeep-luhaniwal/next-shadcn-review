@@ -1,152 +1,155 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
+import { useState } from "react"
+import JobDetails from "./_components/job-details"
 
 export default function FindJobs() {
-    const [budget, setBudget] = useState([5, 1000]);
-    const [reviews, setReviews] = useState([1, 100]);
-    const [deadline, setDeadline] = useState(14);
-
-    const jobs = [
-        {
-            id: 1,
-            title: "1 job",
-            desc: "Requirements ASIN: IUTRHGFJHG",
-            author: "Denis Medvedev",
-            rating: 4.8,
-            price: 5,
-            reviews: 10,
-            slots: 9,
-            deadline: 14,
-            budget: 50,
-        },
-        {
-            id: 2,
-            title: "Review \"Atomic Habits\" by James Clear",
-            desc: "Looking for an honest, detailed review of this popular self-help book.",
-            author: "Mike Chen",
-            rating: 4.2,
-            price: 45,
-            reviews: 3,
-            slots: 3,
-            deadline: 7,
-            budget: 135,
-        },
-        {
-            id: 3,
-            title: "Product Review - Wireless Earbuds",
-            desc: "Comprehensive review needed for new wireless earbuds.",
-            author: "Mike Chen",
-            rating: 4.2,
-            price: 65,
-            reviews: 5,
-            slots: 5,
-            deadline: 5,
-            budget: 325,
-        },
-    ];
+    const [budget, setBudget] = useState([5, 1000])
+    const [reviews, setReviews] = useState([1, 100])
+    const [deadline, setDeadline] = useState(14)
+  
 
     return (
-        <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+        <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6">
             {/* Filters */}
-            <aside className="w-full lg:w-72 border-r bg-white p-4 lg:block">
-                <h2 className="font-semibold text-lg mb-4">Filters</h2>
+            <aside className="w-full lg:w-1/3 xl:w-[27%] lg:border-r -mb-4 md:-mb-6 bg-white dark:bg-background p-4 xl:ps-10 pt-0 lg:block">
+                <h2 className="font-semibold text-lg mb-2">Filters</h2>
 
-                <Input placeholder="Search title or description..." className="mb-4" />
+                {/* Sort */}
+                <div className="mb-4">
+                    <Label className="text-sm leading-160 font-medium">Sort By</Label>
+                    <Select defaultValue="newest">
+                        <SelectTrigger className="w-full mt-1 cursor-pointer">
+                            <SelectValue placeholder="Select sort" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem className="cursor-pointer" value="newest">Newest First</SelectItem>
+                            <SelectItem className="cursor-pointer" value="oldest">Oldest First</SelectItem>
+                            <SelectItem className="cursor-pointer" value="Highest">Highest Budget</SelectItem>
+                            <SelectItem className="cursor-pointer" value="Lowest">Lowest Budget</SelectItem>
+                            <SelectItem className="cursor-pointer" value="Shortest">Shortest Deadline</SelectItem>
+                            <SelectItem className="cursor-pointer" value="Longest">Longest Deadline</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
 
-                <Label className="text-sm font-medium">Budget Range (${budget[0]} - ${budget[1]})</Label>
+                {/* Budget */}
+                <Label className="text-sm font-medium">
+                    Price range (${budget[0]} - ${budget[1]})
+                </Label>
                 <Slider
                     defaultValue={budget}
                     max={1000}
                     min={5}
                     step={5}
+                    ornagecolorline
                     onValueChange={setBudget}
                     className="my-4 cursor-pointer"
                 />
 
-                <Label className="text-sm font-medium">Reviews Required ({reviews[0]} - {reviews[1]})</Label>
-                <Slider
-                    defaultValue={reviews}
-                    max={100}
-                    min={1}
-                    step={1}
-                    onValueChange={setReviews}
-                    className="my-4 cursor-pointer"
-                />
+                {/* Job Type */}
+                <div className="border-y py-4">
+                    <Label className="text-sm leading-160 font-medium">Job Type</Label>
+                    <Select defaultValue="all">
+                        <SelectTrigger className="w-full mt-1 cursor-pointer">
+                            <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem className="cursor-pointer" value="all">All types</SelectItem>
+                            <SelectItem className="cursor-pointer" value="digital">Digital</SelectItem>
+                            <SelectItem className="cursor-pointer" value="physical">Physical</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
 
-                <Label className="text-sm font-medium">Max Deadline: {deadline} days</Label>
-                <Slider
-                    defaultValue={[deadline]}
-                    max={30}
-                    min={1}
-                    step={1}
-                    onValueChange={(v) => setDeadline(v[0])}
-                    className="my-4 cursor-pointer"
-                />
+                <div className="py-4">
+                    <Label className="text-sm leading-160 font-medium">Category</Label>
+                    <Select defaultValue="digital">
+                        <SelectTrigger className="w-full mt-1 cursor-pointer">
+                            <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem className="cursor-pointer" value="digital">Digital Products</SelectItem>
+                            <SelectItem className="cursor-pointer" value="marketing">Marketing</SelectItem>
+                            <SelectItem className="cursor-pointer" value="education">Education</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
 
-                <Separator className="my-4" />
+                {/* Sub Category */}
+                <div className="mb-4">
+                    <Label className="text-sm leading-160 font-medium">Sub-Category</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                        {["Marketing & Sales", "Apps", "Gadgets", "Education & Training", "Design"].map(
+                            (tag) => (
+                                <Badge
+                                    key={tag}
+                                    variant="outline"
+                                    className="cursor-pointer p-2 font-medium text-xs hover:bg-button-orange hover:text-white dark:hover:bg-accent-foreground dark:hover:text-black"
+                                >
+                                    {tag}
+                                </Badge>
+                            )
+                        )}
+                    </div>
+                </div>
 
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                        <Label>Auto-approve Only</Label>
-                        <Switch className="cursor-pointer" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <Label>New User Friendly</Label>
-                        <Switch className="cursor-pointer" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <Label>Bulk Applications</Label>
-                        <Switch className="cursor-pointer" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <Label>Urgent Jobs Only</Label>
-                        <Switch className="cursor-pointer" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <Label>Hide High Trust Score</Label>
-                        <Switch />
-                    </div>
+                {/* Reviews */}
+                <div className="border-y py-4">
+                    <Label className="text-sm leading-160 font-medium">
+                        Reviews Required ({reviews[0]} - {reviews[1]})
+                    </Label>
+                    <Slider
+                        defaultValue={reviews}
+                        max={100}
+                        min={1}
+                        step={1}
+                        ornagecolorline
+                        onValueChange={setReviews}
+                        className="my-4 cursor-pointer"
+                    />
+                    {/* Deadline */}
+                    <Label className="text-sm leading-160 font-medium mt-1">Max Deadline: {deadline} days</Label>
+                    <Slider
+                        defaultValue={[deadline]}
+                        max={30}
+                        min={1}
+                        step={1}
+                        ornagecolorline
+                        onValueChange={(v) => setDeadline(v[0])}
+                        className="my-4 cursor-pointer"
+                    />
+                </div>
+                {/* Switches */}
+                <div className="space-y-3 pt-4">
+                    {[
+                        "Auto-approve Only",
+                        "New User Friendly",
+                        "Bulk Applications",
+                        "Urgent Jobs Only",
+                        "Hide High Trust Score",
+                    ].map((label) => (
+                        <div key={label} className="flex items-center justify-between">
+                            <Label className="font-medium text-sm">{label}</Label>
+                            <Switch className="cursor-pointer" />
+                        </div>
+                    ))}
                 </div>
             </aside>
 
             {/* Jobs */}
-            <main className="flex-1 p-4 md:p-6">
-                <h1 className="text-2xl font-bold mb-6">Find Jobs</h1>
-                <div className="space-y-6">
-                    {jobs.map((job) => (
-                        <Card key={job.id} className="shadow-sm">
-                            <CardHeader>
-                                <CardTitle className="flex flex-col sm:flex-row sm:justify-between">
-                                    <span>{job.title}</span>
-                                    <span className="text-sm text-gray-500">{job.deadline} days</span>
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-gray-700 mb-2">{job.desc}</p>
-                                <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-4 text-sm text-gray-600">
-                                    <span>👤 {job.author} ({job.rating}★)</span>
-                                    <span>💲 {job.price} per review</span>
-                                    <span>📝 {job.reviews} reviews</span>
-                                    <span>👥 {job.slots} slots left</span>
-                                    <span>💰 Total Budget: ${job.budget}</span>
-                                </div>
-                                <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                                    <Button variant="secondary" className="w-full sm:w-auto cursor-pointer">Apply for multiple slots</Button>
-                                    <Button className="w-full sm:w-auto cursor-pointer">Apply for 1 slot</Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            </main>
+         <JobDetails/>
         </div>
-    );
+    )
 }

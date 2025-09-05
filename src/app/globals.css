@@ -67,6 +67,7 @@
   --color-layout-white: var(--layout-white);
   --color-card-orange: var(--card-orange);
   --color-blue: var(--blue);
+  --color-orange-blue: var(--orange-blue);
   --color-orange-button: var(--orange-button);
   --color-off-gray: var(--off-gray);
   --color-icons-plan: var(--icons-plan);
@@ -123,6 +124,7 @@ These serve as the fallback; there is no separate default.css file. */
   --card-orange: #FFF7F3;
   --orange-button: #ff6a1d;
   --blue: #7C3AED;
+  --orange-blue: #FF6A1D;
   --off-gray: #4A5565;
   --icons-plan: #09090B;
 }
@@ -167,6 +169,7 @@ These serve as the fallback; there is no separate default.css file. */
   --orange-button: #000;
   --gray-white-off: oklch(1 0 0 / 10%);
   --blue: oklch(0.922 0 0);
+  --orange-blue: oklch(0.922 0 0);
   --off-gray: #e6e8ec;
   --icons-plan: #ffffff;
 }

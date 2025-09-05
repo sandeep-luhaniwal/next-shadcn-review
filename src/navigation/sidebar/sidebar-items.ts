@@ -108,7 +108,7 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "My Jobs",
-        url: "/dashboard/finance",
+        url: "/dashboard/reviewer-my-job",
         icon: Briefcase,
       },
       {
