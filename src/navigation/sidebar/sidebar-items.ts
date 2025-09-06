@@ -1,6 +1,7 @@
 import {
+  BadgeIndianRupee,
+  Banknote,
   Briefcase,
-  Crown,
   Download,
   LayoutDashboard,
   LucideIcon,
@@ -9,8 +10,6 @@ import {
   Receipt,
   Search,
   ShieldAlert,
-  Upload,
-  User,
   Wallet
 } from "lucide-react";
 
@@ -117,9 +116,9 @@ export const sidebarItems: NavGroup[] = [
         icon: Wallet,
         subItems: [
           {
-            title: "Overview",
-            url: "/dashboard/buyer-wallet",
-            icon: Download,
+            title: "Reviewer Wallet",
+            url: "/dashboard/reviewer-wallet",
+            icon: Banknote,
           },
           {
             title: "Billing",

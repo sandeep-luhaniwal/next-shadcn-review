@@ -119,6 +119,11 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
     const handleNext = () => currentPage < totalPages && setCurrentPage(currentPage + 1)
     const handlePrev = () => currentPage > 1 && setCurrentPage(currentPage - 1)
 
+    const [messagesByJob, setMessagesByJob] = useState<{ [key: number]: string }>({})
+    const handleMessageChange = (jobId: number, message: string) => {
+        setMessagesByJob((prev) => ({ ...prev, [jobId]: message }))
+    }
+
     return (
         <main className="flex-1 p-4 xl:p-6 xl:pt-4 w-full lg:w-2/3 xl:w-[73%]">
             <div className="flex items-center gap-5 pt-8 pb-4 lg:pt-0">
@@ -189,6 +194,10 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
                 selectedFiles={selectedJob ? filesByJob[selectedJob.id] || [] : []}
                 onFileChange={(files) =>
                     selectedJob && handleFileChange(selectedJob.id, files)
+                }
+                coverMessage={selectedJob ? messagesByJob[selectedJob.id] || "" : ""}
+                onMessageChange={(msg) =>
+                    selectedJob && handleMessageChange(selectedJob.id, msg)
                 }
             />
 

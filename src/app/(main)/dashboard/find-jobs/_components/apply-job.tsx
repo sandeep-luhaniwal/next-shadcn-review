@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -19,14 +18,12 @@ interface ApplyJobProps {
     open: boolean
     onClose: () => void
     job: Job | null
+    coverMessage: string
+    onChangeMessage: (val: string) => void
+    onResetMessage: () => void
 }
 
-const defaultMessage =
-    "Hi! I'm a professional Reviews with experience in providing thorough, constructive feedback. I would be happy to work on your project and deliver a comprehensive review within your timeline."
-
-const ApplyJob: React.FC<ApplyJobProps> = ({ open, onClose, job }) => {
-    const [coverMessage, setCoverMessage] = useState(defaultMessage)
-
+const ApplyJob: React.FC<ApplyJobProps> = ({ open, onClose, job, coverMessage, onChangeMessage, onResetMessage }) => {
     if (!job) return null
 
     return (
@@ -62,17 +59,15 @@ const ApplyJob: React.FC<ApplyJobProps> = ({ open, onClose, job }) => {
                     <Textarea
                         className="border-none mt-1 !text-xs resize-none h-[150px] overscroll-auto font-normal"
                         value={coverMessage}
-                        onChange={(e) => setCoverMessage(e.target.value)}
+                        onChange={(e) => onChangeMessage(e.target.value)}
                         rows={10}
                     />
                     <div className="flex justify-between py-2 items-center gap-1">
-                        {/* ✅ Live character count */}
                         <p className="text-[10px] text-muted-foreground">{coverMessage.length} characters</p>
 
-                        {/* ✅ Reset functionality */}
                         <button
                             type="button"
-                            onClick={() => setCoverMessage(defaultMessage)}
+                            onClick={onResetMessage}
                             className="text-xs font-semibold cursor-pointer text-muted-foreground"
                         >
                             Reset to Default

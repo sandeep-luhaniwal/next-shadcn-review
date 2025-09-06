@@ -50,10 +50,10 @@ const generateWallet = () => {
 
 const disputesData = generateWallet()
 
-export default function WalletBuyerTable() {
+export default function ReviewerWalletTable() {
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
-     const [tabWalletHistory, setWalletTabHistory] = useState('one')
+    const [tabHistory, setTabHistory] = useState('one')
     const [selectedRows, setSelectedRows] = useState<number[]>([])
 
     const totalItems = disputesData.length
@@ -93,17 +93,17 @@ export default function WalletBuyerTable() {
 
     return (
         <div>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-2 mb-3">
                 <p className="font-semibold text-base">Transaction History</p>
-                <div className="flex gap-2 flex-col sm:flex-row justify-end sm:items-center">
+                <div className="flex gap-2 flex-col sm:flex-row items-end justify-end sm:items-center">
                     <div className="border border-button-orange max-w-max rounded-md overflow-clip">
-                        <Button onClick={() => setWalletTabHistory("one")}
-                            className={`${tabWalletHistory === "one" ? "bg-white dark:text-black" : "bg-button-orange/10 dark:text-white"} text-black hover:text-white dark:hover:text-black py-2.5 text-sm font-medium cursor-pointer rounded-none`}
+                        <Button onClick={() => setTabHistory("one")}
+                            className={`${tabHistory === "one" ? "bg-white dark:text-black" : "bg-button-orange/10 dark:text-white"} text-black sm:!px-2 md:!px-4 hover:text-white dark:hover:text-black py-2.5 text-sm font-medium cursor-pointer rounded-none`}
                         >
                             Withdrawable History
                         </Button>
-                        <Button onClick={() => setWalletTabHistory("two")}
-                            className={`${tabWalletHistory === "two" ? "bg-white dark:text-black" : "bg-button-orange/10 dark:text-white"} text-black hover:text-white dark:hover:text-black py-2.5 text-sm font-medium cursor-pointer rounded-none`}
+                        <Button onClick={() => setTabHistory("two")}
+                            className={`${tabHistory === "two" ? "bg-white dark:text-black" : "bg-button-orange/10 dark:text-white"} text-black sm:!px-2 md:!px-4 hover:text-white dark:hover:text-black py-2.5 text-sm font-medium cursor-pointer rounded-none`}
                         >
                             Jobs History
                         </Button>
@@ -115,6 +115,7 @@ export default function WalletBuyerTable() {
                     </Button>
                 </div>
             </div>
+
             <div className="overflow-x-auto rounded-[10px] border shadow-sm">
                 <Table className="w-full">
                     <TableHeader className="bg-muted p-2.5">

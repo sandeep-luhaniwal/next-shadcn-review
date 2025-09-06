@@ -14,6 +14,9 @@ import {
 import { Minus, Plus, ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from "lucide-react"
 import ApplyJob from "./apply-job"
 
+const defaultMessage =
+    "Hi! I'm a professional Reviews with experience in providing thorough, constructive feedback. I would be happy to work on your project and deliver a comprehensive review within your timeline."
+
 const jobs = [
     {
         id: 1,
@@ -53,7 +56,7 @@ const jobs = [
         budget: 600,
     },
     {
-        id: 1,
+        id: 4,
         title: `Review "Atomic Habits" by James Clear`,
         desc: "Looking for an honest, detailed review of this popular self-help book.",
         author: "Mike Chen",
@@ -66,7 +69,7 @@ const jobs = [
         productPrice: 20,
     },
     {
-        id: 2,
+        id: 5,
         title: "Product Review – Wireless Earbuds",
         desc: "Comprehensive review needed for new wireless earbuds.",
         author: "Mike Chen",
@@ -78,7 +81,7 @@ const jobs = [
         budget: 135,
     },
     {
-        id: 3,
+        id: 6,
         title: "E-learning Course Feedback",
         desc: "Need detailed feedback on my new online course.",
         author: "Sarah Lee",
@@ -92,7 +95,6 @@ const jobs = [
 ]
 
 const JobDetails = () => {
-    // ✅ Slot count state per job
     const [slotCounts, setSlotCounts] = useState<{ [key: number]: number }>(
         Object.fromEntries(jobs.map((job) => [job.id, 1]))
     )
@@ -103,10 +105,26 @@ const JobDetails = () => {
     const [selectedJob, setSelectedJob] = useState<any>(null)
     const [openDialog, setOpenDialog] = useState(false)
 
+    // ✅ Har job ka apna message
+    const [messages, setMessages] = useState<{ [key: number]: string }>(
+        Object.fromEntries(jobs.map(job => [job.id, defaultMessage]))
+    )
+
     const handleApplyJob = (job: any) => {
         setSelectedJob(job)
         setOpenDialog(true)
     }
+
+    // Update message
+    const handleMessageChange = (id: number, value: string) => {
+        setMessages(prev => ({ ...prev, [id]: value }))
+    }
+
+    // Reset message to default
+    const handleResetMessage = (id: number) => {
+        setMessages(prev => ({ ...prev, [id]: defaultMessage }))
+    }
+
     // Filter jobs based on search
     const filteredJobs = useMemo(() => {
         return jobs.filter(
@@ -122,7 +140,6 @@ const JobDetails = () => {
     const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob)
     const totalPages = Math.ceil(filteredJobs.length / rowsPerPage)
 
-    // Slot increment/decrement functions
     const handleIncrement = (id: number) => {
         setSlotCounts((prev) => ({
             ...prev,
@@ -137,7 +154,6 @@ const JobDetails = () => {
         }))
     }
 
-    // Pagination handlers
     const handleFirst = () => setCurrentPage(1)
     const handleLast = () => setCurrentPage(totalPages)
     const handleNext = () => currentPage < totalPages && setCurrentPage(currentPage + 1)
@@ -185,7 +201,7 @@ const JobDetails = () => {
                                         size="icon"
                                         className="border rounded-md cursor-pointer"
                                         onClick={() => handleDecrement(job.id)}
-                                        disabled={slotCounts[job.id] === 1} // ✅ disable on 1
+                                        disabled={slotCounts[job.id] === 1}
                                     >
                                         <Minus className="h-4 w-4" />
                                     </Button>
@@ -217,12 +233,16 @@ const JobDetails = () => {
                     </Card>
                 ))}
             </div>
+
             <ApplyJob
                 open={openDialog}
                 onClose={() => setOpenDialog(false)}
                 job={selectedJob}
+                coverMessage={selectedJob ? messages[selectedJob.id] : defaultMessage}
+                onChangeMessage={(val) => selectedJob && handleMessageChange(selectedJob.id, val)}
+                onResetMessage={() => selectedJob && handleResetMessage(selectedJob.id)}
             />
-            {/* Pagination */}
+
             {filteredJobs.length > rowsPerPage && (
                 <div className="flex flex-col md:flex-row md:justify-end items-center gap-4 mt-6">
                     <div className="flex items-center gap-2">

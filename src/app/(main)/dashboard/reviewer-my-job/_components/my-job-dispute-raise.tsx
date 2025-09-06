@@ -27,7 +27,10 @@ interface ApplyJobProps {
     job: Job | null
     selectedFiles: File[]
     onFileChange: (files: File[]) => void
+    coverMessage: string
+    onMessageChange: (message: string) => void
 }
+
 
 const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
     open,
@@ -35,8 +38,9 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
     job,
     selectedFiles,
     onFileChange,
+    coverMessage,
+    onMessageChange,
 }) => {
-    const [coverMessage, setCoverMessage] = useState("")
     const [previewImage, setPreviewImage] = useState<string | null>(null) // full image preview
 
     if (!job) return null
@@ -73,7 +77,7 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
                             className="mt-1 !text-xs resize-none h-[88px] overscroll-auto font-normal"
                             value={coverMessage}
                             placeholder="Explain full issue in detail"
-                            onChange={(e) => setCoverMessage(e.target.value)}
+                            onChange={(e) => onMessageChange(e.target.value)}
                             rows={5}
                         />
                     </div>
@@ -150,13 +154,15 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
                         <DialogTitle className="!text-left"></DialogTitle>
                     </DialogHeader>
                     {previewImage && (
-                        <Image
-                            width={500}
-                            height={500}
-                            src={previewImage}
-                            alt="full-preview"
-                            className=""
-                        />
+                        <div className="flex justify-center items-center w-full h-full">
+                            <Image
+                                width={500}
+                                height={500}
+                                src={previewImage}
+                                alt="full-preview"
+                                className="max-w-full max-h-[80vh] object-contain"
+                            />
+                        </div>
                     )}
                 </DialogContent>
             </Dialog>
