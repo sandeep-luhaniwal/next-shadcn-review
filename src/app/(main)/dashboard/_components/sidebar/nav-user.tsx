@@ -17,9 +17,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { getInitials } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 import { useUser } from "../user-type-context";  // 👈 context import
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function NavUser({
   user,
@@ -33,7 +33,7 @@ export function NavUser({
   const { isMobile } = useSidebar();
   const { userType } = useUser(); // 👈 context se type le liya
   const router = useRouter();
-
+  const pathname = usePathname();
   const handleAccountClick = () => {
     if (userType === "reviewer") {
       router.push("/dashboard/reviewer-user");
@@ -41,7 +41,8 @@ export function NavUser({
       router.push("/dashboard/buyer-user");
     }
   };
-
+  const isReviewerActive = pathname?.startsWith("/dashboard/reviewer-user");
+  const isBuyerActive = pathname?.startsWith("/dashboard/buyer-user");
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -49,7 +50,10 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className={cn(
+                "data-[state=open]:bg-sidebar-accent cursor-pointer data-[state=open]:text-sidebar-accent-foreground",
+                (isReviewerActive || isBuyerActive) && "bg-sidebar-accent text-sidebar-accent-foreground"
+              )}
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={user.avatar || undefined} alt={user.name} />

@@ -14,6 +14,8 @@ import {
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { cn, getInitials } from "@/lib/utils";
+import { useUser } from "../user-type-context";
+import { useRouter } from "next/navigation";
 
 export function AccountSwitcher({
   users,
@@ -27,11 +29,20 @@ export function AccountSwitcher({
   }>;
 }) {
   const [activeUser, setActiveUser] = useState(users[0]);
+  const { userType } = useUser();
+  const router = useRouter();
+  const handleAccountClick = () => {
+    if (userType === "reviewer") {
+      router.push("/dashboard/reviewer-user");
+    } else {
+      router.push("/dashboard/buyer-user");
+    }
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="size-8 md:size-9 rounded-lg">
+        <Avatar className="size-8 md:size-9 rounded-lg cursor-pointer">
           <AvatarImage src={activeUser.avatar || undefined} alt={activeUser.name} />
           <AvatarFallback className="rounded-lg">{getInitials(activeUser.name)}</AvatarFallback>
         </Avatar>
@@ -40,7 +51,7 @@ export function AccountSwitcher({
         {users.map((user) => (
           <DropdownMenuItem
             key={user.email}
-            className={cn("p-0", user.id === activeUser.id && "bg-accent/50 border-l-primary border-l-2")}
+            className={cn("p-0 cursor-pointer", user.id === activeUser.id && "bg-accent/50  border-l-primary border-l-2")}
             onClick={() => setActiveUser(user)}
           >
             <div className="flex w-full items-center justify-between gap-2 px-1 py-1.5">
@@ -57,7 +68,7 @@ export function AccountSwitcher({
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer" onClick={handleAccountClick}>
             <BadgeCheck />
             Account
           </DropdownMenuItem>
@@ -71,7 +82,7 @@ export function AccountSwitcher({
           </DropdownMenuItem> */}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
           <LogOut />
           Log out
         </DropdownMenuItem>

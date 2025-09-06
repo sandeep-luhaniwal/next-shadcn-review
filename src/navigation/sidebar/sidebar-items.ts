@@ -1,8 +1,6 @@
 import {
-  BadgeIndianRupee,
   Banknote,
   Briefcase,
-  Download,
   LayoutDashboard,
   LucideIcon,
   MessageSquare,
@@ -51,12 +49,12 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "Post a Job",
-        url: "/dashboard/post-a-job",
+        url: "/dashboard/buyer-post-a-job",
         icon: PlusSquare,
       },
       {
         title: "Manage Jobs",
-        url: "/dashboard/manage-a-job",
+        url: "/dashboard/buyer-manage-a-job",
         icon: Briefcase,
       },
       {
@@ -66,13 +64,13 @@ export const sidebarItems: NavGroup[] = [
         subItems: [
 
           {
-            title: "Overview",
+            title: "Buyer Wallet",
             url: "/dashboard/buyer-wallet",
-            icon: Download,
+            icon: Banknote,
           },
           {
             title: "Billing",
-            url: "/dashboard/billing",
+            url: "/dashboard/buyer-billing",
             icon: Receipt,
           },
 
@@ -102,7 +100,7 @@ export const sidebarItems: NavGroup[] = [
       },
       {
         title: "Find Jobs",
-        url: "/dashboard/find-jobs",
+        url: "/dashboard/reviewer-find-jobs",
         icon: Search,
       },
       {
