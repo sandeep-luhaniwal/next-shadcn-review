@@ -27,6 +27,7 @@ import { UserTypeProvider } from "./_components/user-type-context";
 import { Bell } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import WalletData from "./_components/sidebar/wallet-data";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
   const cookieStore = await cookies();
@@ -70,9 +71,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
                   <Bell className="h-4 w-4 cursor-pointer" />
                   <Badge className="rounded-full absolute cursor-pointer -top-1.5 -end-0.5 p-0 h-3 w-3 text-[8px]" variant="destructive">1</Badge>
                 </div>
-                <div className="hidden sm:flex">
-                  <Card className="!p-2 text-xs font-medium rounded-[8px] xl:me-6 xl:ms-2">$120.50</Card>
-                </div>
+                <WalletData />
                 <SwitchTypeUser />
                 <LayoutControls {...layoutPreferences} />
                 <ThemeSwitcher />
