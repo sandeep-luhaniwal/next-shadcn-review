@@ -70,7 +70,9 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
                   <Bell className="h-4 w-4 cursor-pointer" />
                   <Badge className="rounded-full absolute cursor-pointer -top-1.5 -end-0.5 p-0 h-3 w-3 text-[8px]" variant="destructive">1</Badge>
                 </div>
-                <Card className="!p-2 text-xs font-medium rounded-[8px] xl:me-6 xl:ms-2">$120.50</Card>
+                <div className="hidden sm:flex">
+                  <Card className="!p-2 text-xs font-medium rounded-[8px] xl:me-6 xl:ms-2">$120.50</Card>
+                </div>
                 <SwitchTypeUser />
                 <LayoutControls {...layoutPreferences} />
                 <ThemeSwitcher />

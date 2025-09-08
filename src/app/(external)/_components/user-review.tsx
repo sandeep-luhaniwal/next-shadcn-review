@@ -52,7 +52,7 @@ const UserReview: React.FC = () => {
                     </div>
 
                     <div className="flex lg:justify-end">
-                        <div className="bg-white p-2.5 flex gap-5 items-center max-w-max rounded-[10px] shadow-[0_4px_9px_0_rgba(0,0,0,0.05)]">
+                        <div className="bg-white p-2.5 flex flex-col sm:flex-row gap-2 sm:gap-5 sm:items-center w-full justify-between lg:max-w-max rounded-[10px] shadow-[0_4px_9px_0_rgba(0,0,0,0.05)]">
                             <p className='text-[#191A15] font-medium text-sm md:text-base !font-inter'>For Buyers (Author & Seller)</p>
                             <button className='text-white px-4 md:px-5 py-2.5 bg-orange leading-160 rounded-[10px]'>For Reviewers</button>
                         </div>

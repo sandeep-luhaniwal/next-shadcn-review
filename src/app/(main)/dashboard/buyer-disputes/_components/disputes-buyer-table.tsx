@@ -197,16 +197,15 @@ export default function DisputesBuyerTable() {
                                         </SelectContent>
                                     </Select>
                                 </TableCell>
-                                <TableCell className="font-medium text-sm">
-                                    <TableCell className="font-medium text-sm p-0">
-                                        <Button
-                                            size="sm"
-                                            className="bg-orange cursor-pointer hover:bg-orange-600 text-white rounded-md"
-                                            onClick={() => handleViewDetail(item)}
-                                        >
-                                            View Detail
-                                        </Button>
-                                    </TableCell>
+
+                                <TableCell className="font-medium text-sm p-0">
+                                    <Button
+                                        size="sm"
+                                        className="bg-orange cursor-pointer hover:bg-orange-600 text-white rounded-md"
+                                        onClick={() => handleViewDetail(item)}
+                                    >
+                                        View Detail
+                                    </Button>
                                 </TableCell>
                                 <TableCell>
                                     <DropdownMenu>

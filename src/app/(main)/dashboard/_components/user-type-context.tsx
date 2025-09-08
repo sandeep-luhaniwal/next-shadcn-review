@@ -30,8 +30,8 @@ export function UserTypeProvider({ children }: { children: ReactNode }) {
   // Buyer routes
   const buyerRoutes = [
     "/dashboard/buyer",
-    "/dashboard/post-a-job",
-    "/dashboard/manage-a-job",
+    "/dashboard/buyer-post-a-job",
+    "/dashboard/buyer-manage-a-job",
     "/dashboard/buyer-wallet",
     "/dashboard/billing",
     "/dashboard/buyer-disputes",
@@ -41,7 +41,7 @@ export function UserTypeProvider({ children }: { children: ReactNode }) {
   // Reviewer routes
   const reviewerRoutes = [
     "/dashboard/reviewer",
-    "/dashboard/find-jobs",
+    "/dashboard/reviewer-find-jobs",
     "/dashboard/reviewer-disputes",
     "/dashboard/reivewer-wallet",
     "/dashboard/reivewer-billing",
