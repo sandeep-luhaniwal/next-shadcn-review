@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { X } from "lucide-react"
+import { CircleCheckBig, X } from "lucide-react"
 import Image from "next/image"
 
 type Job = {
@@ -31,8 +31,7 @@ interface ApplyJobProps {
     onMessageChange: (message: string) => void
 }
 
-
-const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
+const MyJobSubmittedWork: React.FC<ApplyJobProps> = ({
     open,
     onClose,
     job,
@@ -41,15 +40,13 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
     coverMessage,
     onMessageChange,
 }) => {
-    const [previewImage, setPreviewImage] = useState<string | null>(null) // full image preview
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
 
     if (!job) return null
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            const files = Array.from(e.target.files).filter((file) =>
-                ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(file.type)
-            )
+            const files = Array.from(e.target.files)
             const updatedFiles = [...selectedFiles, ...files].slice(0, 8)
             onFileChange(updatedFiles)
         }
@@ -63,38 +60,70 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
     return (
         <>
             <Dialog open={open} onOpenChange={onClose}>
-                <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+                <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto rounded-xl">
                     <DialogHeader>
-                        <DialogTitle className="font-semibold text-base text-left">
-                            Raise a Dispute
+                        <DialogTitle className="font-semibold text-lg text-left">
+                            Submit Your Work
                         </DialogTitle>
+                        <div className="bg-orange/10 rounded-md p-3 md:p-3.5 mt-3 text-sm">
+                            <p className="font-semibold text-sm">Requirements:</p>
+                            <p className="text-xs flex gap-2 pt-2">
+                                <CircleCheckBig className="text-green-500" />
+                                Looking for an honest, detailed review of this popular self-help book.
+                                Must be at least 500 words and include specific examples.
+                            </p>
+                        </div>
                     </DialogHeader>
 
-                    {/* Textarea */}
+                    {/* Review Text */}
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold">Dispute Description</label>
+                        <label className="text-sm font-semibold">Review Text <span className="text-orange">*</span></label>
                         <Textarea
-                            className="mt-1 !text-xs resize-none h-[88px] overscroll-auto font-normal"
+                            className="mt-1 resize-none h-[180px] text-sm"
                             value={coverMessage}
-                            placeholder="Explain full issue in detail"
+                            placeholder="Enter your detailed review here..."
                             onChange={(e) => onMessageChange(e.target.value)}
-                            rows={5}
                         />
+                        <p className="text-xs text-muted-foreground">
+                            {coverMessage.length} characters
+                        </p>
                     </div>
 
-                    {/* File Upload + Preview */}
+                    {/* File Upload */}
                     <div className="space-y-2">
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            className="hidden"
-                            id={`fileInput-${job.id}`}
-                            onChange={handleFileChange}
-                        />
-                        {/* Preview Selected Images */}
+                        <label className="text-sm font-semibold">Additional Files (Optional)</label>
+                        <div
+                            className="border border-dashed border-gray-300 rounded-md p-6 flex flex-col items-center justify-center text-sm text-muted-foreground"
+                            onDragOver={(e) => e.preventDefault()}
+                            onDrop={(e) => {
+                                e.preventDefault()
+                                const files = Array.from(e.dataTransfer.files)
+                                const updatedFiles = [...selectedFiles, ...files].slice(0, 8)
+                                onFileChange(updatedFiles)
+                            }}
+                        >
+                            <input
+                                type="file"
+                                multiple
+                                className="hidden"
+                                id={`fileInput-${job.id}`}
+                                onChange={handleFileChange}
+                            />
+                            <p>Drag and drop files here, or click to select</p>
+                            <Button
+                                variant="link"
+                                className="text-button-orange cursor-pointer mt-2"
+                                onClick={() =>
+                                    document.getElementById(`fileInput-${job.id}`)?.click()
+                                }
+                            >
+                                Browse Files
+                            </Button>
+                        </div>
+
+                        {/* Preview Selected Files */}
                         {selectedFiles.length > 0 && (
-                            <div className="grid grid-cols-4 gap-2 mt-2">
+                            <div className="grid grid-cols-4 gap-3 mt-3">
                                 {selectedFiles.map((file, index) => {
                                     const imageUrl = URL.createObjectURL(file)
                                     return (
@@ -102,15 +131,12 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
                                             key={index}
                                             className="relative border rounded p-1 flex justify-center items-center group"
                                         >
-                                            {/* Remove Button */}
                                             <button
                                                 onClick={() => handleRemoveImage(index)}
                                                 className="absolute cursor-pointer top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
                                             >
                                                 <X size={14} />
                                             </button>
-
-                                            {/* Click to open full preview */}
                                             <img
                                                 src={imageUrl}
                                                 alt={`preview-${index}`}
@@ -124,26 +150,13 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
                         )}
                     </div>
 
-                    <DialogFooter>
-                        <div className="gap-2 flex flex-col md:flex-row justify-between w-full">
-                            <div className="flex flex-col md:flex-row md:items-center gap-3">
-                                <Button
-                                    variant="outline"
-                                    className="cursor-pointer bg-button-orange/10"
-                                    onClick={() =>
-                                        document.getElementById(`fileInput-${job.id}`)?.click()
-                                    }
-                                >
-                                    Attach File
-                                </Button>
-                                <span className="text-sm text-muted-foreground font-normal">
-                                    *Screenshots, invoices, proofs
-                                </span>
-                            </div>
-                            <Button className="bg-button-orange flex gap-2 items-center cursor-pointer">
-                                Submit Dispute
-                            </Button>
-                        </div>
+                    <DialogFooter className="mt-6 flex justify-between">
+                        <Button variant="outline" className="cursor-pointer" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button className="bg-button-orange cursor-pointer">
+                            Submit Work
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
@@ -151,8 +164,9 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
             <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
                 <DialogContent className="sm:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
                     <DialogHeader>
-                        <DialogTitle className="!text-left"></DialogTitle>
+                        <DialogTitle className="sr-only">Image Preview</DialogTitle>
                     </DialogHeader>
+
                     {previewImage && (
                         <div className="flex justify-center items-center w-full h-full">
                             <Image
@@ -171,4 +185,4 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
     )
 }
 
-export default MyJobDisputeRaise
+export default MyJobSubmittedWork

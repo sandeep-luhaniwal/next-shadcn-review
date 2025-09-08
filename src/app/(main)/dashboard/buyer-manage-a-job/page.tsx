@@ -1,9 +1,13 @@
+import { Card } from "@/components/ui/card";
+import BookReview from "./_components/book-review";
+import ManageAccrodion from "./_components/manage-accordion";
 
+export default function Page(): JSX.Element {
 
-export default function Page() {
     return (
-        <div className="flex flex-col gap-4 md:gap-6">
-            manange a job
-        </div>
+        <Card className="flex flex-col p-4 md:p-5 lg:p-6">
+            <BookReview />
+            <ManageAccrodion />
+        </Card>
     );
 }

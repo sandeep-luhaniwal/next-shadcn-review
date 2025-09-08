@@ -9,10 +9,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import {
+    ChevronLeft,
+    ChevronRight,
+    ChevronsLeft,
+    ChevronsRight,
+} from "lucide-react"
 import { useMemo, useState } from "react"
 import Icons from "../../buyer-disputes/_components/ui-icons"
 import MyJobDisputeRaise from "./my-job-dispute-raise"
+import MyJobSubmittedWork from "./my-job-submitted-work"
 
 const jobs = [
     {
@@ -59,6 +65,7 @@ interface MyJobDetailsProps {
     currentPage: number
     setCurrentPage: (page: number) => void
 }
+
 type Job = {
     id: number
     title: string
@@ -67,30 +74,42 @@ type Job = {
     slots: number
 }
 
-const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, setCurrentPage }) => {
-    // ✅ Slot count state per job
-    const [slotCounts, setSlotCounts] = useState<{ [key: number]: number }>(
-        Object.fromEntries(jobs.map((job) => [job.id, 1]))
-    )
+const MyJobDetails: React.FC<MyJobDetailsProps> = ({
+    searchTerm,
+    currentPage,
+    setCurrentPage,
+}) => {
     const [rowsPerPage, setRowsPerPage] = useState(4)
-    const [selectedJob, setSelectedJob] = useState<any>(null)
-    const [openDialog, setOpenDialog] = useState(false)
 
-    const [filesByJob, setFilesByJob] = useState<{ [key: number]: File[] }>({})
+    // Separate states for dialogs
+    const [openDisputeDialog, setOpenDisputeDialog] = useState(false)
+    const [openSubmitDialog, setOpenSubmitDialog] = useState(false)
 
+    const [selectedDisputeJob, setSelectedDisputeJob] = useState<Job | null>(null)
+    const [selectedSubmitJob, setSelectedSubmitJob] = useState<Job | null>(null)
 
-    // file change handler per job
-    const handleFileChange = (jobId: number, files: File[]) => {
-        setFilesByJob((prev) => ({ ...prev, [jobId]: files }))
+    const [filesByDispute, setFilesByDispute] = useState<{ [key: number]: File[] }>(
+        {}
+    )
+    const [filesBySubmit, setFilesBySubmit] = useState<{ [key: number]: File[] }>({})
+
+    const [messagesByDispute, setMessagesByDispute] = useState<{ [key: number]: string }>(
+        {}
+    )
+    const [messagesBySubmit, setMessagesBySubmit] = useState<{ [key: number]: string }>(
+        {}
+    )
+
+    const handleDispute = (job: Job) => {
+        setSelectedDisputeJob(job)
+        setOpenDisputeDialog(true)
     }
 
-
-    const handleApplyJob = (job: Job) => {
-        setSelectedJob(job)
-        setOpenDialog(true)
+    const handleSubmitWork = (job: Job) => {
+        setSelectedSubmitJob(job)
+        setOpenSubmitDialog(true)
     }
 
-    // ✅ Filter jobs based on searchTerm
     const filteredJobs = useMemo(() => {
         return jobs.filter(
             (job) =>
@@ -99,30 +118,31 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
         )
     }, [searchTerm])
 
-    // Pagination logic
     const indexOfLastJob = currentPage * rowsPerPage
     const indexOfFirstJob = indexOfLastJob - rowsPerPage
     const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob)
     const totalPages = Math.ceil(filteredJobs.length / rowsPerPage)
 
-    // Slot increment/decrement
-    const handleIncrement = (id: number) => {
-        setSlotCounts((prev) => ({ ...prev, [id]: prev[id] + 1 }))
+    const handleFileChangeDispute = (jobId: number, files: File[]) => {
+        setFilesByDispute((prev) => ({ ...prev, [jobId]: files }))
     }
-    const handleDecrement = (id: number) => {
-        setSlotCounts((prev) => ({ ...prev, [id]: Math.max(1, prev[id] - 1) }))
+    const handleFileChangeSubmit = (jobId: number, files: File[]) => {
+        setFilesBySubmit((prev) => ({ ...prev, [jobId]: files }))
     }
 
-    // Pagination handlers
+    const handleMessageChangeDispute = (jobId: number, message: string) => {
+        setMessagesByDispute((prev) => ({ ...prev, [jobId]: message }))
+    }
+    const handleMessageChangeSubmit = (jobId: number, message: string) => {
+        setMessagesBySubmit((prev) => ({ ...prev, [jobId]: message }))
+    }
+
     const handleFirst = () => setCurrentPage(1)
     const handleLast = () => setCurrentPage(totalPages)
-    const handleNext = () => currentPage < totalPages && setCurrentPage(currentPage + 1)
-    const handlePrev = () => currentPage > 1 && setCurrentPage(currentPage - 1)
-
-    const [messagesByJob, setMessagesByJob] = useState<{ [key: number]: string }>({})
-    const handleMessageChange = (jobId: number, message: string) => {
-        setMessagesByJob((prev) => ({ ...prev, [jobId]: message }))
-    }
+    const handleNext = () =>
+        currentPage < totalPages && setCurrentPage(currentPage + 1)
+    const handlePrev = () =>
+        currentPage > 1 && setCurrentPage(currentPage - 1)
 
     return (
         <main className="flex-1 p-4 xl:p-6 xl:pt-4 w-full lg:w-2/3 xl:w-[73%]">
@@ -135,28 +155,38 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
                     <Card key={job.id} className="shadow-sm gap-0">
                         <CardHeader className="gap-0">
                             <CardTitle className="flex flex-col xl:flex-row xl:justify-between gap-2 xl:items-center">
-                                <span className="text-sm order-2 xl:order-1 font-semibold">{job.title}</span>
+                                <span className="text-sm order-2 xl:order-1 font-semibold">
+                                    {job.title}
+                                </span>
                                 <div className="flex justify-between gap-2 order-1 xl:order-2 xl:justify-end">
                                     <span className="border text-nowrap font-medium text-muted-foreground text-xs py-[3px] capitalize max-w-max items-center flex gap-1 px-2 rounded-[8px]">
-                                        <Icons
-                                            icon="pending"
-                                        />
+                                        <Icons icon="pending" />
                                         In Progress
                                     </span>
-                                    <span className="text-sm text-ring text-nowrap">{job.deadline} days</span>
+                                    <span className="text-sm text-ring text-nowrap">
+                                        {job.deadline} days
+                                    </span>
                                 </div>
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="py-6 flex flex-col gap-2">
-                                <p className="text-sm font-normal text-foreground/80">{job.desc}</p>
+                                <p className="text-sm font-normal text-foreground/80">
+                                    {job.desc}
+                                </p>
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
-                                    {job.author && <span>👤 {job.author} ({job.rating}★)</span>}
+                                    {job.author && (
+                                        <span>
+                                            👤 {job.author} ({job.rating}★)
+                                        </span>
+                                    )}
                                     {job.price && <span>💲 {job.price}/review</span>}
                                     {job.reviews && <span>📝 {job.reviews} reviews</span>}
                                     {job.slots && <span>👥 {job.slots} slots left</span>}
                                     {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
-                                    {job.productPrice && <span>📦 Product Price: ${job.productPrice}</span>}
+                                    {job.productPrice && (
+                                        <span>📦 Product Price: ${job.productPrice}</span>
+                                    )}
                                 </div>
                             </div>
 
@@ -165,11 +195,13 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
                                     <Button
                                         variant="secondary"
                                         className="sm:w-auto lg:px-3 xl:px-4 bg-orange/10 cursor-pointer"
-
                                     >
                                         Leave Feedback
                                     </Button>
-                                    <Button className="sm:w-auto lg:px-3 xl:px-4 bg-button-orange cursor-pointer">
+                                    <Button
+                                        className="sm:w-auto lg:px-3 xl:px-4 bg-button-orange cursor-pointer"
+                                        onClick={() => handleSubmitWork(job)}
+                                    >
                                         Submit Work
                                     </Button>
                                 </div>
@@ -177,9 +209,9 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
                                 <Button
                                     variant="secondary"
                                     className="w-full lg:px-3 xl:px-4 bg-orange/10 sm:w-auto cursor-pointer"
-                                    onClick={() => handleApplyJob(job)}
+                                    onClick={() => handleDispute(job)}
                                 >
-                                    Raise a disputes
+                                    Raise a Dispute
                                 </Button>
                             </div>
                         </CardContent>
@@ -187,17 +219,58 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({ searchTerm, currentPage, se
                 ))}
             </div>
 
+            {/* Dispute Dialog */}
             <MyJobDisputeRaise
-                open={openDialog}
-                onClose={() => setOpenDialog(false)}
-                job={selectedJob}
-                selectedFiles={selectedJob ? filesByJob[selectedJob.id] || [] : []}
-                onFileChange={(files) =>
-                    selectedJob && handleFileChange(selectedJob.id, files)
+                open={openDisputeDialog}
+                onClose={() => {
+                    setOpenDisputeDialog(false)
+                    setSelectedDisputeJob(null)
+                }}
+                job={selectedDisputeJob}
+                selectedFiles={
+                    selectedDisputeJob
+                        ? filesByDispute[selectedDisputeJob.id] || []
+                        : []
                 }
-                coverMessage={selectedJob ? messagesByJob[selectedJob.id] || "" : ""}
+                onFileChange={(files) =>
+                    selectedDisputeJob && handleFileChangeDispute(selectedDisputeJob.id, files)
+                }
+                coverMessage={
+                    selectedDisputeJob
+                        ? messagesByDispute[selectedDisputeJob.id] || ""
+                        : ""
+                }
                 onMessageChange={(msg) =>
-                    selectedJob && handleMessageChange(selectedJob.id, msg)
+                    selectedDisputeJob &&
+                    handleMessageChangeDispute(selectedDisputeJob.id, msg)
+                }
+            />
+
+            {/* Submit Work Dialog */}
+            <MyJobSubmittedWork
+                open={openSubmitDialog}
+                onClose={() => {
+                    setOpenSubmitDialog(false)
+                    setSelectedSubmitJob(null)
+                }}
+                job={selectedSubmitJob}
+                selectedFiles={
+                    selectedSubmitJob
+                        ? filesBySubmit[selectedSubmitJob.id] || []
+                        : []
+                }
+                onFileChange={(files) =>
+                    selectedSubmitJob &&
+                    handleFileChangeSubmit(selectedSubmitJob.id, files)
+                }
+                coverMessage={
+                    selectedSubmitJob
+                        ? messagesBySubmit[selectedSubmitJob.id] || ""
+                        : ""
+                }
+                onMessageChange={(msg) =>
+                    selectedSubmitJob &&
+                    handleMessageChangeSubmit(selectedSubmitJob.id, msg)
                 }
             />
 

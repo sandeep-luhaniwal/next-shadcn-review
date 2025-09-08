@@ -12,14 +12,19 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { X } from "lucide-react"
 import Image from "next/image"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 type Job = {
-    id: number
-    title: string
-    price: number
-    deadline: number
-    slots: number
-}
+    id: number;
+    name: string;
+    rating: number;
+    jobs: number;
+    success: string;
+    applied: string;
+    message: string;
+    image: string;
+};
+
 
 interface ApplyJobProps {
     open: boolean
@@ -32,7 +37,7 @@ interface ApplyJobProps {
 }
 
 
-const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
+const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
     open,
     onClose,
     job,
@@ -69,6 +74,21 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
                             Raise a Dispute
                         </DialogTitle>
                     </DialogHeader>
+                    {/* Dropdown Select (Reason for dispute) */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-semibold">Reason</label>
+                        <Select>
+                            <SelectTrigger className="w-full cursor-pointer">
+                                <SelectValue placeholder="Select a reason" />
+                            </SelectTrigger>
+                            <SelectContent className="animate-in fade-in-50 zoom-in-95">
+                                <SelectItem className="cursor-pointer" value="late-delivery">Late Delivery</SelectItem>
+                                <SelectItem className="cursor-pointer" value="low-quality">Poor Quality Work</SelectItem>
+                                <SelectItem className="cursor-pointer" value="wrong-delivery">Wrong Delivery</SelectItem>
+                                <SelectItem className="cursor-pointer" value="other">Other</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
 
                     {/* Textarea */}
                     <div className="space-y-2">
@@ -140,9 +160,14 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
                                     *Screenshots, invoices, proofs
                                 </span>
                             </div>
-                            <Button className="bg-button-orange flex gap-2 items-center cursor-pointer">
-                                Submit Dispute
-                            </Button>
+                            <div className="grid grid-cols-2 md:flex gap-2">
+                                <Button variant="outline" className="cursor-pointer md:max-w-max w-full" onClick={onClose}>
+                                    Cancel
+                                </Button>
+                                <Button className="bg-button-orange flex gap-2 md:max-w-max items-center w-full cursor-pointer">
+                                    Submit Dispute
+                                </Button>
+                            </div>
                         </div>
                     </DialogFooter>
                 </DialogContent>
@@ -171,4 +196,4 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
     )
 }
 
-export default MyJobDisputeRaise
+export default ManageJobDisputeRaise
