@@ -159,7 +159,7 @@ const Faq: React.FC = () => {
                                         className="bg-white p-4 lg:p-5 border border-black/30 rounded-[10px]"
                                     >
                                         <button
-                                            className="cursor-pointer flex gap-5 w-full text-base md:text-lg font-medium !font-inter focus:outline-none"
+                                            className="cursor-pointer flex gap-5 w-full text-base text-left text-black md:text-lg font-medium font-inter focus:outline-none"
                                             onClick={() => toggleFaq(actualIndex)}
                                         >
                                             <span
@@ -172,9 +172,7 @@ const Faq: React.FC = () => {
                                                     <Icons icon={"plus"} />
                                                 )}
                                             </span>
-                                            <span className="text-left text-black">
-                                                {faq.question}
-                                            </span>
+                                            {faq.question}
                                         </button>
                                         <div
                                             className={`overflow-hidden transition-all duration-500 ${isOpen ? "max-h-[200px]" : "max-h-0"
@@ -198,7 +196,7 @@ const Faq: React.FC = () => {
                                         className="bg-white p-4 lg:p-5 border border-black/30 rounded-[10px]"
                                     >
                                         <button
-                                            className="cursor-pointer w-full flex gap-5 text-base md:text-lg font-medium !font-inter focus:outline-none"
+                                            className="cursor-pointer w-full flex gap-5 text-base text-left text-black md:text-lg font-medium !font-inter focus:outline-none"
                                             onClick={() =>
                                                 toggleFaq(actualIndex)
                                             }
@@ -213,9 +211,7 @@ const Faq: React.FC = () => {
                                                     <Icons icon={"plus"} />
                                                 )}
                                             </span>
-                                            <span className="text-left text-black">
-                                                {faq.question}
-                                            </span>
+                                            {faq.question}
                                         </button>
                                         <div
                                             className={`overflow-hidden transition-all duration-500 ${isOpen ? "max-h-[200px]" : "max-h-0"

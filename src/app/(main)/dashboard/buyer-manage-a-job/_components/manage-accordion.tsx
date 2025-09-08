@@ -12,6 +12,7 @@ import {
     Activity,
     ChevronLeft,
     ChevronRight,
+    CircleAlert,
     CircleCheckBig,
     CircleX,
     Clock3,
@@ -229,7 +230,7 @@ const ManageAccordion = () => {
                                         <ThumbsUp className="h-4 w-4 mr-1" /> Accept
                                     </Button>
                                     <Button size="sm" className="border border-button-orange bg-button-orange/10 text-button-orange cursor-pointer hover:text-black" variant="destructive">
-                                        <ThumbsDown className="h-4 w-4 mr-1" /> Decline
+                                        <CircleAlert className="h-4 w-4 mr-1" /> Fix Needed
                                     </Button>
                                 </div>
                                 <Button size="sm"

@@ -72,10 +72,12 @@ const JobPost: React.FC = () => {
                     </div>
                     <div className="flex md:justify-end gap-4 lg:gap-5">
                         <button className="flex items-center gap-2 lg:gap-2.5 px-3 md:px-4 py-2.5 border border-black/15 text-black/65 rounded-[10px]">
-                            <Icons icon={"type"} /> All Types
+                            <Icons icon={"type"} />
+                            <span> All Types</span>
                         </button>
                         <button className="flex items-center gap-2 lg:gap-2.5 px-3 md:px-4 py-2.5 border border-black/15 text-black/65 rounded-[10px]">
-                            <Icons icon={"newest"} /> Newest
+                            <Icons icon={"newest"} />
+                            <span>Newest</span>
                         </button>
                     </div>
                 </div>
@@ -108,7 +110,7 @@ const JobPost: React.FC = () => {
                                     <p className="text-orange font-semibold text-base md:text-lg lg:text-xl leading-110">{job.rate}</p>
                                     <p className="text-orange text-xs leading-none">{job.rateLabel}</p>
                                 </div>
-                                <button className="px-3 lg:px-4 py-2 lg:py2.5 border border-orange text-orange rounded-[10px] hover:bg-orange text-sm md:text-base cursor-pointer hover:text-white">
+                                <button className="px-3 lg:px-4 py-2 lg:py-2.5 border border-orange text-orange rounded-[10px] hover:bg-orange text-sm md:text-base cursor-pointer hover:text-white">
                                     Apply Now
                                 </button>
                             </div>

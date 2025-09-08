@@ -20,11 +20,27 @@ import {
 } from "@/components/ui/table"
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreVertical } from "lucide-react"
 import { useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import Icons from "./ui-icons"
-import { DisputeDetailsDialog } from "./dispute-details-dialog-reviewer"
 
-const generateDisputes = () => {
-    const specificData = [
+// ✅ Strongly typed interface
+interface Dispute {
+    date: string
+    job: string
+    reviewer: string
+    status: "Pending" | "Resolved"
+}
+
+// ✅ helper to make slug from dispute
+const createSlug = (dispute: Dispute): string => {
+    const jobSlug = dispute.job.toLowerCase().replace(/\s+/g, "-")
+    const reviewerSlug = dispute.reviewer.toLowerCase().replace(/\s+/g, "-")
+    const dateSlug = dispute.date.replace(/\s+/g, "-")
+    return `${jobSlug}-${reviewerSlug}-${dateSlug}`
+}
+
+const generateDisputes = (): Dispute[] => {
+    const specificData: Dispute[] = [
         { date: "12 Aug 2025", job: "Book Review", reviewer: "Michael Johnson", status: "Pending" },
         { date: "09 Aug 2025", job: "iPhone Review", reviewer: "Sarah Thompson", status: "Resolved" },
         { date: "09 Aug 2025", job: "Magazine Review", reviewer: "David Smith", status: "Pending" },
@@ -35,12 +51,12 @@ const generateDisputes = () => {
         { date: "04 Aug 2025", job: "Speaker Review", reviewer: "James Anderson", status: "Pending" },
         { date: "03 Aug 2025", job: "Monitor Review", reviewer: "Olivia Taylor", status: "Pending" },
         { date: "01 Aug 2025", job: "Printer Review", reviewer: "Daniel Lee", status: "Resolved" },
-    ];
+    ]
 
-    const disputes = [...specificData];
-    const statuses = ["Pending", "Resolved"];
-    const jobs = ["Headphone Review", "Keyboard Review", "Mouse Review", "Webcam Review"];
-    const names = ["Chris Green", "Patricia Hall", "Linda Adams", "Barbara Clark"];
+    const disputes: Dispute[] = [...specificData]
+    const statuses: Array<"Pending" | "Resolved"> = ["Pending", "Resolved"]
+    const jobs = ["Headphone Review", "Keyboard Review", "Mouse Review", "Webcam Review"]
+    const names = ["Chris Green", "Patricia Hall", "Linda Adams", "Barbara Clark"]
 
     for (let i = 1; i <= 58; i++) {
         disputes.push({
@@ -48,75 +64,76 @@ const generateDisputes = () => {
             job: jobs[i % jobs.length],
             reviewer: names[i % names.length],
             status: statuses[i % statuses.length],
-        });
+        })
     }
-    return disputes;
-};
+    return disputes
+}
 
-const disputesData = generateDisputes();
+const disputesData: Dispute[] = generateDisputes()
 
 export default function DisputesReviewerTable() {
-    const [filter, setFilter] = useState<"All" | "Pending" | "Resolved">("All");
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [selectedRows, setSelectedRows] = useState<number[]>([]);
-    const [selectedDispute, setSelectedDispute] = useState<any | null>(null)
-    const [dialogOpen, setDialogOpen] = useState(false)
-
-    const handleViewDetail = (dispute: any) => {
-        setSelectedDispute(dispute)
-        setDialogOpen(true)
-    }
+    const [filter, setFilter] = useState<"All" | "Pending" | "Resolved">("All")
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [selectedRows, setSelectedRows] = useState<number[]>([])
+    const router = useRouter()
 
     const { pendingCount, resolvedCount } = useMemo(() => {
         return disputesData.reduce(
             (counts, dispute) => {
-                if (dispute.status === "Pending") counts.pendingCount++;
-                if (dispute.status === "Resolved") counts.resolvedCount++;
-                return counts;
+                if (dispute.status === "Pending") counts.pendingCount++
+                if (dispute.status === "Resolved") counts.resolvedCount++
+                return counts
             },
             { pendingCount: 0, resolvedCount: 0 }
-        );
-    }, []);
+        )
+    }, [])
 
-    const filteredData = useMemo(() => {
-        if (filter === "All") return disputesData;
-        return disputesData.filter((d) => d.status === filter);
-    }, [filter]);
+    const filteredData: Dispute[] = useMemo(() => {
+        if (filter === "All") return disputesData
+        return disputesData.filter((d) => d.status === filter)
+    }, [filter])
 
-    const totalItems = filteredData.length;
-    const totalPages = Math.ceil(totalItems / rowsPerPage);
+    const totalItems = filteredData.length
+    const totalPages = Math.ceil(totalItems / rowsPerPage)
 
-    const paginatedData = useMemo(() => {
-        const start = (currentPage - 1) * rowsPerPage;
-        return filteredData.slice(start, start + rowsPerPage);
-    }, [filteredData, currentPage, rowsPerPage]);
+    const paginatedData: Dispute[] = useMemo(() => {
+        const start = (currentPage - 1) * rowsPerPage
+        return filteredData.slice(start, start + rowsPerPage)
+    }, [filteredData, currentPage, rowsPerPage])
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-            setSelectedRows([]);
+            setCurrentPage(page)
+            setSelectedRows([])
         }
-    };
+    }
 
     const handleSelectAll = (checked: boolean | "indeterminate") => {
         if (checked === true) {
-            const allRowIndexes = paginatedData.map((_, index) => index);
-            setSelectedRows(allRowIndexes);
+            const allRowIndexes = paginatedData.map((_, index) => index)
+            setSelectedRows(allRowIndexes)
         } else {
-            setSelectedRows([]);
+            setSelectedRows([])
         }
-    };
+    }
 
     const handleSelectRow = (index: number, checked: boolean) => {
         if (checked) {
-            setSelectedRows((prev) => [...prev, index]);
+            setSelectedRows((prev) => [...prev, index])
         } else {
-            setSelectedRows((prev) => prev.filter((i) => i !== index));
+            setSelectedRows((prev) => prev.filter((i) => i !== index))
         }
-    };
+    }
 
-    const isAllOnPageSelected = selectedRows.length === paginatedData.length && paginatedData.length > 0;
+    const isAllOnPageSelected =
+        selectedRows.length === paginatedData.length && paginatedData.length > 0
+
+    // ✅ when clicking view detail → navigate
+    const handleViewDetail = (dispute: Dispute) => {
+        const slug = createSlug(dispute)
+        router.push(`/dashboard/reviewer-disputed-job-details/${slug}`)
+    }
 
     return (
         <div>
@@ -125,22 +142,46 @@ export default function DisputesReviewerTable() {
                 <div className="p-1 bg-orange/10 rounded-[8px]">
                     <Button
                         variant={filter === "All" ? "default" : "ghost"}
-                        className={filter === "All" ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer" : "cursor-pointer rounded-md"}
-                        onClick={() => { setFilter("All"); setCurrentPage(1); setSelectedRows([]); }}
+                        className={
+                            filter === "All"
+                                ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer"
+                                : "cursor-pointer rounded-md"
+                        }
+                        onClick={() => {
+                            setFilter("All")
+                            setCurrentPage(1)
+                            setSelectedRows([])
+                        }}
                     >
                         All ({disputesData.length})
                     </Button>
                     <Button
                         variant={filter === "Pending" ? "default" : "ghost"}
-                        className={filter === "Pending" ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer" : "cursor-pointer rounded-md"}
-                        onClick={() => { setFilter("Pending"); setCurrentPage(1); setSelectedRows([]); }}
+                        className={
+                            filter === "Pending"
+                                ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer"
+                                : "cursor-pointer rounded-md"
+                        }
+                        onClick={() => {
+                            setFilter("Pending")
+                            setCurrentPage(1)
+                            setSelectedRows([])
+                        }}
                     >
                         Under Review ({pendingCount})
                     </Button>
                     <Button
                         variant={filter === "Resolved" ? "default" : "ghost"}
-                        className={filter === "Resolved" ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer" : "cursor-pointer rounded-md"}
-                        onClick={() => { setFilter("Resolved"); setCurrentPage(1); setSelectedRows([]); }}
+                        className={
+                            filter === "Resolved"
+                                ? "rounded-md bg-orange text-white hover:bg-orange-600 cursor-pointer"
+                                : "cursor-pointer rounded-md"
+                        }
+                        onClick={() => {
+                            setFilter("Resolved")
+                            setCurrentPage(1)
+                            setSelectedRows([])
+                        }}
                     >
                         Resolved ({resolvedCount})
                     </Button>
@@ -151,7 +192,8 @@ export default function DisputesReviewerTable() {
                     <TableHeader className="bg-muted p-2.5">
                         <TableRow>
                             <TableHead className="w-8">
-                                <Checkbox className="w-4 cursor-pointer"
+                                <Checkbox
+                                    className="w-4 cursor-pointer"
                                     checked={isAllOnPageSelected}
                                     onCheckedChange={handleSelectAll}
                                 />
@@ -168,7 +210,8 @@ export default function DisputesReviewerTable() {
                         {paginatedData.map((item, idx) => (
                             <TableRow key={idx}>
                                 <TableCell className="w-8">
-                                    <Checkbox className="cursor-pointer"
+                                    <Checkbox
+                                        className="cursor-pointer"
                                         checked={selectedRows.includes(idx)}
                                         onCheckedChange={(checked) => handleSelectRow(idx, !!checked)}
                                     />
@@ -176,9 +219,7 @@ export default function DisputesReviewerTable() {
                                 <TableCell className="font-medium text-sm">{item.date}</TableCell>
                                 <TableCell className="font-medium text-sm">{item.reviewer}</TableCell>
                                 <TableCell className="font-medium text-muted-foreground text-xs">
-                                    <span className="border py-[3px] px-2 rounded-[8px]">
-                                        {item.job}
-                                    </span>
+                                    <span className="border py-[3px] px-2 rounded-[8px]">{item.job}</span>
                                 </TableCell>
                                 <TableCell className="font-medium text-muted-foreground text-xs">
                                     <span className="border py-[3px] px-2 rounded-[8px] flex items-center gap-0.5 max-w-max">
@@ -198,7 +239,10 @@ export default function DisputesReviewerTable() {
                                 <TableCell>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" className="h-6 rounded-[4px] w-6 cursor-pointer hover:bg-muted-foreground/10 duration-300 p-0">
+                                            <Button
+                                                variant="ghost"
+                                                className="h-6 rounded-[4px] w-6 cursor-pointer hover:bg-muted-foreground/10 duration-300 p-0"
+                                            >
                                                 <span className="sr-only">Open menu</span>
                                                 <MoreVertical className="h-4 w-4 text-muted-foreground" />
                                             </Button>
@@ -208,7 +252,12 @@ export default function DisputesReviewerTable() {
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>
                                             <DropdownMenuItem className="cursor-pointer">Delete</DropdownMenuItem>
-                                            <DropdownMenuItem className="cursor-pointer">View Details</DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                className="cursor-pointer"
+                                                onClick={() => handleViewDetail(item)}
+                                            >
+                                                View Details
+                                            </DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
@@ -216,14 +265,11 @@ export default function DisputesReviewerTable() {
                         ))}
                     </TableBody>
                 </Table>
-                <DisputeDetailsDialog
-                    open={dialogOpen}
-                    onClose={() => setDialogOpen(false)}
-                    dispute={selectedDispute}
-                />
             </div>
             <div className="flex flex-col md:flex-row items-center justify-between p-4 pb-0 text-sm text-muted-foreground border-t">
-                <span>{selectedRows.length} of {totalItems} row(s) selected.</span>
+                <span>
+                    {selectedRows.length} of {totalItems} row(s) selected.
+                </span>
                 <div className="flex flex-col md:flex-row items-center gap-4">
                     <div className="flex items-center gap-2">
                         <span>Rows per page</span>
@@ -231,9 +277,9 @@ export default function DisputesReviewerTable() {
                             className="border rounded-md px-2 py-1 text-sm cursor-pointer"
                             value={rowsPerPage}
                             onChange={(e) => {
-                                setRowsPerPage(Number(e.target.value));
-                                setCurrentPage(1);
-                                setSelectedRows([]);
+                                setRowsPerPage(Number(e.target.value))
+                                setCurrentPage(1)
+                                setSelectedRows([])
                             }}
                         >
                             <option value="10">10</option>
@@ -241,12 +287,46 @@ export default function DisputesReviewerTable() {
                             <option value="50">50</option>
                         </select>
                     </div>
-                    <span>Page {currentPage} of {totalPages}</span>
+                    <span>
+                        Page {currentPage} of {totalPages}
+                    </span>
                     <div className="flex items-center gap-1">
-                        <Button className="cursor-pointer" variant="outline" size="icon" onClick={() => handlePageChange(1)} disabled={currentPage === 1}><ChevronsLeft className="h-4 w-4" /></Button>
-                        <Button className="cursor-pointer" variant="outline" size="icon" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}><ChevronLeft className="h-4 w-4" /></Button>
-                        <Button className="cursor-pointer" variant="outline" size="icon" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}><ChevronRight className="h-4 w-4" /></Button>
-                        <Button className="cursor-pointer" variant="outline" size="icon" onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}><ChevronsRight className="h-4 w-4" /></Button>
+                        <Button
+                            className="cursor-pointer"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handlePageChange(1)}
+                            disabled={currentPage === 1}
+                        >
+                            <ChevronsLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            className="cursor-pointer"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            className="cursor-pointer"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            className="cursor-pointer"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handlePageChange(totalPages)}
+                            disabled={currentPage === totalPages}
+                        >
+                            <ChevronsRight className="h-4 w-4" />
+                        </Button>
                     </div>
                 </div>
             </div>
