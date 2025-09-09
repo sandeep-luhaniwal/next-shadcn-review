@@ -113,7 +113,7 @@ const BuyerTable = () => {
             </div>
 
             {/* Table */}
-            <div className="rounded-[10px] border shadow-sm overflow-x-auto">
+            <div className="rounded-[10px] lg:max-w-[calc(100vw-320px)] lg:group-has-data-[collapsible=icon]/sidebar-wrapper:max-w-[100vw] min-[1140px]:max-w-[100vw] border shadow-sm overflow-x-auto">
                 <Table className="w-full">
                     <TableHeader className="bg-muted">
                         <TableRow>
