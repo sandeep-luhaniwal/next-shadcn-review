@@ -187,9 +187,10 @@ const ManageAccordion = () => {
                                     Applied {item.applied}
                                 </p>
                             )}
-                            <div className="hover:bg-ring p-1 px-1.5 flex justify-center items-center cursor-pointer transition-all duration-300 rounded-md">
-                                <EllipsisVertical className="w-4 h-4" />
-                            </div>
+                            {section !== "closed" &&(
+                                <div className="hover:bg-ring p-1 px-1.5 flex justify-center items-center cursor-pointer transition-all duration-300 rounded-md">
+                                    <EllipsisVertical className="w-4 h-4" />
+                                </div>)}
                         </div>
                     </div>
                     <p className="text-xs font-normal flex flex-wrap gap-x-4 gap-y-3 text-muted-foreground">

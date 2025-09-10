@@ -65,7 +65,7 @@ const BuyerWalletOverView = () => {
                     </Button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 pt-5 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-5 gap-5">
                 <Card>
                     <CardHeader>
                         <p className="text-muted-foreground text-sm font-medium">Available</p>

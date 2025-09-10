@@ -19,6 +19,7 @@ import { useMemo, useState } from "react"
 import Icons from "../../buyer-disputes/_components/ui-icons"
 import MyJobDisputeRaise from "./my-job-dispute-raise"
 import MyJobSubmittedWork from "./my-job-submitted-work"
+import MyJobLeaveFeedBack from "./my-job-leave-feedback"
 
 const jobs = [
     {
@@ -84,9 +85,11 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
     // Separate states for dialogs
     const [openDisputeDialog, setOpenDisputeDialog] = useState(false)
     const [openSubmitDialog, setOpenSubmitDialog] = useState(false)
+    const [openLeaveFeedback, setOpenLeaveFeedback] = useState(false)
 
     const [selectedDisputeJob, setSelectedDisputeJob] = useState<Job | null>(null)
     const [selectedSubmitJob, setSelectedSubmitJob] = useState<Job | null>(null)
+    const [selectedSubmitFeedback, setSelectedSubmitFeedback] = useState<Job | null>(null)
 
     const [filesByDispute, setFilesByDispute] = useState<{ [key: number]: File[] }>(
         {}
@@ -108,6 +111,10 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
     const handleSubmitWork = (job: Job) => {
         setSelectedSubmitJob(job)
         setOpenSubmitDialog(true)
+    }
+    const handleLeaveFeedBack = (job: Job) => {
+        setSelectedSubmitFeedback(job)
+        setOpenLeaveFeedback(true)
     }
 
     const filteredJobs = useMemo(() => {
@@ -195,6 +202,7 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
                                     <Button
                                         variant="secondary"
                                         className="sm:w-auto lg:px-3 xl:px-4 bg-orange/10 cursor-pointer"
+                                        onClick={() => handleLeaveFeedBack(job)}
                                     >
                                         Leave Feedback
                                     </Button>
@@ -218,7 +226,32 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
                     </Card>
                 ))}
             </div>
-
+            <MyJobLeaveFeedBack
+                open={openLeaveFeedback}
+                onClose={() => {
+                    setOpenLeaveFeedback(false)
+                    setSelectedSubmitFeedback(null)
+                }}
+                job={selectedSubmitFeedback}
+                selectedFiles={
+                    selectedSubmitFeedback
+                        ? filesBySubmit[selectedSubmitFeedback.id] || []
+                        : []
+                }
+                onFileChange={(files) =>
+                    selectedSubmitFeedback &&
+                    handleFileChangeSubmit(selectedSubmitFeedback.id, files)
+                }
+                coverMessage={
+                    selectedSubmitFeedback
+                        ? messagesBySubmit[selectedSubmitFeedback.id] || ""
+                        : ""
+                }
+                onMessageChange={(msg) =>
+                    selectedSubmitFeedback &&
+                    handleMessageChangeSubmit(selectedSubmitFeedback.id, msg)
+                }
+            />
             {/* Dispute Dialog */}
             <MyJobDisputeRaise
                 open={openDisputeDialog}

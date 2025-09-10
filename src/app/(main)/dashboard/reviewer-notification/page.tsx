@@ -66,7 +66,7 @@ export default function ReviewerNotification() {
                 <Card key={i} className="lg:py-5">
                     <CardHeader
                         className={notif.title === "Fix Needed" ? "cursor-pointer" : ""}
-                        onClick={() => notif.title === "Fix Needed" && handleNotificationClick(notif)}
+                        onClick={() => handleNotificationClick(notif)}
                     >
                         <div className="flex justify-between items-center">
                             <p className="border px-2 py-1 bg-[#F5F5F5] font-medium text-xs rounded-[4px] text-muted-foreground">
