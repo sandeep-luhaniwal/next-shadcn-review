@@ -36,7 +36,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
   const [sidebarVariant, sidebarCollapsible, contentLayout] = await Promise.all([
     getPreference<SidebarVariant>("sidebar_variant", SIDEBAR_VARIANT_VALUES, "inset"),
     getPreference<SidebarCollapsible>("sidebar_collapsible", SIDEBAR_COLLAPSIBLE_VALUES, "icon"),
-    getPreference<ContentLayout>("content_layout", CONTENT_LAYOUT_VALUES, "centered"),
+    getPreference<ContentLayout>("content_layout", CONTENT_LAYOUT_VALUES, "full-width"),
   ]);
 
   const layoutPreferences = {
@@ -52,7 +52,6 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
         <SidebarInset
           data-content-layout={contentLayout}
           className={cn(
-            "data-[content-layout=centered]:!mx-auto data-[content-layout=centered]:max-w-screen-2xl",
             "[background-image:var(--layout-gradient)] overflow-clip",
             "max-[113rem]:peer-data-[variant=inset]:!mr-2 min-[101rem]:peer-data-[variant=inset]:peer-data-[state=collapsed]:!mr-auto",
           )}

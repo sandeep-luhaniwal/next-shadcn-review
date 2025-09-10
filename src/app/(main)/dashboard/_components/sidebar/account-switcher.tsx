@@ -2,20 +2,21 @@
 
 import { useState } from "react";
 
-import { BadgeCheck, Bell, CreditCard, LogOut } from "lucide-react";
+import { CircleUser, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { cn, getInitials } from "@/lib/utils";
-import { useUser } from "../user-type-context";
 import { useRouter } from "next/navigation";
+import { useUser } from "../user-type-context";
+import Link from "next/link";
 
 export function AccountSwitcher({
   users,
@@ -69,7 +70,7 @@ export function AccountSwitcher({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="cursor-pointer" onClick={handleAccountClick}>
-            <BadgeCheck />
+            <CircleUser />
             Account
           </DropdownMenuItem>
           {/* <DropdownMenuItem>
@@ -83,8 +84,10 @@ export function AccountSwitcher({
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
-          <LogOut />
-          Log out
+          <Link href={"/"} className="flex gap-2 items-center">
+            <LogOut />
+            Log out
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

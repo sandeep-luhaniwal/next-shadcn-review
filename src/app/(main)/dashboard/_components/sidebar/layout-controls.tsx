@@ -148,13 +148,14 @@ export function LayoutControls(props: LayoutControlsProps) {
                 size="sm"
                 variant="outline"
                 type="single"
-                value={contentLayout}
-                onValueChange={(value) => handleValueChange("content_layout", value)}
+                value="full-width" // force default
+                onValueChange={() => { }} // ab change karne ki zarurat hi nahi
               >
-                <ToggleGroupItem className="text-xs" value="centered" aria-label="Toggle centered">
-                  Centered
-                </ToggleGroupItem>
-                <ToggleGroupItem className="text-xs" value="full-width" aria-label="Toggle full-width">
+                <ToggleGroupItem
+                  className="text-xs"
+                  value="full-width"
+                  aria-label="Toggle full-width"
+                >
                   Full Width
                 </ToggleGroupItem>
               </ToggleGroup>

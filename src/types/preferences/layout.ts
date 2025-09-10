@@ -17,7 +17,6 @@ export type SidebarCollapsible = (typeof SIDEBAR_COLLAPSIBLE_VALUES)[number];
 
 // Content Layout
 export const CONTENT_LAYOUT_OPTIONS = [
-  { label: "Centered", value: "centered" },
   { label: "Full Width", value: "full-width" },
 ] as const;
 export const CONTENT_LAYOUT_VALUES = CONTENT_LAYOUT_OPTIONS.map((v) => v.value);

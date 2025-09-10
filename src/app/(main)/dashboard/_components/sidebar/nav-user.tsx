@@ -20,6 +20,7 @@ import {
 import { cn, getInitials } from "@/lib/utils";
 import { useUser } from "../user-type-context";  // 👈 context import
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function NavUser({
   user,
@@ -105,8 +106,10 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer">
-              <LogOut />
-              Log out
+              <Link href={"/"} className="flex gap-2 items-center">
+                <LogOut />
+                Log out
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
