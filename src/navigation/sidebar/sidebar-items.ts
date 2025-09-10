@@ -64,7 +64,7 @@ export const sidebarItems: NavGroup[] = [
         subItems: [
 
           {
-            title: "Buyer Wallet",
+            title: "Wallet",
             url: "/dashboard/buyer-wallet",
             icon: Banknote,
           },
@@ -114,7 +114,7 @@ export const sidebarItems: NavGroup[] = [
         icon: Wallet,
         subItems: [
           {
-            title: "Reviewer Wallet",
+            title: "Wallet",
             url: "/dashboard/reviewer-wallet",
             icon: Banknote,
           },

@@ -11,6 +11,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import JobPreview from "./job-preview";
 
+// ✅ Toast
+import { useToast } from "@/components/ui/use-toast";
+
 // ✅ Form libs
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -38,10 +41,12 @@ const formSchema = z.object({
 });
 
 export function Basicinformation() {
-    const [trustScore, setTrustScore] = useState<number[]>([1.0]);
+    const [trustScore, setTrustScore] = useState<number[]>([0.0]);
     const [autoApprove, setAutoApprove] = useState<boolean>(false);
     const [bulkApplications, setBulkApplications] = useState<boolean>(true);
     const [allowNewUsers, setAllowNewUsers] = useState<boolean>(false);
+
+    const { toast } = useToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -60,6 +65,31 @@ export function Basicinformation() {
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
         console.log("✅ Submitted Data:", data);
+
+        // ✅ Success Toast
+        toast({
+            title: "Job Posted 🎉",
+            description: "Your job has been posted successfully!",
+        });
+
+        // ✅ Reset Form
+        form.reset({
+            title: "",
+            type: "",
+            asin: "",
+            requirements: "",
+            keywords: "",
+            budget: "",
+            reviews: "",
+            buyback: "",
+            deadline: "",
+        });
+
+        // ✅ Reset extra states
+        setTrustScore([1.0]);
+        setAutoApprove(false);
+        setBulkApplications(true);
+        setAllowNewUsers(false);
     };
 
     return (
@@ -287,7 +317,7 @@ export function Basicinformation() {
                                 <div>
                                     <Label>Minimum Trust Score: {trustScore}</Label>
                                     <Slider
-                                        defaultValue={[1]}
+                                        defaultValue={[0]}
                                         max={5}
                                         min={0}
                                         step={0.5}

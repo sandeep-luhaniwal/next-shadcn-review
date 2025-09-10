@@ -22,6 +22,7 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreVertical } 
 import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import Icons from "./ui-icons"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 // ✅ Strongly typed interface
 interface Dispute {
@@ -73,7 +74,7 @@ const disputesData: Dispute[] = generateDisputes()
 
 export default function DisputesReviewerTable() {
     const [filter, setFilter] = useState<"All" | "Pending" | "Resolved">("All")
-    const [rowsPerPage, setRowsPerPage] = useState<number>(10)
+    const [rowsPerPage, setRowsPerPage] = useState<number>(20)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedRows, setSelectedRows] = useState<number[]>([])
     const router = useRouter()
@@ -273,19 +274,29 @@ export default function DisputesReviewerTable() {
                 <div className="flex flex-col md:flex-row items-center gap-4">
                     <div className="flex items-center gap-2">
                         <span>Rows per page</span>
-                        <select
-                            className="border rounded-md px-2 py-1 text-sm cursor-pointer"
-                            value={rowsPerPage}
-                            onChange={(e) => {
-                                setRowsPerPage(Number(e.target.value))
+                        <Select
+                            value={String(rowsPerPage)}
+                            onValueChange={(val) => {
+                                setRowsPerPage(Number(val))
                                 setCurrentPage(1)
                                 setSelectedRows([])
                             }}
                         >
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
+                            <SelectTrigger className="w-[75px] cursor-pointer">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem className="cursor-pointer" value="20">
+                                    20
+                                </SelectItem>
+                                <SelectItem className="cursor-pointer" value="30">
+                                    30
+                                </SelectItem>
+                                <SelectItem className="cursor-pointer" value="50">
+                                    50
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <span>
                         Page {currentPage} of {totalPages}

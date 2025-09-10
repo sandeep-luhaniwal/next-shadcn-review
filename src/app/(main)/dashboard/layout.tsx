@@ -9,25 +9,24 @@ import { users } from "@/data/users";
 import { cn } from "@/lib/utils";
 import { getPreference } from "@/server/server-actions";
 import {
-  SIDEBAR_VARIANT_VALUES,
-  SIDEBAR_COLLAPSIBLE_VALUES,
   CONTENT_LAYOUT_VALUES,
-  type SidebarVariant,
-  type SidebarCollapsible,
+  SIDEBAR_COLLAPSIBLE_VALUES,
+  SIDEBAR_VARIANT_VALUES,
   type ContentLayout,
+  type SidebarCollapsible,
+  type SidebarVariant,
 } from "@/types/preferences/layout";
 
 import { AccountSwitcher } from "./_components/sidebar/account-switcher";
 import { LayoutControls } from "./_components/sidebar/layout-controls";
 import { SearchDialog } from "./_components/sidebar/search-dialog";
-import { ThemeSwitcher } from "./_components/sidebar/theme-switcher";
 import { SwitchTypeUser } from "./_components/sidebar/switch-type-user";
+import { ThemeSwitcher } from "./_components/sidebar/theme-switcher";
 
-import { UserTypeProvider } from "./_components/user-type-context";
-import { Bell } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import { Toaster } from "@/components/ui/toaster";
 import WalletData from "./_components/sidebar/wallet-data";
+import { UserTypeProvider } from "./_components/user-type-context";
+import NotificationNav from "./_components/notification-all";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
   const cookieStore = await cookies();
@@ -66,10 +65,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="relative">
-                  <Bell className="h-4 w-4 cursor-pointer" />
-                  <Badge className="rounded-full absolute cursor-pointer -top-1.5 -end-0.5 p-0 h-3 w-3 text-[8px]" variant="destructive">1</Badge>
-                </div>
+                <NotificationNav />
                 <WalletData />
                 <SwitchTypeUser />
                 <LayoutControls {...layoutPreferences} />
@@ -79,6 +75,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
             </div>
           </header>
           <div className="h-full p-4 md:p-6">{children}</div>
+          <Toaster />
         </SidebarInset>
       </SidebarProvider>
     </UserTypeProvider>

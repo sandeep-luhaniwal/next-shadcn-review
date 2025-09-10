@@ -33,7 +33,7 @@ export function UserTypeProvider({ children }: { children: ReactNode }) {
     "/dashboard/buyer-post-a-job",
     "/dashboard/buyer-manage-a-job",
     "/dashboard/buyer-wallet",
-    "/dashboard/billing",
+    "/dashboard/buyer-billing",
     "/dashboard/buyer-disputes",
     "/dashboard/buyer-notification",
   ];
@@ -42,9 +42,11 @@ export function UserTypeProvider({ children }: { children: ReactNode }) {
   const reviewerRoutes = [
     "/dashboard/reviewer",
     "/dashboard/reviewer-find-jobs",
+    "/dashboard/reviewer-my-job",
+    "/dashboard/reviewer-wallet",
+    "/dashboard/reviewer-billing",
     "/dashboard/reviewer-disputes",
-    "/dashboard/reivewer-wallet",
-    "/dashboard/reivewer-billing",
+    "/dashboard/reviewer-notification",
   ];
 
   // Custom setter → localStorage + state

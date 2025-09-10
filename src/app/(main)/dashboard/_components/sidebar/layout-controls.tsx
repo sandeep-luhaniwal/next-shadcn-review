@@ -62,12 +62,12 @@ export function LayoutControls(props: LayoutControlsProps) {
             <div className="space-y-1">
               <Label className="text-xs font-medium">Preset</Label>
               <Select value={themePreset} onValueChange={(value) => handleValueChange("theme_preset", value)}>
-                <SelectTrigger size="sm" className="w-full text-xs">
+                <SelectTrigger size="sm" className="w-full text-xs cursor-pointer">
                   <SelectValue placeholder="Preset" />
                 </SelectTrigger>
                 <SelectContent>
                   {THEME_PRESET_OPTIONS.map((preset) => (
-                    <SelectItem key={preset.value} className="text-xs" value={preset.value}>
+                    <SelectItem key={preset.value} className="text-xs cursor-pointer" value={preset.value}>
                       <span
                         className="size-2.5 rounded-full"
                         style={{
@@ -91,10 +91,10 @@ export function LayoutControls(props: LayoutControlsProps) {
                 value={themeMode}
                 onValueChange={(value) => handleValueChange("theme_mode", value)}
               >
-                <ToggleGroupItem className="text-xs" value="light" aria-label="Toggle inset">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="light" aria-label="Toggle inset">
                   Light
                 </ToggleGroupItem>
-                <ToggleGroupItem className="text-xs" value="dark" aria-label="Toggle sidebar">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="dark" aria-label="Toggle sidebar">
                   Dark
                 </ToggleGroupItem>
               </ToggleGroup>
@@ -110,13 +110,13 @@ export function LayoutControls(props: LayoutControlsProps) {
                 value={variant}
                 onValueChange={(value) => handleValueChange("sidebar_variant", value)}
               >
-                <ToggleGroupItem className="text-xs" value="inset" aria-label="Toggle inset">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="inset" aria-label="Toggle inset">
                   Inset
                 </ToggleGroupItem>
-                <ToggleGroupItem className="text-xs" value="sidebar" aria-label="Toggle sidebar">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="sidebar" aria-label="Toggle sidebar">
                   Sidebar
                 </ToggleGroupItem>
-                <ToggleGroupItem className="text-xs" value="floating" aria-label="Toggle floating">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="floating" aria-label="Toggle floating">
                   Floating
                 </ToggleGroupItem>
               </ToggleGroup>
@@ -132,16 +132,16 @@ export function LayoutControls(props: LayoutControlsProps) {
                 value={collapsible}
                 onValueChange={(value) => handleValueChange("sidebar_collapsible", value)}
               >
-                <ToggleGroupItem className="text-xs" value="icon" aria-label="Toggle icon">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="icon" aria-label="Toggle icon">
                   Icon
                 </ToggleGroupItem>
-                <ToggleGroupItem className="text-xs" value="offcanvas" aria-label="Toggle offcanvas">
+                <ToggleGroupItem className="text-xs cursor-pointer" value="offcanvas" aria-label="Toggle offcanvas">
                   OffCanvas
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
 
-            <div className="space-y-1">
+            {/* <div className="space-y-1">
               <Label className="text-xs font-medium">Content Layout</Label>
               <ToggleGroup
                 className="w-full"
@@ -159,7 +159,7 @@ export function LayoutControls(props: LayoutControlsProps) {
                   Full Width
                 </ToggleGroupItem>
               </ToggleGroup>
-            </div>
+            </div> */}
           </div>
         </div>
       </PopoverContent>

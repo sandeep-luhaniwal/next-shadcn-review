@@ -18,7 +18,7 @@ export default function FindJobs() {
     const [budget, setBudget] = useState([5, 1000])
     const [reviews, setReviews] = useState([1, 100])
     const [deadline, setDeadline] = useState(14)
-  
+
 
     return (
         <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6">
@@ -67,8 +67,8 @@ export default function FindJobs() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem className="cursor-pointer" value="all">All types</SelectItem>
-                            <SelectItem className="cursor-pointer" value="digital">Digital</SelectItem>
-                            <SelectItem className="cursor-pointer" value="physical">Physical</SelectItem>
+                            <SelectItem className="cursor-pointer" value="digital">Book</SelectItem>
+                            <SelectItem className="cursor-pointer" value="physical">Product</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -149,7 +149,7 @@ export default function FindJobs() {
             </aside>
 
             {/* Jobs */}
-         <JobDetails/>
+            <JobDetails />
         </div>
     )
 }

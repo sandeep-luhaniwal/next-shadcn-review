@@ -71,7 +71,7 @@ const statusIcons: Record<string, string> = {
 
 const BuyerTable = () => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [rowsPerPage, setRowsPerPage] = useState(20)
     const [selectedRows, setSelectedRows] = useState<number[]>([])
 
     const totalItems = jobsData.length
@@ -235,8 +235,8 @@ const BuyerTable = () => {
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem className="cursor-pointer" value="10">10</SelectItem>
                                 <SelectItem className="cursor-pointer" value="20">20</SelectItem>
+                                <SelectItem className="cursor-pointer" value="30">30</SelectItem>
                                 <SelectItem className="cursor-pointer" value="50">50</SelectItem>
                             </SelectContent>
                         </Select>
