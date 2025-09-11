@@ -62,13 +62,13 @@ const MyJobSubmittedWork: React.FC<ApplyJobProps> = ({
             <Dialog open={open} onOpenChange={onClose}>
                 <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto rounded-xl">
                     <DialogHeader>
-                        <DialogTitle className="font-semibold text-lg text-left">
+                        <DialogTitle className="font-semibold text-lg !text-left">
                             Submit Your Work
                         </DialogTitle>
                         <div className="bg-orange/10 rounded-md p-3 md:p-3.5 mt-3 text-sm">
-                            <p className="font-semibold text-sm">Requirements:</p>
-                            <p className="text-xs flex gap-2 pt-2">
-                                <CircleCheckBig className="text-green-500" />
+                            <p className="font-semibold text-sm !text-left">Requirements:</p>
+                            <p className="text-xs flex gap-2 pt-2 !text-left">
+                                <span className="w-4 h-4"><CircleCheckBig className="text-green-500 w-3.5 h-3.5 mt-1" /></span>
                                 Looking for an honest, detailed review of this popular self-help book.
                                 Must be at least 500 words and include specific examples.
                             </p>
