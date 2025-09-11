@@ -25,6 +25,7 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import ManageJobDisputeRaise from "./manage-job-dispute-rasie";
+import ImageSHowFull from "./image-show-full";
 
 // Type for each job
 type Job = {
@@ -52,6 +53,9 @@ const ManageAccordion = () => {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
     const [filesByJob, setFilesByJob] = useState<Record<number, File[]>>({});
     const [messagesByJob, setMessagesByJob] = useState<Record<number, string>>({});
+    const pageSize = 5;
+
+    // Added more data to "open" section to demonstrate pagination
     const data: JobSections = {
         open: [
             {
@@ -75,6 +79,50 @@ const ManageAccordion = () => {
                 applied: "8/28/2025",
                 message:
                     "I’d love to work on this project and provide detailed insights on your book.",
+            },
+            {
+                id: 101,
+                image: '/images/png/people-img.png',
+                name: "David Miller",
+                rating: 4.6,
+                jobs: 33,
+                success: "96%",
+                applied: "9/02/2025",
+                message:
+                    "Looking forward to the opportunity to collaborate on your book review.",
+            },
+            {
+                id: 102,
+                image: '/images/png/people-img.png',
+                name: "Jessica Chen",
+                rating: 4.9,
+                jobs: 50,
+                success: "99%",
+                applied: "9/03/2025",
+                message:
+                    "My expertise in your book's genre makes me a great fit for this project.",
+            },
+            {
+                id: 103,
+                image: '/images/png/people-img.png',
+                name: "Brian Rodriguez",
+                rating: 4.4,
+                jobs: 18,
+                success: "89%",
+                applied: "9/04/2025",
+                message:
+                    "I can provide a detailed and honest review. Ready to start immediately.",
+            },
+            {
+                id: 104,
+                image: '/images/png/people-img.png',
+                name: "Laura Wilson",
+                rating: 4.8,
+                jobs: 28,
+                success: "97%",
+                applied: "9/05/2025",
+                message:
+                    "Excited about this project. I have a keen eye for detail and storytelling.",
             },
         ],
         active: [
@@ -148,7 +196,7 @@ const ManageAccordion = () => {
         ],
     };
 
-    // index state per section
+    // index state per section (stores the current page index)
     const [indices, setIndices] = useState<Record<string, number>>({
         open: 0,
         active: 0,
@@ -160,20 +208,17 @@ const ManageAccordion = () => {
     const handlePrev = (section: keyof JobSections) => {
         setIndices((prev) => ({
             ...prev,
-            [section]:
-                prev[section] === 0 ? data[section].length - 1 : prev[section] - 1,
+            [section]: prev[section] > 0 ? prev[section] - 1 : Math.ceil(data[section].length / pageSize) - 1,
         }));
     };
 
     const handleNext = (section: keyof JobSections) => {
         setIndices((prev) => ({
             ...prev,
-            [section]:
-                prev[section] === data[section].length - 1 ? 0 : prev[section] + 1,
+            [section]: prev[section] < Math.ceil(data[section].length / pageSize) - 1 ? prev[section] + 1 : 0,
         }));
     };
 
-    // Section specific card content
     const renderCardContent = (item: Job, section: keyof JobSections) => {
         return (
             <div className="flex flex-col sm:flex-row gap-3 w-full">
@@ -187,7 +232,7 @@ const ManageAccordion = () => {
                                     Applied {item.applied}
                                 </p>
                             )}
-                            {section !== "closed" &&(
+                            {section !== "closed" && (
                                 <div className="hover:bg-ring p-1 px-1.5 flex justify-center items-center cursor-pointer transition-all duration-300 rounded-md">
                                     <EllipsisVertical className="w-4 h-4" />
                                 </div>)}
@@ -206,14 +251,8 @@ const ManageAccordion = () => {
                             </p>
                         )}
                         {(section === "submitted" || section === "dispute") && (
-                            <div className="flex gap-2 flex-wrap">
-                                <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                                <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                                <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                                <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                            </div>
+                            <ImageSHowFull />
                         )}
-                        {/* Only "open" section has Accept/Decline buttons */}
                         {section === "open" && (
                             <div className="flex gap-2">
                                 <Button size="sm" className="bg-button-orange cursor-pointer" variant="default">
@@ -249,25 +288,10 @@ const ManageAccordion = () => {
                                 <Button size="sm" className="bg-button-orange cursor-pointer" variant="default">
                                     Dispute In Progress...
                                 </Button>
-
                             </div>
                         )}
                     </div>
                 </div>
-                <ManageJobDisputeRaise
-                    open={openDialog}
-                    onClose={() => setOpenDialog(false)}
-                    job={selectedJob}
-                    selectedFiles={selectedJob ? filesByJob[selectedJob.id] || [] : []}
-                    onFileChange={(files) =>
-                        selectedJob && setFilesByJob((prev) => ({ ...prev, [selectedJob.id]: files }))
-                    }
-                    coverMessage={selectedJob ? messagesByJob[selectedJob.id] || "" : ""}
-                    onMessageChange={(msg) =>
-                        selectedJob && setMessagesByJob((prev) => ({ ...prev, [selectedJob.id]: msg }))
-                    }
-                />
-
             </div>
         );
     };
@@ -311,13 +335,16 @@ const ManageAccordion = () => {
     const renderSection = (section: keyof JobSections) => {
         const items = data[section];
         const currentIndex = indices[section];
+        const totalPages = Math.ceil(items.length / pageSize);
+        const paginatedItems = items.slice(currentIndex * pageSize, (currentIndex + 1) * pageSize);
+
         const { title, desc, icon, color } = sectionLabels[section](items.length);
 
         return (
             <AccordionItem value={section} className="border-none mt-3 rounded-[10px] overflow-clip">
                 <div className="flex items-center w-full justify-between">
-                    <div className={`${color} dark:bg-black ps-4 w-full grid grid-cols-1 md:grid-cols-[75%_25%] xl:md:grid-cols-[83%_17%] md:justify-between py-2`}>
-                        <AccordionTrigger className="flex w-full items-center justify-between group">
+                    <div className={`${color} dark:bg-black ps-4 w-full py-2`}>
+                        <AccordionTrigger className={`flex w-full items-center justify-between group`}>
                             <div className="flex gap-2 md:items-center">
                                 <div className="flex gap-2 md:gap-3">
                                     <ChevronRight
@@ -332,64 +359,50 @@ const ManageAccordion = () => {
                                     <span className="text-xs">{desc}</span>
                                 )}
                             </div>
-
-                            {/* Arrow icon that rotates based on accordion state */}
-
                         </AccordionTrigger>
-
-
-                        {items.length >= 1 && (
-                            <div className="flex w-full max-w-max justify-end ms-auto items-center gap-2 pr-4">
-                                <p className="text-sm font-medium">
-                                    {currentIndex + 1} of {items.length}
-                                </p>
-                                <Button
-                                    className="cursor-pointer"
-                                    size="icon"
-                                    variant="outline"
-                                    disabled={items.length === 1} // disable if only 1 item
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handlePrev(section);
-                                    }}
-                                >
-                                    <ChevronLeft className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                    className="cursor-pointer"
-                                    size="icon"
-                                    variant="outline"
-                                    disabled={items.length === 1} // disable if only 1 item
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleNext(section);
-                                    }}
-                                >
-                                    <ChevronRight className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        )}
                     </div>
                 </div>
 
-                <AccordionContent className="!pb-0">
-                    {items.length === 0 ? (
-                        <p className="text-muted-foreground">Not Found</p>
-                    ) : items.length === 1 ? (
-                        <Card key={items[0].id} className="mt-2 !p-0">
-                            <CardContent className="p-4 space-y-2">
-                                {renderCardContent(items[0], section)}
-                            </CardContent>
-                        </Card>
+                <AccordionContent className="!pb-0 px-4 pt-4">
+                    {paginatedItems.length === 0 ? (
+                        <p className="text-muted-foreground text-center py-4">Not Found</p>
                     ) : (
-                        <Card
-                            key={items[currentIndex].id}
-                            className="mt-2 !p-0 transition-all duration-300"
-                        >
-                            <CardContent className="p-4 space-y-2">
-                                {renderCardContent(items[currentIndex], section)}
-                            </CardContent>
-                        </Card>
+                        paginatedItems.map((item) => (
+                            <Card key={item.id} className="mb-2 last:mb-0 !p-0">
+                                <CardContent className="p-4">
+                                    {renderCardContent(item, section)}
+                                </CardContent>
+                            </Card>
+                        ))
+                    )}
+                    {totalPages > 1 && (
+                        <div className="flex w-full pt-4 max-w-max justify-end ms-auto items-center gap-2">
+                            <p className="text-sm font-medium">
+                                Page {currentIndex + 1} of {totalPages}
+                            </p>
+                            <Button
+                                className="cursor-pointer"
+                                size="icon"
+                                variant="outline"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePrev(section);
+                                }}
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                size="icon"
+                                variant="outline"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleNext(section);
+                                }}
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     )}
                 </AccordionContent>
             </AccordionItem>
@@ -397,13 +410,30 @@ const ManageAccordion = () => {
     };
 
     return (
-        <Accordion type="single" defaultValue="open" collapsible className="w-full">
-            {renderSection("open")}
-            {renderSection("active")}
-            {renderSection("submitted")}
-            {renderSection("dispute")}
-            {renderSection("closed")}
-        </Accordion>
+        <>
+            <Accordion type="single" defaultValue="open" collapsible className="w-full">
+                {renderSection("open")}
+                {renderSection("active")}
+                {renderSection("submitted")}
+                {renderSection("dispute")}
+                {renderSection("closed")}
+            </Accordion>
+
+            {/* ManageJobDisputeRaise Dialog */}
+            <ManageJobDisputeRaise
+                open={openDialog}
+                onClose={() => setOpenDialog(false)}
+                job={selectedJob}
+                selectedFiles={selectedJob ? filesByJob[selectedJob.id] || [] : []}
+                onFileChange={(files) =>
+                    selectedJob && setFilesByJob((prev) => ({ ...prev, [selectedJob.id]: files }))
+                }
+                coverMessage={selectedJob ? messagesByJob[selectedJob.id] || "" : ""}
+                onMessageChange={(msg) =>
+                    selectedJob && setMessagesByJob((prev) => ({ ...prev, [selectedJob.id]: msg }))
+                }
+            />
+        </>
     );
 };
 

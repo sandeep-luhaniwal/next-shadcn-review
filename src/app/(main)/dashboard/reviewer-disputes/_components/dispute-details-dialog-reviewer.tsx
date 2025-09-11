@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import ImageShowFull from "../../buyer-manage-a-job/_components/image-show-full"
 
 export interface Dispute {
   id?: string
@@ -58,30 +59,7 @@ export function DisputeDetailsDialog({
         </div>
         <div>
           <p className="font-semibold mb-2">Attachments</p>
-          <div className="flex gap-3 flex-wrap">
-
-            <Image
-              width={73}
-              height={56}
-              src={'/images/png/detailsdispute.png'}
-              alt={`attachment`}
-              className="h-[56px] w-[73px] rounded-md border object-cover"
-            />
-            <Image
-              width={73}
-              height={56}
-              src={'/images/png/detailsdispute.png'}
-              alt={`attachment`}
-              className="h-[56px] w-[73px] rounded-md border object-cover"
-            />
-            <Image
-              width={73}
-              height={56}
-              src={'/images/png/detailsdispute.png'}
-              alt={`attachment`}
-              className="h-[56px] w-[73px] rounded-md border object-cover"
-            />
-          </div>
+          <ImageShowFull />
         </div>
         {/* Attachments */}
         {/* {dispute.attachments && dispute.attachments.length > 0 && (

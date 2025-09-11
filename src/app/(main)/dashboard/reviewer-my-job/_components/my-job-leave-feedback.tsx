@@ -1,31 +1,34 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Star } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Job = {
-    id: number
-    title: string
-    price: number
-    deadline: number
-    slots: number
-}
+    id: number;
+    title: string;
+    price: number;
+    deadline: number;
+    slots: number;
+};
 
 interface ApplyJobProps {
-    open: boolean
-    onClose: () => void
-    job: Job | null
-    selectedFiles: File[]
-    onFileChange: (files: File[]) => void
-    coverMessage: string
-    onMessageChange: (message: string) => void
+    open: boolean;
+    onClose: () => void;
+    job: Job | null;
+    selectedFiles: File[];
+    onFileChange: (files: File[]) => void;
+    coverMessage: string;
+    onMessageChange: (message: string) => void;
 }
 
 const MyJobLeaveFeedBack: React.FC<ApplyJobProps> = ({
@@ -35,7 +38,9 @@ const MyJobLeaveFeedBack: React.FC<ApplyJobProps> = ({
     coverMessage,
     onMessageChange,
 }) => {
-    if (!job) return null
+    const [rating, setRating] = useState<number>(0);
+
+    if (!job) return null;
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
@@ -45,6 +50,25 @@ const MyJobLeaveFeedBack: React.FC<ApplyJobProps> = ({
                         Leave Feedback for "{job.title}"
                     </DialogTitle>
                 </DialogHeader>
+
+                {/* Rating Stars */}
+                <div className="flex gap-1 mb-4">
+                    {Array.from({ length: 5 }).map((_, index) => {
+                        const starValue = index + 1;
+                        return (
+                            <Star
+                                key={starValue}
+                                className={cn(
+                                    "w-6 h-6 cursor-pointer transition-colors",
+                                    starValue <= rating
+                                        ? "fill-yellow-400 text-yellow-400"
+                                        : "text-gray-300"
+                                )}
+                                onClick={() => setRating(starValue)}
+                            />
+                        );
+                    })}
+                </div>
 
                 {/* Textarea */}
                 <div className="space-y-2">
@@ -59,15 +83,22 @@ const MyJobLeaveFeedBack: React.FC<ApplyJobProps> = ({
                 </div>
 
                 <DialogFooter>
-                    <div className="flex justify-end">
-                        <Button className="bg-button-orange flex gap-2 items-center cursor-pointer">
+                    <div className="flex justify-end w-full">
+                        <Button
+                            className="bg-button-orange flex gap-2 items-center cursor-pointer"
+                            onClick={() => {
+                                console.log("Submitted rating:", rating);
+                                console.log("Feedback:", coverMessage);
+                                onClose();
+                            }}
+                        >
                             Submit Feedback
                         </Button>
                     </div>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};
 
-export default MyJobLeaveFeedBack
+export default MyJobLeaveFeedBack;

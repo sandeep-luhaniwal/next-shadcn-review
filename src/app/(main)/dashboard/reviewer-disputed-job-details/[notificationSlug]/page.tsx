@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Image from "next/image"
+import ImageShowFull from "../../buyer-manage-a-job/_components/image-show-full"
 
 export default function ReviewerDisputedJobDetailsPage() {
     return (
@@ -54,12 +55,7 @@ export default function ReviewerDisputedJobDetailsPage() {
                         <p className="text-sm font-medium pt-3 pb-1">
                             Attachments
                         </p>
-                        <div className="flex gap-2 flex-wrap">
-                            <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                            <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                            <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                            <Image width={73} height={56} alt="summbitted inag" src={'/images/webp/hero-dashboard.webp'} className="border rounded" />
-                        </div>
+                        <ImageShowFull />
                     </div>
 
                     {/* Actions */}
