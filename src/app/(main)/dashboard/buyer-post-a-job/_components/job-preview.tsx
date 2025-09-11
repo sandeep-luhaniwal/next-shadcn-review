@@ -10,7 +10,7 @@ const JobPreview: React.FC = () => {
                 <CardHeader className="pb-2 gap-4">
                     <CardTitle className='text-sm flex gap-2 items-center font-normal'>
                         <Info className="h-4 w-4" />
-                        Job Preview
+                        Preview
                     </CardTitle>
                     <CardContent className="space-y-4 !px-0">
                         <div className='flex flex-col gap-0.5'>

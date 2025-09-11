@@ -267,77 +267,79 @@ export default function DisputesReviewerTable() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-between p-4 pb-0 text-sm text-muted-foreground border-t">
-                <span>
-                    {selectedRows.length} of {totalItems} row(s) selected.
-                </span>
-                <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <span>Rows per page</span>
-                        <Select
-                            value={String(rowsPerPage)}
-                            onValueChange={(val) => {
-                                setRowsPerPage(Number(val))
-                                setCurrentPage(1)
-                                setSelectedRows([])
-                            }}
-                        >
-                            <SelectTrigger className="w-[75px] cursor-pointer">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem className="cursor-pointer" value="20">
-                                    20
-                                </SelectItem>
-                                <SelectItem className="cursor-pointer" value="30">
-                                    30
-                                </SelectItem>
-                                <SelectItem className="cursor-pointer" value="50">
-                                    50
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+            <div className="bottom-0 w-full pb-4 left-0 absolute">
+                <div className="flex flex-col md:flex-row items-center justify-between p-4 pb-0 text-sm text-muted-foreground border-t">
                     <span>
-                        Page {currentPage} of {totalPages}
+                        {selectedRows.length} of {totalItems} row(s) selected.
                     </span>
-                    <div className="flex items-center gap-1">
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handlePageChange(1)}
-                            disabled={currentPage === 1}
-                        >
-                            <ChevronsLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handlePageChange(totalPages)}
-                            disabled={currentPage === totalPages}
-                        >
-                            <ChevronsRight className="h-4 w-4" />
-                        </Button>
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <span>Rows per page</span>
+                            <Select
+                                value={String(rowsPerPage)}
+                                onValueChange={(val) => {
+                                    setRowsPerPage(Number(val))
+                                    setCurrentPage(1)
+                                    setSelectedRows([])
+                                }}
+                            >
+                                <SelectTrigger className="w-[75px] cursor-pointer">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem className="cursor-pointer" value="20">
+                                        20
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="30">
+                                        30
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="50">
+                                        50
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <span>
+                            Page {currentPage} of {totalPages}
+                        </span>
+                        <div className="flex items-center gap-1">
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handlePageChange(1)}
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronsLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handlePageChange(totalPages)}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronsRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

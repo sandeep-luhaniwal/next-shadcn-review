@@ -29,11 +29,11 @@ import {
 
 // ✅ Validation schema
 const formSchema = z.object({
-    title: z.string().min(3, { message: "Job title must be at least 3 characters." }),
+    title: z.string().min(3, { message: "title must be at least 3 characters." }),
     type: z.string().min(1, { message: "Please select a type." }),
     asin: z.string().min(10, { message: "ASIN must be at least 10 characters." }),
-    requirements: z.string().min(50, { message: "Requirements must be at least 50 characters." }),
-    keywords: z.string().min(3, { message: "Please enter at least 1 keyword." }),
+    requirements: z.string().optional(),
+    keywords: z.string().optional(),
     budget: z.string().min(1, { message: "Budget is required." }),
     reviews: z.string().min(1, { message: "Number of reviews is required." }),
     buyback: z.string().optional(),
@@ -103,13 +103,13 @@ export function Basicinformation() {
                                 <CardTitle className="font-semibold text-lg">Basic Information</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                {/* Job Title */}
+                                {/* Title */}
                                 <FormField
                                     control={form.control}
                                     name="title"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Job Title *</FormLabel>
+                                            <FormLabel>Title *</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     id="title"
@@ -147,25 +147,28 @@ export function Basicinformation() {
                                 />
 
                                 {/* ASIN */}
-                                <FormField
-                                    control={form.control}
-                                    name="asin"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>ASIN *</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    id="asin"
-                                                    className="!bg-gray-white-off"
-                                                    placeholder="e.g., B0792HCFTG"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                <div className="flex flex-col gap-0.5">
+                                    <FormField
+                                        control={form.control}
+                                        name="asin"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>ASIN (Amazon Standard Identification Number) *</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        id="asin"
+                                                        className="!bg-gray-white-off"
+                                                        placeholder="e.g., B0792HCFTG"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <p className="text-[10px] text-muted-foreground">Find this on the product's Amazon page in the product details section</p>
 
+                                </div>
                                 {/* Requirements */}
                                 <FormField
                                     control={form.control}
@@ -177,7 +180,9 @@ export function Basicinformation() {
                                                 <Textarea
                                                     id="requirements"
                                                     className="h-[84px] !bg-gray-white-off resize-none"
-                                                    placeholder="Minimum 100 words review..."
+                                                    placeholder="Please read the full product/book carefully. Write an honest, original review in your own words. Include at least 3 key points 
+you liked or didn't like. Do not copy from other sources. Minimum 100 words. Submit only after you've completed the review 
+fully."
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -197,7 +202,7 @@ export function Basicinformation() {
                                                 <Input
                                                     id="keywords"
                                                     className="!bg-gray-white-off"
-                                                    placeholder="Enter product-related keywords"
+                                                    placeholder="Enter product-related keywords that buyers can use to find your item on Amazon. Use words from your title or closely related search terms."
                                                     {...field}
                                                 />
                                             </FormControl>

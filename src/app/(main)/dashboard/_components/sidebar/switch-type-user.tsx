@@ -34,7 +34,6 @@ export function SwitchTypeUser() {
 
     return (
         <div className="flex items-center gap-2">
-            <p className="hidden lg:flex text-sm md:text-base text-foreground/50">Mode:</p>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button

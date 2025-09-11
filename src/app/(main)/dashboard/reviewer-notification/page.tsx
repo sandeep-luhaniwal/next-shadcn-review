@@ -59,7 +59,7 @@ export default function ReviewerNotification() {
 
 
     return (
-        <div className="flex flex-col gap-4 md:gap-6">
+        <div className="flex flex-col gap-4 md:gap-6 mb-44 sm:mb-16">
             <p className="text-base font-semibold">Needs your attention ({totalItems})</p>
 
             {paginatedData.map((notif, i) => (
@@ -82,61 +82,63 @@ export default function ReviewerNotification() {
             ))}
 
             {/* Pagination */}
-            <div className="flex flex-col md:flex-row items-center justify-between p-4 pb-0 text-sm text-muted-foreground border-t">
-                <span>
-                    Showing {(currentPage - 1) * rowsPerPage + 1} - {Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems}
-                </span>
-                <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <span>Rows per page</span>
-                        <Select value={String(rowsPerPage)} onValueChange={(val) => { setRowsPerPage(Number(val)); setCurrentPage(1); }}>
-                            <SelectTrigger className="w-[75px] cursor-pointer"><SelectValue /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem className="cursor-pointer" value="4">4</SelectItem>
-                                <SelectItem className="cursor-pointer" value="6">6</SelectItem>
-                                <SelectItem className="cursor-pointer" value="8">8</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <span>Page {currentPage} of {totalPages}</span>
+            <div className="bottom-0 w-full pb-4 left-0 absolute">
+                <div className="flex flex-col md:flex-row items-center justify-between p-4 pb-0 text-sm text-muted-foreground border-t">
+                    <span>
+                        Showing {(currentPage - 1) * rowsPerPage + 1} - {Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems}
+                    </span>
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <span>Rows per page</span>
+                            <Select value={String(rowsPerPage)} onValueChange={(val) => { setRowsPerPage(Number(val)); setCurrentPage(1); }}>
+                                <SelectTrigger className="w-[75px] cursor-pointer"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem className="cursor-pointer" value="4">4</SelectItem>
+                                    <SelectItem className="cursor-pointer" value="6">6</SelectItem>
+                                    <SelectItem className="cursor-pointer" value="8">8</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <span>Page {currentPage} of {totalPages}</span>
 
-                    <div className="flex items-center gap-1">
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handleFirst}
-                            disabled={currentPage === 1}
-                        >
-                            <ChevronsLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handlePrev}
-                            disabled={currentPage === 1}
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handleNext}
-                            disabled={currentPage === totalPages}
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handleLast}
-                            disabled={currentPage === totalPages}
-                        >
-                            <ChevronsRight className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center gap-1">
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleFirst}
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronsLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handlePrev}
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleNext}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleLast}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronsRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
