@@ -26,6 +26,8 @@ import Image from "next/image";
 import { useState } from "react";
 import ManageJobDisputeRaise from "./manage-job-dispute-rasie";
 import ImageSHowFull from "./image-show-full";
+import AllRatingData from "./all-reating-data";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 // Type for each job
 type Job = {
@@ -45,7 +47,7 @@ type JobSections = {
     active: Job[];
     submitted: Job[];
     dispute: Job[];
-    closed: Job[];
+    complete: Job[];
 };
 
 const ManageAccordion = () => {
@@ -55,6 +57,8 @@ const ManageAccordion = () => {
     const [messagesByJob, setMessagesByJob] = useState<Record<number, string>>({});
     const pageSize = 5;
 
+    const [ratingDialogOpen, setRatingDialogOpen] = useState(false);
+    const [selectedJobForRating, setSelectedJobForRating] = useState<Job | null>(null);
     // Added more data to "open" section to demonstrate pagination
     const data: JobSections = {
         open: [
@@ -182,7 +186,7 @@ const ManageAccordion = () => {
                 message: "Submitted xdsfkjlhdfsjl work, waiting for your approval.",
             },
         ],
-        closed: [
+        complete: [
             {
                 id: 6,
                 image: '/images/png/people-img.png',
@@ -191,7 +195,7 @@ const ManageAccordion = () => {
                 jobs: 18,
                 success: "88%",
                 applied: "8/15/2025",
-                message: "This job is closed.",
+                message: "This job is complete.",
             },
         ],
     };
@@ -202,7 +206,7 @@ const ManageAccordion = () => {
         active: 0,
         submitted: 0,
         dispute: 0,
-        closed: 0,
+        complete: 0,
     });
 
     const handlePrev = (section: keyof JobSections) => {
@@ -232,14 +236,18 @@ const ManageAccordion = () => {
                                     Applied {item.applied}
                                 </p>
                             )}
-                            {section !== "closed" && (
+                            {section !== "complete" && (
                                 <div className="hover:bg-ring p-1 px-1.5 flex justify-center items-center cursor-pointer transition-all duration-300 rounded-md">
                                     <EllipsisVertical className="w-4 h-4" />
                                 </div>)}
                         </div>
                     </div>
                     <p className="text-xs font-normal flex flex-wrap gap-x-4 gap-y-3 text-muted-foreground">
-                        <span>⭐ {item.rating} </span>
+                        <span className="cursor-pointer"
+                            onClick={() => {
+                                setSelectedJobForRating(item);
+                                setRatingDialogOpen(true);
+                            }}>⭐ {item.rating} </span>
                         <span>{item.jobs} jobs </span>
                         <span>{item.success} success</span>
                     </p>
@@ -292,7 +300,11 @@ const ManageAccordion = () => {
                         )}
                     </div>
                 </div>
+
+
+
             </div>
+
         );
     };
 
@@ -324,10 +336,10 @@ const ManageAccordion = () => {
             desc: "Jobs with disputes in progress.",
             icon: <CircleX className="h-3 w-3 md:h-4 md:w-4 text-[#E7000B]" />,
         }),
-        closed: (count) => ({
-            title: `Closed (${count})`,
+        complete: (count) => ({
+            title: `Complete (${count})`,
             color: "bg-[#F8F2FE]",
-            desc: "Jobs that are finished or closed.",
+            desc: "Jobs that are finished or complete.",
             icon: <ShieldX className="h-3 w-3 md:h-4 md:w-4 text-[#6B00D7]" />,
         }),
     };
@@ -411,14 +423,18 @@ const ManageAccordion = () => {
 
     return (
         <>
-            <Accordion type="single" defaultValue="open" collapsible className="w-full">
+            <Accordion type="single" collapsible className="w-full">
                 {renderSection("open")}
                 {renderSection("active")}
                 {renderSection("submitted")}
                 {renderSection("dispute")}
-                {renderSection("closed")}
+                {renderSection("complete")}
             </Accordion>
-
+            <AllRatingData
+                job={selectedJobForRating}
+                open={ratingDialogOpen}
+                onOpenChange={setRatingDialogOpen}
+            />
             {/* ManageJobDisputeRaise Dialog */}
             <ManageJobDisputeRaise
                 open={openDialog}

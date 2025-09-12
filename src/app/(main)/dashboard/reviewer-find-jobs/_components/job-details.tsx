@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select"
 import { Minus, Plus, ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from "lucide-react"
 import ApplyJob from "./apply-job"
+import { Badge } from "@/components/ui/badge"
 
 const defaultMessage =
     "Hi! I'm a professional Reviews with experience in providing thorough, constructive feedback. I would be happy to work on your project and deliver a comprehensive review within your timeline."
@@ -185,15 +186,20 @@ const JobDetails = () => {
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm font-normal text-foreground/80">{job.desc}</p>
-                            <div className="flex flex-wrap items-center gap-x-3 gap-y-3 py-6 text-sm text-muted-foreground">
-                                {job.author && <span>👤 {job.author} ({job.rating}★)</span>}
-                                {job.price && <span>💲 {job.price}/review</span>}
-                                {job.reviews && <span>📝 {job.reviews} reviews</span>}
-                                {job.slots && <span>👥 {job.slots} slots left</span>}
-                                {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
-                                {job.productPrice && <span>📦 Product Price: ${job.productPrice}</span>}
+                            <div className="flex flex-col gap-3 py-6">
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
+                                    {job.author && <span>👤 {job.author} ({job.rating}★)</span>}
+                                    {job.price && <span>💲 {job.price}/review</span>}
+                                    {job.reviews && <span>📝 {job.reviews} reviews</span>}
+                                    {job.slots && <span>👥 {job.slots} slots left</span>}
+                                    {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
+                                    {job.productPrice && <span>📦 Product Price: ${job.productPrice}</span>}
+                                </div>
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+                                    <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                    <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                </div>
                             </div>
-
                             <div className="flex flex-col sm:flex-row gap-2 sm:justify-between">
                                 <div className="flex items-center gap-2">
                                     <Button

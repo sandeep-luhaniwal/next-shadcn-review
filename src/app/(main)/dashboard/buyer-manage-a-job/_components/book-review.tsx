@@ -12,7 +12,6 @@ const BookReview = () => {
                 <span className="flex text-muted-foreground text-sm items-center gap-1">📝 10 reviews</span>
                 <span className="flex text-muted-foreground text-sm items-center gap-1">💰 Total Budget: $50</span>
                 <span className="flex text-muted-foreground text-sm items-center gap-1">📦 21 Aug 2025</span>
-
             </div>
         </div>
     )

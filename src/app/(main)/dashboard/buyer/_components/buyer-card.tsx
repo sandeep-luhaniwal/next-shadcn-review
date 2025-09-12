@@ -1,6 +1,7 @@
 import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Briefcase, Users, Shield } from "lucide-react"
+import Link from "next/link"
 
 const BuyerCard = () => {
     return (
@@ -32,29 +33,29 @@ const BuyerCard = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                        <div className="flex flex-col bg-card-orange px-4 py-3 rounded-lg flex-1">
+                        <Link href={"/dashboard/buyer-manage-a-job"} className="flex flex-col bg-card-orange px-4 py-3 rounded-lg flex-1">
                             <div className="w-7 h-7 flex justify-center items-center bg-orange rounded-[8px]">
                                 <Briefcase className="h-3 w-3 text-white" />
                             </div>
                             <span className="font-bold text-base leading-160 pt-2.5 pb-0.5">113</span>
                             <span className="text-[10px] font-semibold text-muted-foreground">Active Jobs</span>
-                        </div>
+                        </Link>
 
-                        <div className="flex flex-col bg-card-orange px-4 py-3 rounded-lg flex-1">
+                        <Link href={"/dashboard/buyer-manage-a-job"} className="flex flex-col bg-card-orange px-4 py-3 rounded-lg flex-1">
                             <div className="w-7 h-7 flex justify-center items-center bg-orange rounded-[8px]">
                                 <Users className="h-3 w-3 text-white" />
                             </div>
                             <span className="font-bold text-base leading-160 pt-2.5 pb-0.5">23</span>
                             <span className="text-[10px] font-semibold text-muted-foreground">Applicants</span>
-                        </div>
+                        </Link>
 
-                        <div className="flex flex-col bg-card-orange px-4 py-3 rounded-lg flex-1">
+                        <Link href={"/dashboard/buyer-disputes"} className="flex flex-col bg-card-orange px-4 py-3 rounded-lg flex-1">
                             <div className="w-7 h-7 flex justify-center items-center bg-orange rounded-[8px]">
                                 <Shield className="h-3 w-3 text-white" />
                             </div>
                             <span className="font-bold text-base leading-160 pt-2.5 pb-0.5">12</span>
                             <span className="text-[10px] font-semibold text-muted-foreground">Disputes Open</span>
-                        </div>
+                        </Link>
                     </div>
                 </CardContent>
             </Card>

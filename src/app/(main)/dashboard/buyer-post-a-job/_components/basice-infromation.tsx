@@ -175,7 +175,7 @@ export function Basicinformation() {
                                     name="requirements"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Requirements *</FormLabel>
+                                            <FormLabel>Requirements</FormLabel>
                                             <FormControl>
                                                 <Textarea
                                                     id="requirements"
@@ -197,7 +197,7 @@ fully."
                                     name="keywords"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Keywords *</FormLabel>
+                                            <FormLabel>Keywords</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     id="keywords"
@@ -267,7 +267,7 @@ fully."
                                     name="buyback"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Buyback Price + Taxes ($)*</FormLabel>
+                                            <FormLabel>Buyback Price + Taxes ($)</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     id="buyback"

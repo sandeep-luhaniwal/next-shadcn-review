@@ -20,6 +20,7 @@ import Icons from "../../buyer-disputes/_components/ui-icons"
 import MyJobDisputeRaise from "./my-job-dispute-raise"
 import MyJobSubmittedWork from "./my-job-submitted-work"
 import MyJobLeaveFeedBack from "./my-job-leave-feedback"
+import { Badge } from "@/components/ui/badge"
 
 const jobs = [
     {
@@ -181,19 +182,25 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
                                 <p className="text-sm font-normal text-foreground/80">
                                     {job.desc}
                                 </p>
-                                <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
-                                    {job.author && (
-                                        <span>
-                                            👤 {job.author} ({job.rating}★)
-                                        </span>
-                                    )}
-                                    {job.price && <span>💲 {job.price}/review</span>}
-                                    {job.reviews && <span>📝 {job.reviews} reviews</span>}
-                                    {job.slots && <span>👥 {job.slots} slots left</span>}
-                                    {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
-                                    {job.productPrice && (
-                                        <span>📦 Product Price: ${job.productPrice}</span>
-                                    )}
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
+                                        {job.author && (
+                                            <span>
+                                                👤 {job.author} ({job.rating}★)
+                                            </span>
+                                        )}
+                                        {job.price && <span>💲 {job.price}/review</span>}
+                                        {job.reviews && <span>📝 {job.reviews} reviews</span>}
+                                        {job.slots && <span>👥 {job.slots} slots left</span>}
+                                        {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
+                                        {job.productPrice && (
+                                            <span>📦 Product Price: ${job.productPrice}</span>
+                                        )}
+                                    </div>
+                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+                                        <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                        <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                    </div>
                                 </div>
                             </div>
 

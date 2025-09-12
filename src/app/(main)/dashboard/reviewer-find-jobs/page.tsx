@@ -57,6 +57,18 @@ export default function FindJobs() {
                     onValueChange={setBudget}
                     className="my-4 cursor-pointer"
                 />
+                <Label className="text-sm font-medium">
+                    Price (${budget[0]} - ${budget[1]})
+                </Label>
+                <Slider
+                    defaultValue={budget}
+                    max={1000}
+                    min={5}
+                    step={5}
+                    ornagecolorline
+                    onValueChange={setBudget}
+                    className="my-4 cursor-pointer"
+                />
 
                 {/* Job Type */}
                 <div className="border-y py-4">
