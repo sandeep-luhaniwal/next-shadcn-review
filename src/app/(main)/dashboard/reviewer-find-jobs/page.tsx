@@ -16,6 +16,7 @@ import JobDetails from "./_components/job-details"
 
 export default function FindJobs() {
     const [budget, setBudget] = useState([5, 1000])
+    const [budgetProduct, setBudgetProduct] = useState([5, 1000])
     const [reviews, setReviews] = useState([1, 100])
     const [deadline, setDeadline] = useState(14)
 
@@ -58,15 +59,15 @@ export default function FindJobs() {
                     className="my-4 cursor-pointer"
                 />
                 <Label className="text-sm font-medium">
-                    Price (${budget[0]} - ${budget[1]})
+                    Product Price (${budgetProduct[0]} - ${budgetProduct[1]})
                 </Label>
                 <Slider
-                    defaultValue={budget}
+                    defaultValue={budgetProduct}
                     max={1000}
                     min={5}
                     step={5}
                     ornagecolorline
-                    onValueChange={setBudget}
+                    onValueChange={setBudgetProduct}
                     className="my-4 cursor-pointer"
                 />
 

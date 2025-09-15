@@ -38,18 +38,15 @@ const ImageShowFull = () => {
 
             {/* Dialog */}
             <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
-                <DialogContent className="sm:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
-                    <DialogHeader>
-                        <DialogTitle className="!text-left">Image Preview</DialogTitle>
-                    </DialogHeader>
+                <DialogContent className="sm:max-w-[700px] max-h-[90vh] flex flex-col justify-center">
                     {previewImage && (
                         <div className="flex justify-center items-center w-full h-full">
                             <Image
-                                width={500}
-                                height={500}
+                                width={600}
+                                height={600}
                                 src={previewImage}
                                 alt="full-preview"
-                                className="max-w-full max-h-[80vh] object-contain"
+                                className="max-w-full max-h-[90vh] object-contain"
                             />
                         </div>
                     )}
