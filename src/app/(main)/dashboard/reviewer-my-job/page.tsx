@@ -14,13 +14,13 @@ import { useState } from "react"
 import MyJobDetails from "./_components/my-job-details"
 
 export default function ReviewerMyJobs() {
-    const [budget, setBudget] = useState([5, 1000])
     const [reviews, setReviews] = useState([1, 100])
     const [deadline, setDeadline] = useState(14)
 
-    // ✅ Search state yaha rakha
+    // ✅ Search + Status state
     const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
+    const [status, setStatus] = useState("All")
 
     return (
         <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6 mb-40 md:mb-12">
@@ -68,34 +68,38 @@ export default function ReviewerMyJobs() {
                     />
                 </div>
 
-                {/* Sort */}
+                {/* ✅ Status Filter */}
                 <div className="pt-4">
                     <Label className="text-sm leading-160 font-medium">Status</Label>
-                    <Select defaultValue="InProgress">
+                    <Select
+                        value={status}
+                        onValueChange={(val) => {
+                            setStatus(val)
+                            setCurrentPage(1)
+                        }}
+                    >
                         <SelectTrigger className="w-full mt-1 cursor-pointer">
-                            <SelectValue placeholder="Select sort" />
+                            <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem className="cursor-pointer" value="InProgress">
-                                In Progress
-                            </SelectItem>
-                            <SelectItem className="cursor-pointer" value="pending">
-                                Pending
-                            </SelectItem>
-                            <SelectItem className="cursor-pointer" value="Submitted">
-                                Submitted
-                            </SelectItem>
-
+                            <SelectItem value="All">All</SelectItem>
+                            <SelectItem value="Applied">Applied</SelectItem>
+                            <SelectItem value="InProgress">In Progress</SelectItem>
+                            <SelectItem value="Submitted">Submitted</SelectItem>
+                            <SelectItem value="InRevision">In Revision</SelectItem>
+                            <SelectItem value="Completed">Completed</SelectItem>
+                            <SelectItem value="Disputed">Disputed</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
             </aside>
 
-            {/* Jobs list me searchTerm aur currentPage bheja */}
+            {/* ✅ Jobs list me status bhi bhejna */}
             <MyJobDetails
                 searchTerm={searchTerm}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
+                status={status}
             />
         </div>
     )

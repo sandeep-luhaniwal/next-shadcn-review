@@ -169,6 +169,18 @@ const ManageAccordion = () => {
                 message: "Submitted work, waiting for your approval.",
             },
         ],
+        complete: [
+            {
+                id: 6,
+                image: '/images/png/people-img.png',
+                name: "Chris Brown",
+                rating: 4.3,
+                jobs: 18,
+                success: "88%",
+                applied: "8/15/2025",
+                message: "This job is complete.",
+            },
+        ],
         dispute: [
             {
                 id: 7,
@@ -189,18 +201,6 @@ const ManageAccordion = () => {
                 success: "98%",
                 applied: "8/30/2025",
                 message: "Submitted xdsfkjlhdfsjl work, waiting for your approval.",
-            },
-        ],
-        complete: [
-            {
-                id: 6,
-                image: '/images/png/people-img.png',
-                name: "Chris Brown",
-                rating: 4.3,
-                jobs: 18,
-                success: "88%",
-                applied: "8/15/2025",
-                message: "This job is complete.",
             },
         ],
     };
@@ -326,34 +326,39 @@ const ManageAccordion = () => {
         (count: number) => { title: string; color: string; desc?: string; icon: JSX.Element }
     > = {
         open: (count) => ({
-            title: `Open (${count})`,
+            title: `Open (or Hiring) (${count})`,
             color: "bg-[#FEFCE8]",
-            desc: "Job posted, reviewers can apply (waiting for acceptance).",
-            icon: <Clock3 className="h-3 w-3 md:h-4 md:w-4 text-[#D08700]" />,
+            // desc: "Job posted, reviewers can apply (waiting for acceptance).",
+            desc: "Job created, reviewers can apply. Buyer sees applicants filling slots.",
+            icon: < Clock3 className="h-3 w-3 md:h-4 md:w-4 text-[#D08700]" />,
         }),
         active: (count) => ({
-            title: `Active (${count})`,
+            title: `In Progress (${count})`,
             color: "bg-[#EFF6FF]",
-            desc: "Jobs that are currently in progress.",
+            // desc: "Jobs that are currently in progress.",
+            desc: "Buyer accepted reviewer(s), work ongoing.",
             icon: <Activity className="h-3 w-3 md:h-4 md:w-4 text-[#155DFC]" />,
         }),
         submitted: (count) => ({
             title: `Submitted (${count})`,
             color: "bg-[#F0FDF4]",
-            desc: "Jobs submitted by reviewers, waiting for approval.",
+            // desc: "Jobs submitted by reviewers, waiting for approval.",
+            desc: "Reviewer delivered work, buyer must review.",
             icon: <CircleCheckBig className="h-3 w-3 md:h-4 md:w-4 text-[#00A63E]" />,
         }),
-        dispute: (count) => ({
-            title: `Dispute (${count})`,
-            color: "bg-[#FEF2F2]",
-            desc: "Jobs with disputes in progress.",
-            icon: <CircleX className="h-3 w-3 md:h-4 md:w-4 text-[#E7000B]" />,
-        }),
         complete: (count) => ({
-            title: `Complete (${count})`,
+            title: `Completed (${count})`,
             color: "bg-[#F8F2FE]",
-            desc: "Jobs that are finished or complete.",
+            // desc: "Jobs that are finished or complete.",
+            desc: "Buyer accepted final work, funds released.",
             icon: <ShieldX className="h-3 w-3 md:h-4 md:w-4 text-[#6B00D7]" />,
+        }),
+        dispute: (count) => ({
+            title: `Disputed (${count})`,
+            color: "bg-[#FEF2F2]",
+            // desc: "Jobs with disputes in progress.",
+            desc: "Buyer escalated for resolution.",
+            icon: <CircleX className="h-3 w-3 md:h-4 md:w-4 text-[#E7000B]" />,
         }),
     };
 

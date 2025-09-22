@@ -48,7 +48,6 @@ const generateWallet = () => {
 }
 
 
-
 const disputesData = generateWallet()
 
 export default function ReviewerWalletTable() {

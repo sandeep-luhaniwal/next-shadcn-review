@@ -13,20 +13,65 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { useState } from "react"
 import JobDetails from "./_components/job-details"
+const countries = [
+    { code: "US", label: "United States", url: "amazon.com" },
+    { code: "CA", label: "Canada", url: "amazon.ca" },
+    { code: "MX", label: "Mexico", url: "amazon.com.mx" },
+    { code: "UK", label: "United Kingdom", url: "amazon.co.uk" },
+    { code: "DE", label: "Germany", url: "amazon.de" },
+    { code: "FR", label: "France", url: "amazon.fr" },
+    { code: "IT", label: "Italy", url: "amazon.it" },
+    { code: "ES", label: "Spain", url: "amazon.es" },
+    { code: "NL", label: "Netherlands", url: "amazon.nl" },
+    { code: "SE", label: "Sweden", url: "amazon.se" },
+    { code: "PL", label: "Poland", url: "amazon.pl" },
+    { code: "JP", label: "Japan", url: "amazon.co.jp" },
+    { code: "IN", label: "India", url: "amazon.in" },
+    { code: "SG", label: "Singapore", url: "amazon.sg" },
+    { code: "AU", label: "Australia", url: "amazon.com.au" },
+]
 
 export default function FindJobs() {
     const [budget, setBudget] = useState([5, 1000])
     const [budgetProduct, setBudgetProduct] = useState([5, 1000])
     const [reviews, setReviews] = useState([1, 100])
     const [deadline, setDeadline] = useState(14)
-
+    const [selectedCountry, setSelectedCountry] = useState<string>("")
 
     return (
         <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6 mb-40 md:mb-12">
             {/* Filters */}
             <aside className="w-full lg:w-1/3 xl:w-[27%] lg:border-r -mb-4 md:-mb-16 bg-white dark:bg-background p-4 xl:ps-10 pt-0 lg:block">
                 <h2 className="font-semibold text-lg mb-2">Filters</h2>
-
+                <div className="mb-4">
+                    <Label className="text-sm leading-160 font-medium">Country</Label>
+                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                        <SelectTrigger className="w-full mt-1 cursor-pointer">
+                            <SelectValue placeholder="Select country" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {countries.map((c) => (
+                                <SelectItem
+                                    className="cursor-pointer"
+                                    key={c.code}
+                                    value={c.code}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src={`https://flagcdn.com/24x18/${c.code.toLowerCase()}.png`}
+                                            alt={c.label}
+                                            className="w-5 h-4 object-cover rounded-sm border"
+                                        />
+                                        <span>{c.label}</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            ({c.url})
+                                        </span>
+                                    </div>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
                 {/* Sort */}
                 <div className="mb-4">
                     <Label className="text-sm leading-160 font-medium">Sort By</Label>

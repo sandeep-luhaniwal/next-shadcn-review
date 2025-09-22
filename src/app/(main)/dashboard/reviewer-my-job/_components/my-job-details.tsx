@@ -35,6 +35,7 @@ const jobs = [
         deadline: 7,
         budget: 135,
         productPrice: 20,
+        status: "InProgress",
     },
     {
         id: 2,
@@ -47,6 +48,7 @@ const jobs = [
         slots: 25,
         deadline: 7,
         budget: 135,
+        status: "InRevision",
     },
     {
         id: 3,
@@ -59,6 +61,7 @@ const jobs = [
         slots: 10,
         deadline: 10,
         budget: 600,
+        status: "Disputed",
     },
     {
         id: 4,
@@ -71,6 +74,7 @@ const jobs = [
         slots: 10,
         deadline: 10,
         budget: 600,
+        status: "Applied",
     },
     {
         id: 5,
@@ -83,6 +87,7 @@ const jobs = [
         slots: 10,
         deadline: 10,
         budget: 600,
+        status: "Completed",
     },
 ]
 
@@ -90,6 +95,7 @@ interface MyJobDetailsProps {
     searchTerm: string
     currentPage: number
     setCurrentPage: (page: number) => void
+    status: string
 }
 
 type Job = {
@@ -104,6 +110,7 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
     searchTerm,
     currentPage,
     setCurrentPage,
+    status,
 }) => {
     const [rowsPerPage, setRowsPerPage] = useState(4)
 
@@ -143,12 +150,17 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
     }
 
     const filteredJobs = useMemo(() => {
-        return jobs.filter(
-            (job) =>
+        return jobs.filter((job) => {
+            const matchesSearch =
                 job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 job.desc.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-    }, [searchTerm])
+
+            const matchesStatus =
+                status === "All" ? true : job.status === status
+
+            return matchesSearch && matchesStatus
+        })
+    }, [searchTerm, status])
 
     const indexOfLastJob = currentPage * rowsPerPage
     const indexOfFirstJob = indexOfLastJob - rowsPerPage
@@ -183,79 +195,87 @@ const MyJobDetails: React.FC<MyJobDetailsProps> = ({
             </div>
 
             <div className="space-y-6">
-                {currentJobs.map((job) => (
-                    <Card key={job.id} className="shadow-sm gap-0">
-                        <CardHeader className="gap-0">
-                            <CardTitle className="flex flex-col xl:flex-row xl:justify-between gap-2 xl:items-center">
-                                <span className="text-sm order-2 xl:order-1 font-semibold">
-                                    {job.title}
-                                </span>
-                                <div className="flex justify-between gap-2 order-1 xl:order-2 xl:justify-end">
-                                    <span className="border text-nowrap font-medium text-muted-foreground text-xs py-[3px] capitalize max-w-max items-center flex gap-1 px-2 rounded-[8px]">
-                                        <Icons icon="pending" />
-                                        In Progress
+                {currentJobs.length > 0 ? (
+                    currentJobs.map((job) => (
+                        <Card key={job.id} className="shadow-sm gap-0">
+                            <CardHeader className="gap-0">
+                                <CardTitle className="flex flex-col xl:flex-row xl:justify-between gap-2 xl:items-center">
+                                    <span className="text-sm order-2 xl:order-1 font-semibold">
+                                        {job.title}
                                     </span>
-                                    <span className="text-sm text-ring text-nowrap">
-                                        {job.deadline} days
-                                    </span>
-                                </div>
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="py-6 flex flex-col gap-2">
-                                <p className="text-sm font-normal text-foreground/80">
-                                    {job.desc}
-                                </p>
-                                <div className="flex flex-col gap-3">
-                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
-                                        {job.author && (
-                                            <span>
-                                                👤 {job.author} ({job.rating}★)
-                                            </span>
-                                        )}
-                                        {job.price && <span>💲 {job.price}/review</span>}
-                                        {job.reviews && <span>📝 {job.reviews} reviews</span>}
-                                        {job.slots && <span>👥 {job.slots} slots left</span>}
-                                        {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
-                                        {job.productPrice && (
-                                            <span>📦 Product Price: ${job.productPrice}</span>
-                                        )}
+                                    <div className="flex justify-between gap-2 order-1 xl:order-2 xl:justify-end">
+                                        <span className="border text-nowrap font-medium text-muted-foreground text-xs py-[3px] capitalize max-w-max items-center flex gap-1 px-2 rounded-[8px]">
+                                            <Icons icon={`${job.status === "InProgress" ? "pending" : job.status === "Disputed" ? "disputed" : job.status === "Applied" ? "done" : job.status === "InRevision" ? "chagnereduest" : "resolved"}`} />
+                                            {job.status.replace(/([A-Z])/g, " $1")}
+                                        </span>
+                                        <span className="text-sm text-ring text-nowrap">
+                                            {job.deadline} days
+                                        </span>
                                     </div>
-                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
-                                        <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
-                                        <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="py-6 flex flex-col gap-2">
+                                    <p className="text-sm font-normal text-foreground/80">
+                                        {job.desc}
+                                    </p>
+                                    <div className="flex flex-col gap-3">
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
+                                            {job.author && (
+                                                <span>
+                                                    👤 {job.author} ({job.rating}★)
+                                                </span>
+                                            )}
+                                            {job.price && <span>💲 {job.price}/review</span>}
+                                            {job.reviews && <span>📝 {job.reviews} reviews</span>}
+                                            {job.slots && <span>👥 {job.slots} slots left</span>}
+                                            {job.budget && <span>💰 Total Budget: ${job.budget}</span>}
+                                            {job.productPrice && (
+                                                <span>📦 Product Price: ${job.productPrice}</span>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+                                            <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                            <Badge className="bg-button-orange/20 text-foreground">Book</Badge>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="flex flex-col sm:flex-row gap-2 sm:justify-between">
-                                <div className="grid grid-cols-2 sm:flex items-center gap-2">
+                                <div className="flex flex-col sm:flex-row gap-2 sm:justify-between">
+                                    <div className="grid grid-cols-2 sm:flex items-center gap-2">
+                                        <Button
+                                            variant="secondary"
+                                            className="sm:w-auto lg:px-3 xl:px-4 bg-orange/10 cursor-pointer"
+                                            onClick={() => handleLeaveFeedBack(job)}
+                                        >
+                                            Leave Feedback
+                                        </Button>
+                                        <Button
+                                            className="sm:w-auto lg:px-3 xl:px-4 bg-button-orange cursor-pointer"
+                                            onClick={() => handleSubmitWork(job)}
+                                        >
+                                            Submit Work
+                                        </Button>
+                                    </div>
+
                                     <Button
                                         variant="secondary"
-                                        className="sm:w-auto lg:px-3 xl:px-4 bg-orange/10 cursor-pointer"
-                                        onClick={() => handleLeaveFeedBack(job)}
+                                        className="w-full lg:px-3 xl:px-4 bg-orange/10 sm:w-auto cursor-pointer"
+                                        onClick={() => handleDispute(job)}
                                     >
-                                        Leave Feedback
-                                    </Button>
-                                    <Button
-                                        className="sm:w-auto lg:px-3 xl:px-4 bg-button-orange cursor-pointer"
-                                        onClick={() => handleSubmitWork(job)}
-                                    >
-                                        Submit Work
+                                        Raise a Dispute
                                     </Button>
                                 </div>
-
-                                <Button
-                                    variant="secondary"
-                                    className="w-full lg:px-3 xl:px-4 bg-orange/10 sm:w-auto cursor-pointer"
-                                    onClick={() => handleDispute(job)}
-                                >
-                                    Raise a Dispute
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                            </CardContent>
+                        </Card>
+                    ))
+                ) : (
+                    <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+                        <Icons icon="empty" className="h-10 w-10 mb-3 opacity-70" />
+                        <p className="text-lg font-medium">No jobs found</p>
+                        <p className="text-sm">Try adjusting your filters or search</p>
+                    </div>
+                )}
             </div>
             <MyJobLeaveFeedBack
                 open={openLeaveFeedback}
