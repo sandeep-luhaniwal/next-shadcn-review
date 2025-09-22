@@ -10,38 +10,7 @@ import { Card, CardHeader } from "@/components/ui/card"
 const BuyerWalletOverView = () => {
     return (
         <div>
-            <p className="font-semibold text-base mb-4">Wallet Overview</p>
-
-            <div className="flex flex-col md:flex-row justify-between gap-5 md:gap-3 md:items-center">
-                <Tabs defaultValue="overview" className="w-full order-2 md:order-1">
-                    {/* Tab Buttons */}
-                    <TabsList className="bg-orange/10 rounded-lg p-1 w-fit">
-                        <TabsTrigger
-                            value="overview"
-                            className="data-[state=active]:bg-orange leading-160 data-[state=active]:text-white
-                       data-[state=active]:hover:bg-orange-600 rounded-md p-2 h-[30px] font-medium text-sm
-                       cursor-pointer"
-                        >
-                            Overview
-                        </TabsTrigger>
-
-                        <TabsTrigger
-                            value="payouts"
-                            className="data-[state=active]:bg-orange leading-160 data-[state=active]:text-white
-                       data-[state=active]:hover:bg-orange-600 rounded-md p-2 h-[30px] font-medium text-sm
-                       cursor-pointer"
-                        >
-                            Payouts
-                        </TabsTrigger>
-                    </TabsList>
-
-                    {/* <TabsContent value="overview" className="mt-4">
-                    <div className="p-4 border rounded-lg">
-                        <p className="text-sm">💳 This is the Wallet Overview section.</p>
-                    </div>
-                </TabsContent> */}
-
-                </Tabs>
+            <div className="flex flex-col md:flex-row justify-end gap-5 md:gap-3 md:items-center">
                 <div className="flex gap-2.5 order-1 md:order-2 max-w-max max-md:overflow-x-auto">
                     <Button className="px-3 py-2 shadow-none bg-orange/10 text-foreground hover:bg-button-orange cursor-pointer font-medium text-sm leading-160 flex gap-0.5 items-center hover:text-background">
                         <Download />

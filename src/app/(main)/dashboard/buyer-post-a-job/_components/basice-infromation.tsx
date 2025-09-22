@@ -29,6 +29,7 @@ import {
 
 // ✅ Validation schema
 const formSchema = z.object({
+    country: z.string().min(1, { message: "Country is required." }),
     title: z.string().min(3, { message: "title must be at least 3 characters." }),
     type: z.string().min(1, { message: "Please select a type." }),
     asin: z.string().min(10, { message: "ASIN must be at least 10 characters." }),
@@ -40,11 +41,31 @@ const formSchema = z.object({
     deadline: z.string().min(1, { message: "Deadline is required." }),
 });
 
+
+const countries = [
+    { code: "US", label: "United States", url: "amazon.com" },
+    { code: "CA", label: "Canada", url: "amazon.ca" },
+    { code: "MX", label: "Mexico", url: "amazon.com.mx" },
+    { code: "UK", label: "United Kingdom", url: "amazon.co.uk" },
+    { code: "DE", label: "Germany", url: "amazon.de" },
+    { code: "FR", label: "France", url: "amazon.fr" },
+    { code: "IT", label: "Italy", url: "amazon.it" },
+    { code: "ES", label: "Spain", url: "amazon.es" },
+    { code: "NL", label: "Netherlands", url: "amazon.nl" },
+    { code: "SE", label: "Sweden", url: "amazon.se" },
+    { code: "PL", label: "Poland", url: "amazon.pl" },
+    { code: "JP", label: "Japan", url: "amazon.co.jp" },
+    { code: "IN", label: "India", url: "amazon.in" },
+    { code: "SG", label: "Singapore", url: "amazon.sg" },
+    { code: "AU", label: "Australia", url: "amazon.com.au" },
+];
+
 export function Basicinformation() {
     const [trustScore, setTrustScore] = useState<number[]>([0.0]);
     const [autoApprove, setAutoApprove] = useState<boolean>(false);
     const [bulkApplications, setBulkApplications] = useState<boolean>(true);
     const [allowNewUsers, setAllowNewUsers] = useState<boolean>(false);
+    const [keywordsList, setKeywordsList] = useState<string[]>([]);
 
     const { toast } = useToast();
 
@@ -103,6 +124,39 @@ export function Basicinformation() {
                                 <CardTitle className="font-semibold text-lg">Basic Information</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
+                                {/* Country */}
+                                <FormField
+                                    control={form.control}
+                                    name="country"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Country *</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="w-full cursor-pointer !bg-gray-white-off">
+                                                        <SelectValue placeholder="Select a country" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {countries.map((c) => (
+                                                        <SelectItem className="cursor-pointer" key={c.code} value={c.code}>
+                                                            <div className="flex items-center gap-2">
+                                                                <img
+                                                                    src={`https://flagcdn.com/24x18/${c.code.toLowerCase()}.png`}
+                                                                    alt={c.label}
+                                                                    className="w-5 h-4 object-cover rounded-sm border"
+                                                                />
+                                                                <span>{c.label}</span>
+                                                                <span className="text-xs text-muted-foreground">({c.url})</span>
+                                                            </div>
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                                 {/* Title */}
                                 <FormField
                                     control={form.control}
@@ -192,6 +246,7 @@ fully."
                                 />
 
                                 {/* Keywords */}
+                                {/* Keywords */}
                                 <FormField
                                     control={form.control}
                                     name="keywords"
@@ -199,12 +254,42 @@ fully."
                                         <FormItem>
                                             <FormLabel>Keywords</FormLabel>
                                             <FormControl>
-                                                <Input
-                                                    id="keywords"
-                                                    className="!bg-gray-white-off"
-                                                    placeholder="Enter product-related keywords that buyers can use to find your item on Amazon. Use words from your title or closely related search terms."
-                                                    {...field}
-                                                />
+                                                <div className="flex flex-wrap items-center gap-2 p-2 border rounded-md !bg-gray-white-off">
+                                                    {/* Show Added Keywords */}
+                                                    {keywordsList.map((keyword, index) => (
+                                                        <span
+                                                            key={index}
+                                                            className="px-2 py-1 bg-button-orange/15 font-medium text-button-orange text-sm rounded-md flex items-center gap-1"
+                                                        >
+                                                            {keyword}
+                                                            <button
+                                                                type="button"
+                                                                className="text-xs text-button-orange cursor-pointer hover:text-foreground"
+                                                                onClick={() =>
+                                                                    setKeywordsList((prev) => prev.filter((_, i) => i !== index))
+                                                                }
+                                                            >
+                                                                ✕
+                                                            </button>
+                                                        </span>
+                                                    ))}
+
+                                                    {/* Input Field for New Keyword */}
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Type & press Enter"
+                                                        className="flex-1 bg-transparent outline-none text-sm"
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === "Enter" && e.currentTarget.value.trim() !== "") {
+                                                                e.preventDefault();
+                                                                const newKeyword = e.currentTarget.value.trim();
+                                                                setKeywordsList((prev) => [...prev, newKeyword]);
+                                                                form.setValue("keywords", [...keywordsList, newKeyword].join(","));
+                                                                e.currentTarget.value = "";
+                                                            }
+                                                        }}
+                                                    />
+                                                </div>
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -316,7 +401,7 @@ fully."
                         {/* Reviewer Settings (unchanged UI) */}
                         <Card className="w-full">
                             <CardHeader>
-                                <CardTitle className="text-lg font-semibold">Reviews Requirements & Settings</CardTitle>
+                                <CardTitle className="text-lg font-semibold">Settings</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-5">
                                 <div>

@@ -149,7 +149,7 @@ const MyJobDisputeRaise: React.FC<ApplyJobProps> = ({
             </Dialog>
 
             <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
-                <DialogContent className="sm:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
+                <DialogContent className="sm:max-w-[700px] lg:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
                     <DialogHeader>
                         <DialogTitle className="!text-left"></DialogTitle>
                     </DialogHeader>

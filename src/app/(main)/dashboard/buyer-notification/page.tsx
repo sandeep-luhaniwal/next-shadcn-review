@@ -59,7 +59,7 @@ export default function BuyerNotification() {
 
 
     return (
-        <div className="flex flex-col gap-4 md:gap-6 mb-44 sm:mb-16">
+        <div className="flex flex-col gap-4 md:gap-6 mb-44 md:mb-16">
             <p className="text-base font-semibold">Needs your attention ({totalItems})</p>
 
             {paginatedData.map((notif, i) => (

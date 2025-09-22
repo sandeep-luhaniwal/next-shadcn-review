@@ -23,9 +23,9 @@ export default function ReviewerMyJobs() {
     const [currentPage, setCurrentPage] = useState(1)
 
     return (
-        <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6">
+        <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6 mb-40 md:mb-12">
             {/* Filters */}
-            <aside className="w-full lg:w-1/3 xl:w-[27%] lg:border-r -mb-4 md:-mb-6 bg-white dark:bg-background p-4 xl:ps-10 pt-0 lg:block">
+            <aside className="w-full lg:w-1/3 xl:w-[27%] lg:border-r -mb-4 md:-mb-16 bg-white dark:bg-background p-4 xl:ps-10 pt-0 lg:block">
                 <h2 className="font-semibold text-lg mb-2">Filters</h2>
 
                 {/* ✅ Search Input */}

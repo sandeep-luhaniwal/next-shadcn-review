@@ -15,6 +15,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useMemo, useState } from "react"
 import Icons from "../../buyer-disputes/_components/ui-icons"
+import WithdrawRequestDialog from "./withdraw-request-dailog"
 
 const generateWallet = () => {
     const specificData = [
@@ -55,6 +56,7 @@ export default function ReviewerWalletTable() {
     const [currentPage, setCurrentPage] = useState(1)
     const [tabHistory, setTabHistory] = useState('one')
     const [selectedRows, setSelectedRows] = useState<number[]>([])
+    const [open, setOpen] = useState(false)
 
     const totalItems = disputesData.length
     const totalPages = Math.ceil(totalItems / rowsPerPage)
@@ -95,8 +97,9 @@ export default function ReviewerWalletTable() {
         <div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-2 mb-3">
                 <p className="font-semibold text-base">Transaction History</p>
-                <div className="flex gap-2 flex-col sm:flex-row items-end justify-end sm:items-center">
+                <div className="flex gap-2 lg:gap-1.5 xl:gap-2 flex-col sm:flex-row items-end justify-end sm:items-center">
                     <div className="border border-button-orange max-w-max rounded-md overflow-clip">
+
                         <Button onClick={() => setTabHistory("one")}
                             className={`${tabHistory === "one" ? "bg-white dark:text-black" : "bg-button-orange/10 dark:text-white"} text-black sm:!px-2 md:!px-4 hover:text-white dark:hover:text-black py-2.5 text-sm font-medium cursor-pointer rounded-none`}
                         >
@@ -113,9 +116,15 @@ export default function ReviewerWalletTable() {
                     >
                         Export Statement
                     </Button>
+                    <Button
+                        className="bg-button-orange py-2.5 text-sm font-medium cursor-pointer rounded-md"
+                        onClick={() => setOpen(true)}
+                    >
+                        Cash Out
+                    </Button>
                 </div>
             </div>
-
+            <WithdrawRequestDialog open={open} onClose={() => setOpen(false)} />
             <div className="overflow-x-auto rounded-[10px] border shadow-sm">
                 <Table className="w-full">
                     <TableHeader className="bg-muted p-2.5">

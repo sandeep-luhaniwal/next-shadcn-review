@@ -37,7 +37,7 @@ interface ApplyJobProps {
 }
 
 
-const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
+const ManageFixedJob: React.FC<ApplyJobProps> = ({
     open,
     onClose,
     job,
@@ -71,28 +71,13 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                 <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                         <DialogTitle className="font-semibold text-base text-left">
-                            Raise a Dispute
+                            Resolve Issuess
                         </DialogTitle>
                     </DialogHeader>
-                    {/* Dropdown Select (Reason for dispute) */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold">Reason</label>
-                        <Select>
-                            <SelectTrigger className="w-full cursor-pointer">
-                                <SelectValue placeholder="Select a reason" />
-                            </SelectTrigger>
-                            <SelectContent className="animate-in fade-in-50 zoom-in-95">
-                                <SelectItem className="cursor-pointer" value="late-delivery">Late Delivery</SelectItem>
-                                <SelectItem className="cursor-pointer" value="low-quality">Poor Quality Work</SelectItem>
-                                <SelectItem className="cursor-pointer" value="wrong-delivery">Wrong Delivery</SelectItem>
-                                <SelectItem className="cursor-pointer" value="other">Other</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
 
                     {/* Textarea */}
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold">Dispute Description</label>
+                        <label className="text-sm font-semibold">Description</label>
                         <Textarea
                             className="mt-1 !text-xs resize-none h-[88px] overscroll-auto font-normal"
                             value={coverMessage}
@@ -196,4 +181,4 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
     )
 }
 
-export default ManageJobDisputeRaise
+export default ManageFixedJob

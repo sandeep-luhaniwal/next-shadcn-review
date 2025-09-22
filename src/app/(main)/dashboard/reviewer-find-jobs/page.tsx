@@ -22,9 +22,9 @@ export default function FindJobs() {
 
 
     return (
-        <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6">
+        <div className="flex flex-col lg:flex-row min-h-screen -mx-4 md:-mx-6 mb-40 md:mb-12">
             {/* Filters */}
-            <aside className="w-full lg:w-1/3 xl:w-[27%] lg:border-r -mb-4 md:-mb-6 bg-white dark:bg-background p-4 xl:ps-10 pt-0 lg:block">
+            <aside className="w-full lg:w-1/3 xl:w-[27%] lg:border-r -mb-4 md:-mb-16 bg-white dark:bg-background p-4 xl:ps-10 pt-0 lg:block">
                 <h2 className="font-semibold text-lg mb-2">Filters</h2>
 
                 {/* Sort */}
@@ -46,8 +46,8 @@ export default function FindJobs() {
                 </div>
 
                 {/* Budget */}
-                <Label className="text-sm font-medium">
-                    Price range (${budget[0]} - ${budget[1]})
+                <Label className="text-sm lg:text-[11px] xl:text-sm font-medium">
+                    Price range 2x to Review (${budget[0]} - ${budget[1]})
                 </Label>
                 <Slider
                     defaultValue={budget}
@@ -58,8 +58,8 @@ export default function FindJobs() {
                     onValueChange={setBudget}
                     className="my-4 cursor-pointer"
                 />
-                <Label className="text-sm font-medium">
-                    Product Price (${budgetProduct[0]} - ${budgetProduct[1]})
+                <Label className="text-sm lg:text-[11px] xl:text-sm font-medium">
+                    Product Price 2x to Buyer (${budgetProduct[0]} - ${budgetProduct[1]})
                 </Label>
                 <Slider
                     defaultValue={budgetProduct}

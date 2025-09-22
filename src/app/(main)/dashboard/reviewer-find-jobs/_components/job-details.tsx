@@ -250,68 +250,70 @@ const JobDetails = () => {
             />
 
             {filteredJobs.length > rowsPerPage && (
-                <div className="flex flex-col md:flex-row md:justify-end items-center gap-4 mt-6">
-                    <div className="flex items-center gap-2">
-                        <span>Rows per page</span>
-                        <Select
-                            value={String(rowsPerPage)}
-                            onValueChange={(val) => {
-                                setRowsPerPage(Number(val))
-                                setCurrentPage(1)
-                            }}
-                        >
-                            <SelectTrigger className="w-[75px] cursor-pointer">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="4">4</SelectItem>
-                                <SelectItem value="10">10</SelectItem>
-                                <SelectItem value="20">20</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                <div className="bottom-0 w-full pb-4 left-0 pe-6 absolute">
+                    <div className="flex flex-col md:flex-row md:justify-end items-center gap-4 mt-6">
+                        <div className="flex items-center gap-2">
+                            <span>Rows per page</span>
+                            <Select
+                                value={String(rowsPerPage)}
+                                onValueChange={(val) => {
+                                    setRowsPerPage(Number(val))
+                                    setCurrentPage(1)
+                                }}
+                            >
+                                <SelectTrigger className="w-[75px] cursor-pointer">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="4">4</SelectItem>
+                                    <SelectItem value="10">10</SelectItem>
+                                    <SelectItem value="20">20</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
 
-                    <span>
-                        Page {currentPage} of {totalPages}
-                    </span>
+                        <span>
+                            Page {currentPage} of {totalPages}
+                        </span>
 
-                    <div className="flex items-center gap-1">
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handleFirst}
-                            disabled={currentPage === 1}
-                        >
-                            <ChevronsLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handlePrev}
-                            disabled={currentPage === 1}
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handleNext}
-                            disabled={currentPage === totalPages}
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={handleLast}
-                            disabled={currentPage === totalPages}
-                        >
-                            <ChevronsRight className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center gap-1">
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleFirst}
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronsLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handlePrev}
+                                disabled={currentPage === 1}
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleNext}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                className="cursor-pointer"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleLast}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ChevronsRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,16 +1,22 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
-import React, { useState } from "react";
 import {
     Dialog,
     DialogContent,
-    DialogHeader,
-    DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const ImageShowFull = () => {
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [previewOpen, setPreviewOpen] = React.useState(false);
+    const [startIndex, setStartIndex] = React.useState(0);
 
     const images = [
         "/images/webp/hero-dashboard.webp",
@@ -21,7 +27,7 @@ const ImageShowFull = () => {
 
     return (
         <>
-            {/* Image List */}
+            {/* Image Thumbnails */}
             <div className="flex gap-2 flex-wrap">
                 {images.map((img, idx) => (
                     <Image
@@ -31,25 +37,40 @@ const ImageShowFull = () => {
                         alt={`submitted image ${idx}`}
                         src={img}
                         className="border rounded cursor-pointer"
-                        onClick={() => setPreviewImage(img)}
+                        onClick={() => {
+                            setStartIndex(idx);
+                            setPreviewOpen(true);
+                        }}
                     />
                 ))}
             </div>
 
-            {/* Dialog */}
-            <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
-                <DialogContent className="sm:max-w-[700px] max-h-[90vh] flex flex-col justify-center">
-                    {previewImage && (
-                        <div className="flex justify-center items-center w-full h-full">
-                            <Image
-                                width={600}
-                                height={600}
-                                src={previewImage}
-                                alt="full-preview"
-                                className="max-w-full max-h-[90vh] object-contain"
-                            />
-                        </div>
-                    )}
+            {/* Dialog with Carousel */}
+            <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+                <DialogContent className="sm:max-w-[700px] lg:max-w-[800px] max-h-[90vh] flex flex-col justify-center">
+                    <Carousel
+                        opts={{
+                            startIndex: startIndex,
+                            loop: true,
+                        }}
+                        className="w-full"
+                    >
+                        <CarouselContent>
+                            {images.map((img, idx) => (
+                                <CarouselItem key={idx} className="flex justify-center">
+                                    <Image
+                                        src={img}
+                                        alt={`preview ${idx}`}
+                                        width={700}
+                                        height={600}
+                                        className="max-h-[80vh] object-contain rounded"
+                                    />
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
                 </DialogContent>
             </Dialog>
         </>

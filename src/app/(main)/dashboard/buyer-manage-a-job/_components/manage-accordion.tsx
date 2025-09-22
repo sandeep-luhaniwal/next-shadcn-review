@@ -28,6 +28,7 @@ import ManageJobDisputeRaise from "./manage-job-dispute-rasie";
 import ImageSHowFull from "./image-show-full";
 import AllRatingData from "./all-reating-data";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ManageFixedJob from "./manage-fixed-job";
 
 // Type for each job
 type Job = {
@@ -55,10 +56,14 @@ const ManageAccordion = () => {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
     const [filesByJob, setFilesByJob] = useState<Record<number, File[]>>({});
     const [messagesByJob, setMessagesByJob] = useState<Record<number, string>>({});
+    const [openFixedJobDialog, setOpenFixedJobDialog] = useState(false);
+    const [selectedJobForFixed, setSelectedJobForFixed] = useState<Job | null>(null);
     const pageSize = 5;
 
     const [ratingDialogOpen, setRatingDialogOpen] = useState(false);
     const [selectedJobForRating, setSelectedJobForRating] = useState<Job | null>(null);
+    const [fixedFiles, setFixedFiles] = useState<File[]>([]);
+    const [fixedMessage, setFixedMessage] = useState("");
     // Added more data to "open" section to demonstrate pagination
     const data: JobSections = {
         open: [
@@ -277,7 +282,15 @@ const ManageAccordion = () => {
                                     <Button size="sm" className="bg-button-orange cursor-pointer" variant="default">
                                         <ThumbsUp className="h-4 w-4 mr-1" /> Accept
                                     </Button>
-                                    <Button size="sm" className="border border-button-orange bg-button-orange/10 text-button-orange cursor-pointer hover:text-black" variant="destructive">
+                                    <Button size="sm"
+                                        onClick={() => {
+                                            setSelectedJobForFixed(item);
+                                            setFixedFiles([]);       // reset karega
+                                            setFixedMessage("");     // reset karega
+                                            setOpenFixedJobDialog(true);
+                                        }}
+
+                                        className="border border-button-orange bg-button-orange/10 text-button-orange cursor-pointer hover:text-black" variant="destructive">
                                         <CircleAlert className="h-4 w-4 mr-1" /> Fix Needed
                                     </Button>
                                 </div>
@@ -448,6 +461,15 @@ const ManageAccordion = () => {
                 onMessageChange={(msg) =>
                     selectedJob && setMessagesByJob((prev) => ({ ...prev, [selectedJob.id]: msg }))
                 }
+            />
+            <ManageFixedJob
+                open={openFixedJobDialog}
+                onClose={() => setOpenFixedJobDialog(false)}
+                job={selectedJobForFixed}
+                selectedFiles={fixedFiles}
+                onFileChange={setFixedFiles}
+                coverMessage={fixedMessage}
+                onMessageChange={setFixedMessage}
             />
         </>
     );

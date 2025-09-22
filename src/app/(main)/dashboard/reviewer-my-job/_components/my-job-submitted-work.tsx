@@ -60,7 +60,7 @@ const MyJobSubmittedWork: React.FC<ApplyJobProps> = ({
     return (
         <>
             <Dialog open={open} onOpenChange={onClose}>
-                <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto rounded-xl">
+                <DialogContent className="sm:max-w-[700px] lg:max-w-[750px] max-h-[90vh] overflow-y-auto rounded-xl">
                     <DialogHeader>
                         <DialogTitle className="font-semibold text-lg !text-left">
                             Submit Your Work
@@ -162,7 +162,7 @@ const MyJobSubmittedWork: React.FC<ApplyJobProps> = ({
             </Dialog>
 
             <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
-                <DialogContent className="sm:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
+                <DialogContent className="sm:max-w-[700px] lg:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
                     <DialogHeader>
                         <DialogTitle className="sr-only">Image Preview</DialogTitle>
                     </DialogHeader>
