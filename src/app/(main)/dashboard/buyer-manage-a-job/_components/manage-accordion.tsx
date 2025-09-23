@@ -326,7 +326,7 @@ const ManageAccordion = () => {
         (count: number) => { title: string; color: string; desc?: string; icon: JSX.Element }
     > = {
         open: (count) => ({
-            title: `Open (or Hiring) (${count})`,
+            title: `Open (${count})`,
             color: "bg-[#FEFCE8]",
             // desc: "Job posted, reviewers can apply (waiting for acceptance).",
             desc: "Job created, reviewers can apply. Buyer sees applicants filling slots.",
