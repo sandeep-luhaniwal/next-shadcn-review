@@ -92,7 +92,7 @@ export default function FindJobs() {
 
                 {/* Budget */}
                 <Label className="text-sm lg:text-[11px] xl:text-sm font-medium">
-                    Reviewer price ranges (${budget[0]} - ${budget[1]})
+                    Review range (${budget[0]} - ${budget[1]})
                 </Label>
                 <Slider
                     defaultValue={budget}
@@ -104,7 +104,7 @@ export default function FindJobs() {
                     className="my-4 cursor-pointer"
                 />
                 <Label className="text-sm lg:text-[11px] xl:text-sm font-medium">
-                    Buyback price ranges (${budgetProduct[0]} - ${budgetProduct[1]})
+                    Buyback range (${budgetProduct[0]} - ${budgetProduct[1]})
                 </Label>
                 <Slider
                     defaultValue={budgetProduct}

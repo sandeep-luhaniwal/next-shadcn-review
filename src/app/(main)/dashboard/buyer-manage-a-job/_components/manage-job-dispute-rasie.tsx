@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { X } from "lucide-react"
 import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
 
 type Job = {
     id: number;
@@ -25,7 +26,6 @@ type Job = {
     image: string;
 };
 
-
 interface ApplyJobProps {
     open: boolean
     onClose: () => void
@@ -36,7 +36,6 @@ interface ApplyJobProps {
     onMessageChange: (message: string) => void
 }
 
-
 const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
     open,
     onClose,
@@ -46,7 +45,9 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
     coverMessage,
     onMessageChange,
 }) => {
-    const [previewImage, setPreviewImage] = useState<string | null>(null) // full image preview
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
+    const [reason, setReason] = useState<string>("") // Track selected reason
+    const [refundAmount, setRefundAmount] = useState<string>("") // Track refund input
 
     if (!job) return null
 
@@ -74,18 +75,20 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                             Raise a Dispute
                         </DialogTitle>
                     </DialogHeader>
+
                     {/* Dropdown Select (Reason for dispute) */}
                     <div className="space-y-2">
                         <label className="text-sm font-semibold">Reason</label>
-                        <Select>
+                        <Select onValueChange={setReason}>
                             <SelectTrigger className="w-full cursor-pointer">
                                 <SelectValue placeholder="Select a reason" />
                             </SelectTrigger>
                             <SelectContent className="animate-in fade-in-50 zoom-in-95">
-                                <SelectItem className="cursor-pointer" value="late-delivery">Late Delivery</SelectItem>
-                                <SelectItem className="cursor-pointer" value="low-quality">Poor Quality Work</SelectItem>
-                                <SelectItem className="cursor-pointer" value="wrong-delivery">Wrong Delivery</SelectItem>
-                                <SelectItem className="cursor-pointer" value="other">Other</SelectItem>
+                                <SelectItem value="late-delivery">Late Delivery</SelectItem>
+                                <SelectItem value="low-quality">Poor Quality Work</SelectItem>
+                                <SelectItem value="wrong-delivery">Wrong Delivery</SelectItem>
+                                <SelectItem value="refund-amount">Refund Amount</SelectItem>
+                                <SelectItem value="other">Other</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -112,6 +115,7 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                             id={`fileInput-${job.id}`}
                             onChange={handleFileChange}
                         />
+
                         {/* Preview Selected Images */}
                         {selectedFiles.length > 0 && (
                             <div className="grid grid-cols-4 gap-2 mt-2">
@@ -122,7 +126,6 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                                             key={index}
                                             className="relative border rounded p-1 flex justify-center items-center group"
                                         >
-                                            {/* Remove Button */}
                                             <button
                                                 onClick={() => handleRemoveImage(index)}
                                                 className="absolute cursor-pointer top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
@@ -130,7 +133,6 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                                                 <X size={14} />
                                             </button>
 
-                                            {/* Click to open full preview */}
                                             <img
                                                 src={imageUrl}
                                                 alt={`preview-${index}`}
@@ -140,6 +142,25 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                                         </div>
                                     )
                                 })}
+                            </div>
+                        )}
+
+                        {/* Refund Amount - show only when refund selected */}
+                        {reason === "refund-amount" && (
+                            <div className="space-y-2">
+                                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                                    <label className="text-sm font-semibold">Refund Amount</label>
+                                    <p className="text-sm font-normal">
+                                        Original Job Amount:{" "}
+                                        <span className="font-bold text-button-orange">$150</span>
+                                    </p>
+                                </div>
+                                <Input
+                                    className="mt-1 !text-xs resize-none"
+                                    value={refundAmount}
+                                    placeholder="$ 24"
+                                    onChange={(e) => setRefundAmount(e.target.value)}
+                                />
                             </div>
                         )}
                     </div>
@@ -161,7 +182,11 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                                 </span>
                             </div>
                             <div className="grid grid-cols-2 md:flex gap-2">
-                                <Button variant="outline" className="cursor-pointer md:max-w-max w-full" onClick={onClose}>
+                                <Button
+                                    variant="outline"
+                                    className="cursor-pointer md:max-w-max w-full"
+                                    onClick={onClose}
+                                >
                                     Cancel
                                 </Button>
                                 <Button className="bg-button-orange flex gap-2 md:max-w-max items-center w-full cursor-pointer">
@@ -173,11 +198,9 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                 </DialogContent>
             </Dialog>
 
+            {/* Full image preview dialog */}
             <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
                 <DialogContent className="sm:max-w-[700px] lg:max-w-[900px] max-h-[90vh] flex flex-col justify-center">
-                    <DialogHeader>
-                        <DialogTitle className="!text-left"></DialogTitle>
-                    </DialogHeader>
                     {previewImage && (
                         <div className="flex justify-center items-center w-full h-full">
                             <Image
@@ -191,7 +214,6 @@ const ManageJobDisputeRaise: React.FC<ApplyJobProps> = ({
                     )}
                 </DialogContent>
             </Dialog>
-
         </>
     )
 }

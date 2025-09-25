@@ -1,8 +1,6 @@
 "use client";
 import * as React from "react";
-
-import { LayoutDashboard, ChartBar, Gauge, ShoppingBag, GraduationCap, Forklift, Search } from "lucide-react";
-
+import { Search, LayoutDashboard, ChartBar, Gauge, ShoppingBag, GraduationCap, Forklift, PlusSquare, Briefcase, Banknote, Receipt, ShieldAlert, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
@@ -13,32 +11,48 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-
-const searchItems = [
-  { group: "Dashboards", icon: LayoutDashboard, label: "Default" },
-  { group: "Dashboards", icon: ChartBar, label: "CRM", disabled: true },
-  { group: "Dashboards", icon: Gauge, label: "Analytics", disabled: true },
-  { group: "Dashboards", icon: ShoppingBag, label: "E-Commerce", disabled: true },
-  { group: "Dashboards", icon: GraduationCap, label: "Academy", disabled: true },
-  { group: "Dashboards", icon: Forklift, label: "Logistics", disabled: true },
-  { group: "Authentication", label: "Login v1" },
-  { group: "Authentication", label: "Login v2" },
-  { group: "Authentication", label: "Register v1" },
-  { group: "Authentication", label: "Register v2" },
-];
+import { useUser } from "../user-type-context";
+import { useRouter } from "next/navigation";
 
 export function SearchDialog() {
+  const { userType } = useUser();
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
+
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen((prev) => !prev);
       }
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+
+  // Buyer routes
+  const buyerRoutes = [
+    { label: "Home", url: "/dashboard/buyer", icon: LayoutDashboard },
+    { label: "Post a Job", url: "/dashboard/buyer-post-a-job", icon: PlusSquare },
+    { label: "Manage Jobs", url: "/dashboard/buyer-manage-a-job", icon: Briefcase },
+    { label: "Wallet", url: "/dashboard/buyer-wallet", icon: Banknote },
+    { label: "Billing", url: "/dashboard/buyer-billing", icon: Receipt },
+    { label: "Disputes", url: "/dashboard/buyer-disputes", icon: ShieldAlert },
+    { label: "Notification", url: "/dashboard/buyer-notification", icon: MessageSquare },
+  ];
+
+  // Reviewer routes
+  const reviewerRoutes = [
+    { label: "Home", url: "/dashboard/reviewer", icon: LayoutDashboard },
+    { label: "Find Jobs", url: "/dashboard/reviewer-find-jobs", icon: Search },
+    { label: "My Jobs", url: "/dashboard/reviewer-my-job", icon: Briefcase },
+    { label: "Wallet", url: "/dashboard/reviewer-wallet", icon: Banknote },
+    { label: "Billing", url: "/dashboard/reviewer-billing", icon: Receipt },
+    { label: "Disputes", url: "/dashboard/reviewer-disputes", icon: ShieldAlert },
+    { label: "Notification", url: "/dashboard/reviewer-notification", icon: MessageSquare },
+  ];
+
+  const routes = userType === "buyer" ? buyerRoutes : reviewerRoutes;
 
   return (
     <>
@@ -53,25 +67,26 @@ export function SearchDialog() {
           <span className="text-xs">⌘</span>J
         </kbd>
       </Button>
+
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search dashboards, users, and more…" />
+        <CommandInput placeholder="Search dashboards…" />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          {[...new Set(searchItems.map((item) => item.group))].map((group, i) => (
-            <React.Fragment key={group}>
-              {i !== 0 && <CommandSeparator />}
-              <CommandGroup heading={group} key={group}>
-                {searchItems
-                  .filter((item) => item.group === group)
-                  .map((item) => (
-                    <CommandItem className="!py-1.5" key={item.label} onSelect={() => setOpen(false)}>
-                      {item.icon && <item.icon />}
-                      <span>{item.label}</span>
-                    </CommandItem>
-                  ))}
-              </CommandGroup>
-            </React.Fragment>
-          ))}
+          <CommandGroup heading={`${userType?.charAt(0).toUpperCase() + userType?.slice(1)} Dashboard`}>
+            {routes.map((item) => (
+              <CommandItem
+                key={item.url}
+                onSelect={() => {
+                  router.push(item.url);
+                  setOpen(false);
+                }}
+                className="!py-1.5 cursor-pointer"
+              >
+                {item.icon && <item.icon className="mr-2 h-4 w-4" />}
+                {item.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>

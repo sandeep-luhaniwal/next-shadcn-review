@@ -1,14 +1,14 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import Image from "next/image"
+import { Card, CardContent } from "@/components/ui/card"
+import { useState } from "react"
 import ImageShowFull from "../../buyer-manage-a-job/_components/image-show-full"
+import LeaveFeedbackDiputed from "../leave-feedback-diputed"
 
 export default function ReviewerDisputedJobDetailsPage() {
+    const [openFeedback, setOpenFeedback] = useState(false)
+    const [coverMessage, setCoverMessage] = useState("")
     return (
         <div className="flex flex-col gap-5">
             <p className="text-xl md:text-2xl font-bold">Disputed Job Details</p>
@@ -29,43 +29,56 @@ export default function ReviewerDisputedJobDetailsPage() {
 
                     </div>
                     {/* Dispute Section */}
-                    <div className="pt-6">
-                        <div className="flex items-center gap-3">
-                            <p className="font-semibold text-base">
+                    <div className="relative flex gap-3">
+                        <span className="block w-1 absolute h-full bg-button-orange"></span>
+                        <div className="py-5 ps-6 w-full">
+
+                            <p className="font-semibold text-button-orange text-base">
                                 Disputes #232
                             </p>
-                            <p className="bg-orange/10 text-foreground text-sm px-3 py-1 rounded-lg">
-                                Poor quality of work
+                            <p className="text-foreground text-sm font-semibold pt-3">
+                                Refund Amount
                             </p>
+                            <p className="text-sm text-muted-foreground leading-relaxed">Review too short, product key features not covered, grammar issues.I am willing to pay 50% because only half work is done properly.</p>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3">
+                                <div>
+                                    <p className="text-foreground text-sm font-semibold">
+                                        Proposed Payment to Reviewer
+                                    </p>
+                                    <p className="text-sm text-foreground/60">
+                                        $ 50
+                                    </p>
+                                </div>
+                                <Button className="bg-button-orange max-w-max cursor-pointer">
+                                    Accept Offer
+                                </Button>
+                            </div>
+                            <p className="text-sm font-medium pt-3 pb-1">
+                                Attachments
+                            </p>
+                            <ImageShowFull />
                         </div>
-                        <p className="text-sm font-medium pt-3 pb-1">
-                            Feedback
-                        </p>
-                        <ScrollArea className="h-[120px] border rounded-md p-3 text-sm">
-                            <p>
-                                The work you submitted does not match the product description I provided.
-                                The review feels copied and generic, instead of being written based on real
-                                product usage. Also, there are multiple grammar mistakes.
-                            </p>
-                            <p className="mt-2">
-                                Please make the review more original, detailed, and relevant to the product.
-                                I am attaching screenshots of the issues for reference.
-                            </p>
-                        </ScrollArea>
-                        <p className="text-sm font-medium pt-3 pb-1">
-                            Attachments
-                        </p>
-                        <ImageShowFull />
                     </div>
 
                     {/* Actions */}
-                    <div className="flex justify-end pt-3">
-                        <Button className="bg-button-orange">
-                            Resubmit Work
+                    <div className="flex flex-wrap justify-end gap-3 pt-3">
+                        <Button
+                            onClick={() => setOpenFeedback(true)}
+                            className="border-button-orange order-2 sm:order-1 text-button-orange bg-transparent border cursor-pointer">
+                            Leave Counter Feedback
+                        </Button>
+                        <Button className="border-button-orange order-1 sm:order-2 text-button-orange bg-transparent border cursor-pointer">
+                            Escalate to Admin
                         </Button>
                     </div>
                 </CardContent>
             </Card>
+            <LeaveFeedbackDiputed
+                open={openFeedback}
+                onClose={() => setOpenFeedback(false)}
+                coverMessage={coverMessage}
+                onMessageChange={setCoverMessage}
+            />
         </div>
     )
 }

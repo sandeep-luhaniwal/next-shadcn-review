@@ -8,8 +8,9 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 import ImageShowFull from "../../buyer-manage-a-job/_components/image-show-full"
+import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react"
 
 export interface Dispute {
   id?: string
@@ -30,53 +31,59 @@ export function DisputeBuyerDetailsDialog({
   onClose: () => void
   dispute: Dispute | null
 }) {
+  const [coverMessage, setCoverMessage] = useState("")
+
   if (!dispute) return null
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-base font-semibold text-left">Dispute Details</DialogTitle>
+          <DialogTitle className="text-base font-semibold text-left">
+            Dispute Details
+          </DialogTitle>
         </DialogHeader>
 
         {/* Top row */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-3">
           <span className="text-orange font-semibold">
             Disputes #{dispute.id ?? "232"}
           </span>
-          <span className="bg-orange/10 text-foreground text-sm px-3 py-1 rounded-lg">
+          <span className="bg-orange/10 text-button-orange text-sm px-3 py-1 rounded-lg">
             Poor quality of work
           </span>
         </div>
 
         {/* Feedback */}
-        <div className="">
-          <p className="font-medium mb-2">Feedback</p>
+        <div>
+          <p className="font-medium mb-1">Refund Amount</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {dispute.feedback ??
-              "The work you submitted does not match the product description I provided. The review feels copied and generic, instead of being written based on real product usage. Also, there are multiple grammar mistakes. Please make the review more original, detailed, and relevant to the product. I am attaching screenshots of the issues for reference."}
+              "I want a refund of $50 The reviewer didn’t cover the main features of the product. Only half of the requirements were completed."}
+          </p>
+          <p className="font-medium mt-3 mb-1">Refund Amount</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            $ 50
           </p>
         </div>
+
+        {/* Attachments */}
         <div>
           <p className="font-semibold mb-2">Attachments</p>
           <ImageShowFull />
         </div>
-        {/* Attachments */}
-        {/* {dispute.attachments && dispute.attachments.length > 0 && (
-          <div className="mt-4">
-            <p className="font-semibold mb-2">Attachments</p>
-            <div className="flex gap-3 flex-wrap">
-              {dispute.attachments.map((src, idx) => (
-                <Image
-                  key={idx}
-                  src={src}
-                  alt={`attachment-${idx}`}
-                  className="h-20 w-28 rounded-md border object-cover"
-                />
-              ))}
-            </div>
-          </div>
-        )} */}
+
+        {/* Leave another feedback */}
+        <div className="space-y-2">
+          <label className="text-sm font-semibold">Leave Another feedback</label>
+          <Textarea
+            className="mt-1 !text-xs resize-none h-[88px] overscroll-auto font-normal"
+            value={coverMessage}
+            placeholder="Type your feedback here"
+            onChange={(e) => setCoverMessage(e.target.value)}
+            rows={5}
+          />
+        </div>
 
         {/* Footer */}
         <DialogFooter className="mt-1 flex flex-row justify-end gap-3">

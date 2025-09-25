@@ -29,8 +29,6 @@ import { UserTypeProvider } from "./_components/user-type-context";
 import NotificationNav from "./_components/notification-all";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
-  const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
   const [sidebarVariant, sidebarCollapsible, contentLayout] = await Promise.all([
     getPreference<SidebarVariant>("sidebar_variant", SIDEBAR_VARIANT_VALUES, "inset"),
@@ -46,7 +44,7 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
 
   return (
     <UserTypeProvider>
-      <SidebarProvider defaultOpen={defaultOpen}>
+      <SidebarProvider defaultOpen={true}>
         <AppSidebar variant={sidebarVariant} collapsible={sidebarCollapsible} />
         <SidebarInset
           data-content-layout={contentLayout}

@@ -13,7 +13,7 @@ const WalletData: React.FC = () => {
 
     return (
         <Link href={walletHref} className="hidden sm:flex">
-            <Card className="!p-2 text-xs font-medium rounded-[8px] xl:me-6 xl:ms-2">$120.50</Card>
+            <Card className="!p-2 text-xs font-medium rounded-[8px] xl:ms-2">$120.50</Card>
         </Link>
     )
 }
